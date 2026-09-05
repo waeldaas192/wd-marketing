@@ -1,4 +1,4 @@
-.header { position: sticky; top: 0; z-index: 60; background: #ffffffdf; backdrop-filter: blur(20px); color: #181c2b; box-shadow: 0 1px 0 #d4dbea66; }
+.header { container-type: inline-size; container-name: masthead; position: sticky; top: 0; z-index: 60; background: #ffffffdf; backdrop-filter: blur(20px); color: #181c2b; box-shadow: 0 1px 0 #d4dbea66; }
 .inner { min-height: 88px; display: grid; grid-template-columns: minmax(175px,1fr) auto minmax(225px,1fr); align-items: center; gap: 30px; }
 .brand { display: inline-flex; align-items: center; width: fit-content; max-width: 100%; }
 .logo { width: 188px; height: auto; filter: brightness(0); }
@@ -44,6 +44,8 @@
 .mobileLinks a[aria-current="page"] { color: #4840cf; }
 .mobileLinks > .cta { margin-top: 28px; padding: 16px 24px; color: #fff; justify-content: center; }
 @media (max-width: 1120px) { .inner { grid-template-columns: minmax(0,1fr) auto; gap: 16px; } .nav,.mega { display: none; } .menu { display: grid; } }
+/* em units use the container's text size, so enlarged text also switches layout. */
+@container masthead (max-width: 70em) { .inner { grid-template-columns: minmax(0,1fr) auto; gap: 16px; } .nav,.mega { display: none; } .menu { display: grid; } }
 @media (max-width: 640px) { .inner { min-height: 80px; gap: 8px; } .logo { width: 166px; } .actions { gap: 2px; } .actions > .cta { display: none; } }
 @media (prefers-reduced-motion: no-preference) { :global(html[data-motion="running"]) .mega:not([hidden]),:global(html[data-motion="running"]) .dialog[open] { animation: openPanel .4s var(--ease); } }
 @keyframes openPanel { from { transform: translateY(-8px); } to { transform: none; } }
