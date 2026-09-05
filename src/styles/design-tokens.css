@@ -1,0 +1,33 @@
+/* One scale for the entire site. Hero is the only display-sized heading. */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f7f8fa;
+  --text: #111318;
+  --muted: #545e6c;
+  --subtle: #626c79;
+  --line: #dce0e6;
+  --accent: #464bd1;
+  --accent-2: #111318;
+  --font-display: var(--font-body);
+  --max: 1280px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --section-space: clamp(56px, 5.5vw, 88px);
+  --section-gap: clamp(28px, 3.5vw, 48px);
+  --type-hero: clamp(2.5rem, 1.7rem + 3vw, 4.5rem);
+  --type-page: clamp(2.25rem, 1.5rem + 2.5vw, 4rem);
+  --type-section: clamp(1.875rem, 1.35rem + 1.7vw, 3rem);
+  --type-aside: clamp(1.875rem, 1.35rem + 1.3vw, 2.5rem);
+  --type-card: clamp(1.375rem, 1.125rem + .6vw, 1.75rem);
+  --type-body: 1rem;
+  --type-intro: clamp(1rem, .95rem + .2vw, 1.125rem);
+  --type-small: .875rem;
+  --type-label: .75rem;
+  --heading-leading: 1.14;
+  --body-leading: 1.7;
+  --heading-tracking: -.035em;
+  --header-height: 120px;
+  --radius: 16px;
+  --ease: cubic-bezier(.2,.7,.2,1);
+}
+@media (max-width: 640px) { :root { --header-height: 104px; } }

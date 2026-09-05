@@ -1,0 +1,19 @@
+.engine { container-type: inline-size; container-name: engine; width: 100%; margin: 0; padding: clamp(20px,2.5vw,32px); border: 1px solid var(--line); border-radius: var(--radius); background: #fafaff; }
+.top { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; font-size: var(--type-label); line-height: 1.5; color: var(--muted); }
+.top strong { font-weight: 600; color: var(--text); }
+.intro { margin-block: 32px; }
+.intro p { margin: 0; font-size: 1.5rem; line-height: 1.3; letter-spacing: -.025em; font-weight: 500; }
+.intro span { color: var(--accent); }
+.stages { position: relative; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.stages::before { content: ""; position: absolute; height: 1px; background: #c4c8ea; top: 20px; left: 10%; right: 10%; }
+.stage { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.number { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #a4a8d9; border-radius: 8px; background: #fff; color: var(--accent); font-size: .875rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.stage strong { font-size: .8125rem; font-weight: 550; color: var(--text); line-height: 1.5; }
+.caption { margin: 32px 0 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: var(--type-small); line-height: 1.6; }
+@container engine (max-width: 26.25rem) {
+  .intro { margin-block: 24px; }
+  .stages { grid-template-columns: minmax(0,1fr); gap: 12px; }
+  .stages::before { top: 20px; bottom: 20px; left: 20px; right: auto; width: 1px; height: auto; }
+  .stage { flex-direction: row; gap: 16px; text-align: left; }
+  .stage strong { font-size: .9375rem; }
+}
