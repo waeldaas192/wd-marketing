@@ -1,6 +1,6 @@
 .section { padding-block: 24px var(--section-space); background: #fff; }
 .panel { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #f7f8fc; }
-.glow { position: absolute; right: -50px; top: -50px; width: 220px; height: 220px; border: 1px solid #e0e3f4; pointer-events: none; animation: drift 18s ease-in-out infinite alternate; }
+.glow { position: absolute; right: 24px; top: 24px; width: clamp(80px,12vw,160px); aspect-ratio: 1; border: 1px solid #e0e3f4; pointer-events: none; animation: drift 18s ease-in-out infinite alternate; }
 .inner { position: relative; padding: clamp(24px,4vw,56px); }
 .kicker { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: var(--type-label); line-height: 1.5; letter-spacing: .06em; }
 .kicker strong { color: var(--accent); font-weight: 600; }
@@ -12,5 +12,5 @@
 .primary,.secondary { min-height: 48px; display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 8px; font-size: .9375rem; line-height: 1.4; font-weight: 550; }
 .primary { background: var(--text); color: #fff; border: 1px solid var(--text); }
 .secondary { background: #fff; color: var(--text); border: 1px solid var(--line); }
-@keyframes drift { to { transform: translate(-24px,24px) rotate(8deg); } }
+@keyframes drift { to { transform: translate(-12px,12px) rotate(8deg); } }
 @media (max-width: 480px) { .actions { width: 100%; } .primary,.secondary { width: 100%; justify-content: center; } }
