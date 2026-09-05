@@ -8,6 +8,6 @@ const principles = [
 export function Proof() {
   return <section id="standard" className={styles.section} aria-labelledby="standard-heading"><div className="container">
     <SectionHeading id="standard-heading" kicker="The standard" title="Marketing should operate like a system, not a collection of tasks." />
-    <div className={styles.grid}>{principles.map(([number,title,copy]) => <article key={number} className={styles.card}><span className={styles.number}>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div>
+    <div className={styles.grid}>{principles.map(([number,title,copy],index) => <article key={number} className={styles.card} data-reveal="copy" data-reveal-order={index}><span className={styles.number}>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div>
   </div></section>;
 }

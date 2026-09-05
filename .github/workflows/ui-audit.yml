@@ -49,6 +49,7 @@ jobs:
           done
           node qa/browser-audit.cjs
           node qa/completion-browser.cjs
+          node qa/section-motion.cjs
       - name: Preserve audit evidence
         if: always()
         uses: actions/upload-artifact@v4

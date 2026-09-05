@@ -7,7 +7,7 @@ const principles = [
 ];
 export function Founder() {
   return <section id="about" className={styles.section} aria-labelledby="founder-heading"><div className="container">
-    <div className={styles.frame}><FounderPortrait/><div className={styles.copy}>
+    <div className={styles.frame}><FounderPortrait/><div className={styles.copy} data-reveal="copy">
       <p className={styles.eyebrow}>Founder / Digital Growth Strategist</p>
       <h2 id="founder-heading" className={styles.title}>Built around the work. <span>Not the theatre around it.</span></h2>
       <p className={styles.body}>WD Marketing is led by Wael, bringing web development, search, paid acquisition and conversion thinking together around one commercial objective: turning digital attention into measurable opportunity.</p>
