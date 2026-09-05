@@ -1,0 +1,59 @@
+name: UI and build audit
+on:
+  push:
+    branches: [feature/global-experience-v1]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: ui-audit-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Snapshot audited source
+        run: git archive --format=tar.gz --output=/tmp/wd-source.tar.gz HEAD
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run build
+      - name: Install isolated browser audit tools
+        if: ${{ hashFiles('qa/browser-audit.cjs') != '' }}
+        run: |
+          npm install --prefix /tmp/wd-ui-audit --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1
+          /tmp/wd-ui-audit/node_modules/.bin/playwright install --with-deps chromium
+      - name: Audit production preview
+        if: ${{ hashFiles('qa/browser-audit.cjs') != '' }}
+        env:
+          QA_NODE_MODULES: /tmp/wd-ui-audit/node_modules
+        run: |
+          npm run start > /tmp/wd-preview.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://localhost:3000/ > /dev/null; then break; fi
+            sleep 2
+          done
+          node qa/browser-audit.cjs
+      - name: Preserve audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-audit-evidence
+          path: |
+            qa-results/
+            /tmp/wd-preview.log
+            /tmp/wd-source.tar.gz
+          if-no-files-found: ignore
+          retention-days: 7
