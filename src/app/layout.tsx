@@ -28,5 +28,9 @@ export default function RootLayout({children}:{children:React.ReactNode}) {
     address: { "@type": "PostalAddress", addressLocality: "London", addressCountry: "GB" },
     description: "Founder-led digital growth studio combining high-performance websites, SEO, paid acquisition, analytics and automation."
   };
-  return <html lang="en" className={`${inter.variable} ${manrope.variable}`}><body><script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(schema)}}/><Header/><main>{children}</main><Footer/></body></html>;
+  return <html lang="en" className={`${inter.variable} ${manrope.variable}`}><body>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(schema)}}/>
+    <div className="site-squares" aria-hidden="true"><i/><i/><i/><i/><i/><i/></div>
+    <Header/><main>{children}</main><Footer/>
+  </body></html>;
 }
