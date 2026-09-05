@@ -1,0 +1,6 @@
+export const insights = [
+  { slug:"seo-that-generates-leads", category:"SEO", title:"SEO that generates leads, not just impressions", summary:"A framework for prioritising search work around commercial intent, service economics and conversion evidence.", date:"2026-09-05", read:"7 min", image:"/images/insights/seo-lead-generation-strategy.webp", imageAlt:"SEO lead generation strategy and search performance planning" },
+  { slug:"landing-page-before-more-ad-spend", category:"Paid Acquisition", title:"Fix the landing page before buying more clicks", summary:"Why campaign optimisation often reaches a ceiling when the post-click experience is the real bottleneck.", date:"2026-09-05", read:"6 min", image:"/images/insights/google-ads-landing-page-conversion.webp", imageAlt:"Google Ads landing page conversion optimisation" },
+  { slug:"growth-stack-for-local-services", category:"Growth Systems", title:"The growth stack I would build for a local service business", summary:"Website, local SEO, paid search, attribution and CRM — designed as one operating system instead of separate tools.", date:"2026-09-05", read:"8 min", image:"/images/insights/local-service-growth-system.webp", imageAlt:"Local service business digital growth system architecture" },
+];
+export function getInsight(slug:string){ return insights.find((item)=>item.slug===slug); }

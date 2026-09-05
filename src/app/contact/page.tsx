@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
+import { ContactForm } from "@/components/ui/ContactForm";
+export const metadata: Metadata = { title:"Start a Project", description:"Tell WD Marketing about your growth problem, project and commercial objective." };
+export default function ContactPage(){return <><PageHero eyebrow="Start a project" title="Tell us the problem." accent="We'll find the leverage." intro="The best starting point is not a list of deliverables. Tell us what the business needs to achieve, what is blocking it, and what already exists."/><section className="section pt-0"><div className="container contact-layout"><aside><div><span>Direct</span><a href="mailto:hello@wdmarketing.co.uk">hello@wdmarketing.co.uk</a></div><div><span>Location</span><p>London · United Kingdom</p></div><div><span>Best fit</span><p>Businesses with a clear commercial goal and willingness to measure what works.</p></div></aside><ContactForm/></div></section></>}

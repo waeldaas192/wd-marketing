@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { PageHero } from "@/components/ui/PageHero";
+import { assets } from "@/data/assets";
+export const metadata: Metadata = { title:"About", description:"About WD Marketing — a founder-led digital growth studio in London." };
+export default function AboutPage(){return <>
+<PageHero eyebrow="About WD Marketing" title="Founder-led." accent="Commercially focused." intro="WD Marketing brings strategy, design, development, search, paid acquisition and measurement together around one objective: building digital systems that help businesses grow."/>
+<section className="section"><div className="container about-grid"><div className="founder-placeholder !relative !overflow-hidden"><Image src={assets.founder.portraitWide.src} alt={assets.founder.portraitWide.alt} width={assets.founder.portraitWide.width} height={assets.founder.portraitWide.height} className="absolute inset-0 h-full w-full object-cover" /></div><div className="about-copy"><p className="eyebrow">Founder / Digital Growth Strategist</p><h2>One person accountable for how the pieces connect.</h2><p>Instead of separating website, SEO, advertising and analytics into isolated departments, WD Marketing approaches them as parts of one acquisition system. The work starts with the commercial problem, then chooses the technology and channels that make sense.</p><p>The result is a leaner model: senior strategic thinking stays close to execution, technical decisions are made with marketing consequences in mind, and measurement is designed before scale.</p><Link href="/contact" className="button button-primary">Work with WD Marketing ↗</Link></div></div></section>
+<section className="section border-y border-white/10 bg-white/[.018]"><div className="container values-grid">{[["01","Clarity over complexity","Make the customer journey and the commercial logic easy to understand."],["02","Evidence over theatre","Use real data, real work and verified outcomes instead of inflated claims."],["03","Systems over tactics","Connect acquisition, experience, measurement and follow-up."],["04","Performance by design","Speed, responsiveness and technical quality are part of the brand experience."]].map(([n,t,c])=><article key={n}><span>{n}</span><h3>{t}</h3><p>{c}</p></article>)}</div></section>
+</>}

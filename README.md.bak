@@ -1,0 +1,67 @@
+# WD Marketing — Premium Starter
+
+A production-minded Next.js starter for the new WD Marketing website.
+
+## Stack
+
+- Next.js 16.3.3
+- React 19.2
+- TypeScript
+- Tailwind CSS 4.3
+- App Router
+- AVIF/WebP-ready image configuration
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000
+
+## Asset structure
+
+Place final assets here:
+
+```text
+public/
+  images/
+    brand/
+      logo.svg
+      logo-mark.svg
+    hero/
+    founder/
+    projects/
+      stone-pro/
+        cover.webp
+        desktop-home.webp
+        mobile-home.webp
+        results.webp
+      roofing/
+        cover.webp
+        website.webp
+        seo-growth.webp
+        lead-results.webp
+      exp-auto-parts/
+        cover.webp
+  videos/
+  icons/
+```
+
+The current Work cards contain premium placeholders so the site runs even before the real case-study imagery is added.
+
+## Phase 2
+
+- Real WD logo and brand assets
+- Final typeface selection
+- Real founder photography
+- Case-study imagery
+- GSAP/Motion choreography
+- Dedicated service pages
+- Case study routes
+- Project enquiry funnel
+- CMS / Insights
+- GA4 + GTM + Ads tracking
+- JSON-LD/schema
+- performance audit and QA
