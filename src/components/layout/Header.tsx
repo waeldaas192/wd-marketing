@@ -125,7 +125,26 @@ export function Header() {
         <div className={styles.actions}><Link href="/contact" className={styles.cta} onClick={closeForNavigation}>Start a project <span aria-hidden="true">↗</span></Link><button ref={mobileTrigger} type="button" className={styles.menu} aria-label="Open menu" aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={mobileOpen} onClick={() => { restoreMobileFocus.current = true; setMegaOpen(false); setMobileOpen(true); }}><span aria-hidden="true">☰</span></button></div>
       </div>
     </header>
-    <dialog ref={dialogRef} id="mobile-navigation" aria-label="Mobile navigation" className={styles.dialog} onCancel={event => { event.preventDefault(); restoreMobileFocus.current = true; setMobileOpen(false); }} onClose={() => {
+    <dialog ref={dialogRef} id="mobile-navigation" aria-label="Mobile navigation" className={styles.dialog} onKeyDown={event => {
+      if (event.key !== "Tab") return;
+      const dialog = event.currentTarget;
+      // Recompute after expanding Services; never focus links inside closed details.
+      const controls = Array.from(dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')).filter(element => {
+        const collapsed = element.closest("details:not([open])");
+        return element.tabIndex >= 0 && element.getClientRects().length > 0
+          && getComputedStyle(element).visibility !== "hidden"
+          && (!collapsed || collapsed.querySelector("summary") === element);
+      });
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (!first || !last) return;
+      const focused = document.activeElement;
+      if (event.shiftKey && (focused === first || focused === dialog)) {
+        event.preventDefault(); last.focus();
+      } else if (!event.shiftKey && (focused === last || focused === dialog || !dialog.contains(focused))) {
+        event.preventDefault(); first.focus();
+      }
+    }} onCancel={event => { event.preventDefault(); restoreMobileFocus.current = true; setMobileOpen(false); }} onClose={() => {
       setMobileOpen(false);
       if (restoreMobileFocus.current && mobileTrigger.current?.getClientRects().length) mobileTrigger.current.focus();
     }}>
