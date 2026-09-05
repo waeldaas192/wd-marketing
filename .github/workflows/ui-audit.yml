@@ -15,6 +15,7 @@ jobs:
     timeout-minutes: 15
     env:
       NEXT_TELEMETRY_DISABLED: '1'
+      CONTACT_ENABLED: 'false'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,18 +27,19 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Contact validation and mocked provider tests
+        run: node qa/contact-unit.cjs
       - run: npx tsc --noEmit
       - run: npm run build
       - name: Install isolated browser audit tools
-        if: ${{ hashFiles('qa/browser-audit.cjs') != '' }}
         run: |
-          npm install --prefix /tmp/wd-ui-audit --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1
+          npm install --prefix /tmp/wd-ui-audit --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1 esbuild@0.25.12
           /tmp/wd-ui-audit/node_modules/.bin/playwright install --with-deps chromium
       - name: Audit production preview
-        if: ${{ hashFiles('qa/browser-audit.cjs') != '' }}
         env:
           QA_NODE_MODULES: /tmp/wd-ui-audit/node_modules
         run: |
+          node qa/gallery-fixture.cjs
           npm run start > /tmp/wd-preview.log 2>&1 &
           SERVER_PID=$!
           trap 'kill "$SERVER_PID" || true' EXIT
@@ -46,6 +48,7 @@ jobs:
             sleep 2
           done
           node qa/browser-audit.cjs
+          node qa/completion-browser.cjs
       - name: Preserve audit evidence
         if: always()
         uses: actions/upload-artifact@v4

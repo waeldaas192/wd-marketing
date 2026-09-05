@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePage } from "@/components/ui/ServicePage";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { servicePages } from "@/data/servicePages";
-export const metadata: Metadata = { title: "Analytics, CRM & Automation", description: "Growth infrastructure covering analytics, CRM workflows, automation and attribution." };
-export default function Page(){ return <ServicePage data={servicePages.infrastructure} />; }
+import { pageMetadata } from "@/lib/metadata";
+export const metadata=pageMetadata("Analytics, CRM & Automation","Growth infrastructure covering analytics, CRM workflows, automation and attribution.","/services/growth-infrastructure");
+export default function Page(){return <><Breadcrumbs items={[{label:"Services",href:"/services"},{label:"Growth Infrastructure",href:"/services/growth-infrastructure"}]}/><ServicePage data={servicePages.infrastructure}/></>;}
