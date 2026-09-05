@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { useMotionPreference } from "@/lib/motion-preferences";
+import { ArrowIcon, Icon } from "./Icons";
 import styles from "./GrowthEngine.module.css";
 
 const stages = [
@@ -24,53 +25,100 @@ function StageIcon({ name }: { name: IconName }) {
   </svg>;
 }
 
+type Point = { x: number; y: number };
+
 export function GrowthEngine() {
   const id = useId();
   const figure = useRef<HTMLElement>(null);
+  const rail = useRef<HTMLDivElement>(null);
+  const pulse = useRef<HTMLSpanElement>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const [points, setPoints] = useState<Point[]>([]);
   const [selected, setSelected] = useState(0);
   const [inView, setInView] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
+  const [playing, setPlaying] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [travelling, setTravelling] = useState(false);
   const { enabled } = useMotionPreference();
-  const stage = stages[selected];
+  const sceneEnabled = enabled && inView && pageVisible;
+  const auto = sceneEnabled && playing && !hovered && !focused;
 
   useEffect(() => {
     const element = figure.current;
-    if (!element) return;
-    // Only the decorative signal animates. Copy never auto-advances.
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.15 });
+    const track = rail.current;
+    if (!element || !track) return;
+    const measure = () => {
+      const origin = track.getBoundingClientRect();
+      const next = buttons.current.map(button => {
+        const rect = button?.querySelector('[data-stage-icon]')?.getBoundingClientRect();
+        return { x: rect ? rect.left-origin.left+rect.width/2 : 0, y: rect ? rect.top-origin.top+rect.height/2 : 0 };
+      });
+      setPoints(current => JSON.stringify(current) === JSON.stringify(next) ? current : next);
+    };
+    measure();
+    const resize = new ResizeObserver(measure); resize.observe(track);
+    buttons.current.forEach(button => { if (button) resize.observe(button); });
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: .15 });
     observer.observe(element);
-    const visibility = () => setPageVisible(document.visibilityState === "visible");
-    visibility();
-    document.addEventListener("visibilitychange", visibility);
-    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", visibility); };
+    const visibility = () => setPageVisible(!document.hidden);
+    visibility(); document.addEventListener('visibilitychange', visibility);
+    return () => { observer.disconnect(); resize.disconnect(); document.removeEventListener('visibilitychange', visibility); };
   }, []);
 
+  useEffect(() => {
+    if (!auto || points.length !== stages.length || !pulse.current?.animate) { setTravelling(false); return; }
+    let cancelled = false;
+    let animation: Animation | undefined;
+    const timer = window.setTimeout(() => {
+      const next = (selected+1)%stages.length;
+      const from = points[selected], to = points[next];
+      // The pulse reaches the next actual icon centre BEFORE its description changes.
+      // Sampling a shallow curve also works when the mobile rail becomes vertical.
+      const vertical = Math.abs(to.y-from.y) > Math.abs(to.x-from.x);
+      const arc = next === 0 ? -18 : -5;
+      const frames = Array.from({length:33},(_,index) => {
+        const t=index/32, bend=Math.sin(Math.PI*t)*arc;
+        return { transform: `translate3d(${from.x+(to.x-from.x)*t+(vertical?bend:0)}px,${from.y+(to.y-from.y)*t+(vertical?0:bend)}px,0)`, opacity: Math.min(1,t*8,(1-t)*8), offset:t };
+      });
+      setTravelling(true);
+      animation=pulse.current?.animate(frames,{duration:1100,easing:'cubic-bezier(.4,0,.2,1)',fill:'none',id:'wd-journey-pulse'});
+      animation?.finished.then(() => {
+        if (!cancelled) { setTravelling(false); setSelected(next); }
+      }).catch(() => { /* Pause, focus, resize, route change or unmount cancels the transfer. */ });
+    }, 4800);
+    return () => { cancelled=true; window.clearTimeout(timer); animation?.cancel(); };
+  }, [auto, selected, points]);
+
+  function choose(index: number) { setPlaying(false); setTravelling(false); setSelected(index); }
   function onKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next: number;
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % stages.length;
-    else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index + stages.length - 1) % stages.length;
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = stages.length - 1;
+    if (event.key==='ArrowRight'||event.key==='ArrowDown') next=(index+1)%stages.length;
+    else if (event.key==='ArrowLeft'||event.key==='ArrowUp') next=(index+stages.length-1)%stages.length;
+    else if(event.key==='Home') next=0;
+    else if(event.key==='End') next=stages.length-1;
     else return;
-    event.preventDefault();
-    setSelected(next);
-    buttons.current[next]?.focus();
+    event.preventDefault(); choose(next); buttons.current[next]?.focus();
   }
-
-  return <figure ref={figure} className={styles.engine} aria-label="WD growth system overview" data-growth-engine data-animate={enabled && inView && pageVisible ? "on" : "off"}>
-    <div className={styles.top}><strong>WD / Growth system</strong><span>Explore the journey</span></div>
+  const start = points[0], end = points[points.length-1];
+  const path = start && end ? `M ${start.x} ${start.y} L ${end.x} ${end.y}` : '';
+  return <figure ref={figure} className={styles.engine} aria-label="WD growth system overview" data-growth-engine data-selected={selected} data-phase={travelling?'travelling':auto?'reading':'paused'} data-animate={sceneEnabled?'on':'off'} onPointerEnter={event=>{if(event.pointerType==='mouse')setHovered(true);}} onPointerLeave={()=>setHovered(false)} onFocusCapture={event=>{if(!(event.target as HTMLElement).closest('[data-journey-control]'))setFocused(true);}} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget))setFocused(false);}}>
+    <div className={styles.top}><strong>WD / Growth system</strong><button data-journey-control type="button" className={styles.play} aria-label={playing?'Pause journey':'Play journey'} aria-pressed={!playing} onClick={()=>{setFocused(false);setPlaying(value=>!value);}}><span>{playing?'Pause journey':'Play journey'}</span><Icon name={playing?'pause':'play'}/></button></div>
     <div className={styles.intro}><p>From being discovered<br/><span>to being chosen.</span></p></div>
-    <ol className={styles.stages} aria-label="Customer journey stages">
-      {stages.map((item, index) => <li key={item.title} className={styles.stage}>
-        <button ref={element => { buttons.current[index] = element; }} type="button" id={`${id}-stage-${index}`} aria-pressed={selected === index} aria-controls={`${id}-detail`} className={styles.stageButton} onClick={() => setSelected(index)} onKeyDown={event => onKey(event, index)}>
-          <span className={styles.number}><StageIcon name={item.icon}/></span><span className={styles.stageTitle}>{item.title}</span>
-        </button>
-      </li>)}
-    </ol>
-    <div className={styles.detail} id={`${id}-detail`} role="region" aria-labelledby={`${id}-stage-${selected}`} aria-live="polite" aria-atomic="true">
-      <p className={styles.detailHeading}>{stage.heading}</p><p className={styles.detailCopy}>{stage.copy}</p>
-      <Link href={stage.href} className={styles.detailLink}>{stage.link} <span aria-hidden="true">→</span></Link>
+    <div ref={rail} className={styles.rail}>
+      <svg className={styles.connections} aria-hidden="true" focusable="false"><path d={path}/></svg>
+      <span ref={pulse} className={styles.pulse} aria-hidden="true"/>
+      <ol className={styles.stages} aria-label="Customer journey stages">
+        {stages.map((item,index)=><li key={item.title} className={styles.stage}><button ref={element=>{buttons.current[index]=element;}} type="button" id={`${id}-stage-${index}`} aria-pressed={selected===index} aria-controls={`${id}-detail`} className={styles.stageButton} onClick={()=>choose(index)} onKeyDown={event=>onKey(event,index)}><span data-stage-icon className={styles.number}><StageIcon name={item.icon}/></span><span className={styles.stageTitle}>{item.title}</span></button></li>)}
+      </ol>
+    </div>
+    <div className={styles.detail} id={`${id}-detail`} role="region" aria-labelledby={`${id}-stage-${selected}`} aria-live={auto?'off':'polite'} aria-atomic="true" data-journey-detail>
+      <div className={styles.detailStack}>{stages.map((item,index)=><div key={item.title} className={styles.detailSlide} data-current={index===selected} aria-hidden={index!==selected} inert={index!==selected}>
+        <span className={styles.detailIcon}><StageIcon name={item.icon}/></span>
+        <div><p className={styles.detailIndex}>0{index+1} / {item.title}</p><p className={styles.detailHeading}>{item.heading}</p><p className={styles.detailCopy}>{item.copy}</p></div>
+      </div>)}</div>
+      <Link href={stages[selected].href} className={styles.detailLink}>{stages[selected].link}<ArrowIcon/></Link>
     </div>
     <figcaption className={styles.caption}>A connected customer journey — not a live analytics report or a promise of results.</figcaption>
   </figure>;
