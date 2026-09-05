@@ -7,7 +7,7 @@ const AxeBuilder = require(tools ? path.join(tools, '@axe-core/playwright') : '@
 const base = process.env.QA_BASE_URL || 'http://localhost:3000';
 const out = path.resolve('qa-results');
 fs.mkdirSync(out, { recursive: true });
-const report = { generatedAt: new Date().toISOString(), viewports: [], accessibility: [], routes: [], interactions: [], failures: [], notes: ['Automated checks are not complete WCAG conformance.', 'Root-text enlargement is not browser zoom.', 'Viewport emulation is not testing on physical phones.', 'No Lighthouse or field Core Web Vitals score is claimed.'] };
+const report = { generatedAt: new Date().toISOString(), viewports: [], accessibility: [], routes: [], interactions: [], focusTrace: [], failures: [], notes: ['Automated checks are not complete WCAG conformance.', 'Root-text enlargement is not browser zoom.', 'Viewport emulation is not testing on physical phones.', 'Below-fold images are explicitly requested for complete screenshot/asset checks; production lazy loading is unchanged.', 'No Lighthouse or field Core Web Vitals score is claimed.'] };
 const check = (condition, message) => { if (!condition) report.failures.push(message); };
 async function ready(page, route='/') {
   // Next.js can prefetch links after navigation. Network silence is not UI readiness.
@@ -16,6 +16,20 @@ async function ready(page, route='/') {
   await page.waitForFunction(() => document.documentElement.dataset.uiReady === 'true');
   await page.evaluate(() => Promise.race([document.fonts.ready, new Promise((_,reject)=>setTimeout(()=>reject(new Error('Font loading timed out')),15000))]));
   return response;
+}
+async function imagesReady(page, label) {
+  // A rapid scroll need not trigger every native lazy image. Explicitly request each
+  // one for the full-page asset audit; continue to fail on missing/broken resources.
+  await page.evaluate(() => { for (const img of document.images) img.loading = 'eager'; });
+  try {
+    await page.waitForFunction(() => [...document.images].every(img => img.complete), undefined, { timeout: 30000 });
+  } catch (error) {
+    const pending = await page.evaluate(() => [...document.images].filter(img=>!img.complete).map(img=>({src:img.currentSrc||img.src,loading:img.loading,width:img.width,height:img.height})));
+    report.failures.push(`${label}: image loading did not complete: ${JSON.stringify(pending)}`);
+    throw error;
+  }
+  const broken = await page.evaluate(() => [...document.images].filter(img=>!img.naturalWidth).map(img=>img.currentSrc||img.src));
+  check(broken.length === 0, `${label}: broken images ${broken.join(', ')}`);
 }
 async function layout(page, label, scale=1) {
   const data = await page.evaluate(() => {
@@ -54,15 +68,13 @@ async function axe(page,label) {
     for (const width of [320,360,390,430,640,768,1024,1280,1440,1920]) {
       await page.setViewportSize({width,height:900});
       await ready(page);
+      await imagesReady(page,`home-${width}`);
       await page.evaluate(async () => { for (let y=0;y<document.body.scrollHeight;y+=700) { window.scrollTo(0,y); await new Promise(r=>setTimeout(r,100)); } window.scrollTo(0,0); });
-      await page.waitForFunction(() => [...document.images].every(img => img.complete), { timeout: 20000 });
-      const broken = await page.evaluate(() => [...document.images].filter(img=>!img.naturalWidth).map(img=>img.currentSrc||img.src));
-      check(broken.length === 0, `home-${width}: broken images ${broken.join(', ')}`);
       report.viewports.push({label:`home-${width}`, ...await layout(page,`home-${width}`)});
       await page.screenshot({path:path.join(out,`home-${width}.png`),fullPage:true});
       if (width===390 || width===1440) await axe(page,`home-${width}`);
     }
-    await page.setViewportSize({width:1440,height:1000}); await ready(page);
+    await page.setViewportSize({width:1440,height:1000}); await ready(page); await imagesReady(page,'desktop-sections');
     await page.screenshot({path:path.join(out,'hero-desktop.png')});
     for (const id of ['standard','services','process','about']) {
       const el = page.locator(`#${id}`); await el.scrollIntoViewIfNeeded();
@@ -112,6 +124,7 @@ async function axe(page,label) {
     await page.waitForFunction(()=>document.querySelector('[data-growth-engine]').dataset.animate==='off');
     await page.reload({waitUntil:'domcontentloaded'});
     await page.waitForFunction(()=>document.documentElement.dataset.uiReady==='true');
+    await page.getByRole('button',{name:'Resume motion',exact:true}).waitFor({state:'visible'});
     check(await page.getByRole('button',{name:'Resume motion',exact:true}).count()===1,'Pause preference lost on reload');
     await page.getByRole('button',{name:'Resume motion',exact:true}).click();
     await engine.scrollIntoViewIfNeeded();
@@ -126,8 +139,20 @@ async function axe(page,label) {
     await page.getByRole('button',{name:'Open menu',exact:true}).click();
     const dialog=page.locator('#mobile-navigation');
     check(await dialog.evaluate(el=>el.open),'Mobile dialog did not open');
-    for(let i=0;i<10;i++) { await page.keyboard.press('Tab'); check(await dialog.evaluate(el=>el.contains(document.activeElement)),'Focus escaped the native mobile modal'); }
+    for (const key of ['Tab','Shift+Tab']) {
+      for(let i=0;i<10;i++) {
+        await page.keyboard.press(key);
+        const focused=await dialog.evaluate(el=>({inside:el.contains(document.activeElement),tag:document.activeElement.tagName,text:document.activeElement.textContent.slice(0,100)}));
+        report.focusTrace.push({key,step:i,...focused});
+        check(focused.inside,`Focus escaped the mobile modal (${key} ${i}: ${focused.tag})`);
+      }
+    }
     await axe(page,'mobile-menu-open'); await page.screenshot({path:path.join(out,'mobile-menu.png')});
+    await dialog.locator('summary').click();
+    await dialog.getByRole('link',{name:'Start a project',exact:false}).focus(); await page.keyboard.press('Tab');
+    check(await dialog.getByRole('button',{name:'Close menu',exact:true}).evaluate(el=>el===document.activeElement),'Expanded mobile menu did not wrap from last link to Close');
+    await page.keyboard.press('Shift+Tab');
+    check(await dialog.getByRole('link',{name:'Start a project',exact:false}).evaluate(el=>el===document.activeElement),'Expanded mobile menu did not wrap backwards');
     await page.keyboard.press('Escape');
     check(!await dialog.evaluate(el=>el.open),'Escape did not close mobile dialog');
     check(await page.evaluate(()=>document.body.style.overflow!=='hidden'),'Body scrolling remained locked');
@@ -136,7 +161,7 @@ async function axe(page,label) {
     await dialog.getByRole('link',{name:'Process',exact:true}).click();
     check(!await dialog.evaluate(el=>el.open),'Same-page anchor did not close mobile menu');
     check(await page.evaluate(()=>document.body.style.overflow!=='hidden'),'Anchor navigation left scrolling locked');
-    report.interactions.push('Mobile modal: focus containment, Escape, scroll unlock and same-page link');
+    report.interactions.push('Mobile modal: Tab/Shift+Tab containment, expanded-services boundaries, Escape, scroll unlock and same-page link');
 
     await page.setViewportSize({width:1280,height:1000}); await ready(page);
     await page.evaluate(()=>document.documentElement.style.fontSize='200%');
