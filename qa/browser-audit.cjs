@@ -10,8 +10,12 @@ fs.mkdirSync(out, { recursive: true });
 const report = { generatedAt: new Date().toISOString(), viewports: [], accessibility: [], routes: [], interactions: [], failures: [], notes: ['Automated checks are not complete WCAG conformance.', 'Root-text enlargement is not browser zoom.', 'No Lighthouse or field Core Web Vitals score is claimed.'] };
 const check = (condition, message) => { if (!condition) report.failures.push(message); };
 async function ready(page, route='/') {
-  const response = await page.goto(base + route, { waitUntil: 'networkidle', timeout: 45000 });
+  // Prefetch and lazy-image requests need not be idle for the UI to be ready.
+  // Wait for the actual document, main heading and font layout instead.
+  const response = await page.goto(base + route, { waitUntil: 'domcontentloaded', timeout: 45000 });
+  await page.locator('main h1').waitFor({state:'visible'});
   await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   return response;
 }
 async function layout(page, label, scale=1) {
