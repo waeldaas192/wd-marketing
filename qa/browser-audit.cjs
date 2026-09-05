@@ -101,10 +101,14 @@ async function axe(page,label) {
     report.interactions.push('Desktop disclosure: Enter, Tab order, Shift+Tab, ArrowDown, Escape and dismissal');
 
     const engine = page.locator('[data-growth-engine]');
+    // Playback has its own pressed state. Only the five stage buttons are mutually exclusive.
+    const stageList = engine.getByRole('list', { name: 'Customer journey stages', exact: true });
+    check(await stageList.getByRole('button').count()===5, 'Growth journey must expose five stages');
     for (const name of ['Search','Traffic','Experience','Enquiry','Revenue']) {
-      const button=engine.getByRole('button',{name,exact:true}); await button.click();
+      const button=stageList.getByRole('button',{name,exact:true}); await button.click();
       check(await button.getAttribute('aria-pressed')==='true', `Growth stage ${name} not selected`);
-      check(await engine.locator('button[aria-pressed="true"]').count()===1,'Growth engine needs one selected stage');
+      check(await stageList.getByRole('button',{pressed:true}).count()===1,'Growth engine needs one selected stage');
+      check(await engine.getByRole('button',{name:'Play journey',exact:true}).getAttribute('aria-pressed')==='true','Manual stage selection must pause the independent playback control');
       check(await engine.getByRole('region',{name,exact:true}).isVisible(),`Growth stage ${name} not described`);
       const link=engine.getByRole('region',{name,exact:true}).locator('a');
       check((await link.getAttribute('href')).startsWith('/services/'),`Growth stage ${name} has no service destination`);
@@ -115,7 +119,7 @@ async function axe(page,label) {
     check(await engine.getByRole('button',{name:'Revenue',exact:true}).getAttribute('aria-pressed')==='true','Growth End key failed');
     await page.keyboard.press('Home');
     await axe(page,'growth-engine-interactive');
-    report.interactions.push('Five growth stages, service links, pressed states and arrow/Home/End keys');
+    report.interactions.push('Five growth stages, independent playback toggle, service links, pressed states and arrow/Home/End keys');
 
     await page.emulateMedia({reducedMotion:'no-preference'});
     await page.getByRole('button',{name:'Pause motion',exact:true}).click();
