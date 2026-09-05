@@ -8,6 +8,7 @@
 .brand { display: inline-flex; align-items: center; width: fit-content; max-width: 100%; }
 .logo { width: 200px; height: auto; filter: brightness(0); }
 .nav { display: flex; align-items: center; gap: 24px; padding: 0; border: 0; background: transparent; }
+.disclosure { display: inline-flex; }
 .link { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 52px; padding: 14px 0; border: 0; border-radius: 0; background: transparent; color: var(--muted); font-size: .9375rem; font-weight: 500; line-height: 1.5; }
 .link::before { content: ""; position: absolute; top: 3px; left: calc(50% - 10px); width: 20px; height: 2px; background: var(--text); transform: scaleX(0); transition: transform .18s ease; }
 .link:hover,.active { color: var(--text); }
@@ -21,14 +22,14 @@
 .megaIntro .megaTitle { color: var(--text); font-size: 1.5rem; line-height: 1.25; font-weight: 550; letter-spacing: -.025em; }
 .megaIntro :global(.eyebrow) { margin-top: 0; }
 .serviceGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-.serviceCard { display: block; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
-.serviceCard:hover { background: #f7f8ff; border-color: #a2a7d8; }
+.serviceCard { display: block; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: #fff; transition: background .2s ease, border-color .2s ease; }
+.serviceCard:hover,.serviceCard[aria-current="page"] { background: #f7f8ff; border-color: #a2a7d8; }
 .serviceCard > span { font-size: var(--type-label); color: var(--subtle); }
 .serviceCard strong { display: block; margin-top: 12px; font-size: 1.0625rem; line-height: 1.4; font-weight: 600; }
 .serviceCard p { margin: 8px 0 0; color: var(--muted); font-size: var(--type-small); line-height: 1.6; }
 .megaAside { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; border-top: 1px solid var(--line); padding-top: 16px; font-size: var(--type-small); }
 .megaAside a { padding-block: 8px; }
-.dialog { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 24px; border: 0; background: #fff; color: var(--text); overflow-y: auto; }
+.dialog { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: max(24px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left)); border: 0; background: #fff; color: var(--text); overflow-y: auto; overscroll-behavior: contain; }
 .dialog:not([open]) { display: none; }
 .dialog::backdrop { background: rgb(17 19 24 / 25%); }
 .dialogBar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); font-size: var(--type-body); }
@@ -38,6 +39,9 @@
 .mobileLinks > a,.mobileLinks summary { display: block; padding: 18px 0; border-bottom: 1px solid var(--line); color: var(--text); font-size: 1.125rem; line-height: 1.4; font-weight: 550; cursor: pointer; }
 .mobileLinks details div { display: flex; flex-direction: column; padding: 8px 0 16px 12px; }
 .mobileLinks details a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 10px 0; font-size: var(--type-body); color: var(--muted); }
+.mobileLinks a[aria-current="page"] { color: var(--accent); text-decoration: underline; text-underline-offset: 5px; }
 .mobileLinks > .cta { margin-top: 24px; padding: 14px 20px; color: #fff; text-align: center; }
 @media (max-width: 1120px) { .inner { grid-template-columns: minmax(0,1fr) auto; } .nav,.mega { display: none; } .menu { display: inline-grid; place-items: center; } }
 @media (max-width: 640px) { .inner { min-height: 72px; gap: 16px; } .logo { width: 176px; } .actions > .cta,.utilityEmail { display: none; } }
+@media (prefers-reduced-motion: no-preference) { :global(html[data-motion="running"]) .mega:not([hidden]),:global(html[data-motion="running"]) .dialog[open] { animation: openPanel .2s var(--ease); } }
+@keyframes openPanel { from { transform: translateY(-6px); } to { transform: translateY(0); } }

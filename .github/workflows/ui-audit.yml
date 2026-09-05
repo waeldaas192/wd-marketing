@@ -1,13 +1,13 @@
 name: UI and build audit
 on:
   push:
-    branches: [feature/global-experience-v1]
+    branches: ['feature/**']
   pull_request:
-    branches: [main]
+    branches: [main, feature/global-experience-v1]
 permissions:
   contents: read
 concurrency:
-  group: ui-audit-${{ github.ref }}
+  group: ui-audit-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: true
 jobs:
   audit:
