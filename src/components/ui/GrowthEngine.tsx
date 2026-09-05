@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { useMotionPreference } from "@/lib/motion-preferences";
@@ -13,7 +12,6 @@ const stages = [
   { title: "Enquiry", heading: "Turn interest into a conversation.", copy: "Remove unnecessary form friction and connect enquiries to a follow-up process that your team can actually use.", href: "/services/web-conversion", link: "Explore conversion design", icon: "enquiry" },
   { title: "Revenue", heading: "Measure what happens after the click.", copy: "Connect lead quality, CRM outcomes and acquisition costs before deciding where to invest next.", href: "/services/growth-infrastructure", link: "Explore growth infrastructure", icon: "revenue" },
 ] as const;
-
 type IconName = (typeof stages)[number]["icon"];
 function StageIcon({ name }: { name: IconName }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
@@ -24,9 +22,7 @@ function StageIcon({ name }: { name: IconName }) {
     {name === "revenue" && <><path d="M3 17 9 11l4 3 8-10m-6 0h6v6"/><path d="M3 21h18"/></>}
   </svg>;
 }
-
 type Point = { x: number; y: number };
-
 export function GrowthEngine() {
   const id = useId();
   const figure = useRef<HTMLElement>(null);
@@ -44,10 +40,8 @@ export function GrowthEngine() {
   const { enabled } = useMotionPreference();
   const sceneEnabled = enabled && inView && pageVisible;
   const auto = sceneEnabled && playing && !hovered && !focused;
-
   useEffect(() => {
-    const element = figure.current;
-    const track = rail.current;
+    const element = figure.current, track = rail.current;
     if (!element || !track) return;
     const measure = () => {
       const origin = track.getBoundingClientRect();
@@ -66,7 +60,6 @@ export function GrowthEngine() {
     visibility(); document.addEventListener('visibilitychange', visibility);
     return () => { observer.disconnect(); resize.disconnect(); document.removeEventListener('visibilitychange', visibility); };
   }, []);
-
   useEffect(() => {
     if (!auto || points.length !== stages.length || !pulse.current?.animate) { setTravelling(false); return; }
     let cancelled = false;
@@ -74,8 +67,7 @@ export function GrowthEngine() {
     const timer = window.setTimeout(() => {
       const next = (selected+1)%stages.length;
       const from = points[selected], to = points[next];
-      // The pulse reaches the next actual icon centre BEFORE its description changes.
-      // Sampling a shallow curve also works when the mobile rail becomes vertical.
+      // Complete the pulse transfer BEFORE activating the next description.
       const vertical = Math.abs(to.y-from.y) > Math.abs(to.x-from.x);
       const arc = next === 0 ? -18 : -5;
       const frames = Array.from({length:33},(_,index) => {
@@ -86,11 +78,10 @@ export function GrowthEngine() {
       animation=pulse.current?.animate(frames,{duration:1100,easing:'cubic-bezier(.4,0,.2,1)',fill:'none',id:'wd-journey-pulse'});
       animation?.finished.then(() => {
         if (!cancelled) { setTravelling(false); setSelected(next); }
-      }).catch(() => { /* Pause, focus, resize, route change or unmount cancels the transfer. */ });
+      }).catch(() => { /* Cancelled by pause/focus/resize/visibility or unmount. */ });
     }, 4800);
     return () => { cancelled=true; window.clearTimeout(timer); animation?.cancel(); };
   }, [auto, selected, points]);
-
   function choose(index: number) { setPlaying(false); setTravelling(false); setSelected(index); }
   function onKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next: number;
@@ -104,7 +95,7 @@ export function GrowthEngine() {
   const start = points[0], end = points[points.length-1];
   const path = start && end ? `M ${start.x} ${start.y} L ${end.x} ${end.y}` : '';
   return <figure ref={figure} className={styles.engine} aria-label="WD growth system overview" data-growth-engine data-selected={selected} data-phase={travelling?'travelling':auto?'reading':'paused'} data-animate={sceneEnabled?'on':'off'} onPointerEnter={event=>{if(event.pointerType==='mouse')setHovered(true);}} onPointerLeave={()=>setHovered(false)} onFocusCapture={event=>{if(!(event.target as HTMLElement).closest('[data-journey-control]'))setFocused(true);}} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget))setFocused(false);}}>
-    <div className={styles.top}><strong>WD / Growth system</strong><button data-journey-control type="button" className={styles.play} aria-label={playing?'Pause journey':'Play journey'} aria-pressed={!playing} onClick={()=>{setFocused(false);setPlaying(value=>!value);}}><span>{playing?'Pause journey':'Play journey'}</span><Icon name={playing?'pause':'play'}/></button></div>
+    <div className={styles.top}><strong>WD / Growth system</strong><button data-journey-control type="button" className={styles.play} aria-label={playing?'Pause journey':'Play journey'} onClick={()=>{setFocused(false);setPlaying(value=>!value);}}><span>{playing?'Pause journey':'Play journey'}</span><Icon name={playing?'pause':'play'}/></button></div>
     <div className={styles.intro}><p>From being discovered<br/><span>to being chosen.</span></p></div>
     <div ref={rail} className={styles.rail}>
       <svg className={styles.connections} aria-hidden="true" focusable="false"><path d={path}/></svg>

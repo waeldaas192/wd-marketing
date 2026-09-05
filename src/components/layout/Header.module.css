@@ -4,7 +4,7 @@
 .logo { width: 188px; height: auto; filter: brightness(0); }
 .nav { display: flex; align-items: center; gap: 26px; }
 .disclosure { display: inline-flex; }
-.link { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 48px; padding: 12px 0; border: 0; background: transparent; color: #505b70; font-size: .9375rem; font-weight: 450; line-height: 1.5; letter-spacing: -.016em; transition: color .25s; }
+.link { border-radius: 12px; position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 48px; padding: 12px 0; border: 0; background: transparent; color: #505b70; font-size: .9375rem; font-weight: 450; line-height: 1.5; letter-spacing: -.016em; transition: color .25s; }
 .link::after { content: ""; position: absolute; bottom: 5px; left: 0; right: 0; height: 1px; background: #6960dd; transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease); }
 .link:hover,.active { color: #171c2b; }
 .link:hover::after,.active::after { transform: scaleX(1); }
@@ -17,7 +17,7 @@
 .motion,.menu { flex: none; width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 20px; color: #5a657b; background: transparent; transition: background .3s; }
 .motion:hover,.menu:hover { background: #f0f2fa; }
 .menu { display: none; width: 48px; height: 48px; color: #1e2435; }
-.mega { position: absolute; top: calc(100% + 10px); left: max(var(--gutter),calc((100% - var(--max))/2)); right: max(var(--gutter),calc((100% - var(--max))/2)); background: #fffffff7; border: 1px solid #fff; border-radius: 24px; max-height: calc(100dvh - var(--header-height) - 24px); overflow: auto; box-shadow: 0 24px 80px -26px #293a6852,0 1px 0 #e7ebf5 inset; backdrop-filter: blur(24px); }
+.mega { position: absolute; top: calc(100% + 10px); left: max(var(--gutter),calc((100% - var(--max))/2)); right: max(var(--gutter),calc((100% - var(--max))/2)); background: #fff; border: 1px solid #fff; border-radius: 24px; max-height: calc(100dvh - var(--header-height) - 24px); overflow: auto; box-shadow: 0 24px 80px -26px #293a6852,0 1px 0 #e7ebf5 inset; backdrop-filter: blur(24px); }
 .megaInner { width: 100%; display: grid; grid-template-columns: minmax(0,.75fr) minmax(0,1.5fr); gap: 24px 38px; padding: 34px; }
 .megaIntro p { margin: 16px 0 0; color: #616c80; font-size: .875rem; line-height: 1.7; }
 .megaIntro .megaTitle { color: #151a2a; font-size: 1.65rem; line-height: 1.25; font-weight: 550; letter-spacing: -.04em; }
