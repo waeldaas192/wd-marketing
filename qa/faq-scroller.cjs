@@ -92,8 +92,26 @@ const time = track => track.evaluate(el => el.getAnimations()[0]?.currentTime ??
     const mobileRow = mobile.locator('[data-faq-row]').first(); await mobileRow.scrollIntoViewIfNeeded();
     await mobile.waitForFunction(() => document.querySelector('[data-faq-row]').dataset.layout === 'manual');
     check(await mobileRow.evaluate(el => el.scrollWidth > el.clientWidth && getComputedStyle(el).overflowX === 'auto'), 'Touch view provides native swipe without forced autoplay');
-    await mobileRow.evaluate(el => { el.scrollLeft = 100; });
-    check(await mobileRow.evaluate(el => el.scrollLeft > 0), 'Mobile row really scrolls horizontally');
+    // Snap containers may return an arbitrary 100px movement to the first card.
+    // Request the second card's actual snap position and inspect native scroll state.
+    const destination = await mobileRow.evaluate(el => {
+      const cards = el.querySelectorAll('[data-faq-sequence]:not([data-faq-clone]) .faq-card');
+      const distance = cards[1].getBoundingClientRect().left - cards[0].getBoundingClientRect().left;
+      const target = Math.min(distance, el.scrollWidth - el.clientWidth);
+      el.scrollTo({ left: target, behavior: 'instant' });
+      return { distance, target, width: el.clientWidth, scrollWidth: el.scrollWidth, snap: getComputedStyle(el).scrollSnapType };
+    });
+    await mobile.waitForFunction(target => Math.abs(document.querySelector('[data-faq-row]').scrollLeft - target) < 2, destination.target);
+    const reached = await mobileRow.evaluate(el => {
+      const card = el.querySelectorAll('[data-faq-sequence]:not([data-faq-clone]) .faq-card')[1];
+      const port = el.getBoundingClientRect(), item = card.getBoundingClientRect();
+      return { scrollLeft: el.scrollLeft, answerVisible: item.left >= port.left - 2 && item.right <= port.right + 2 };
+    });
+    report.measurements.push({ label: 'mobile-native-snap', ...destination, ...reached });
+    check(reached.scrollLeft > 0 && reached.answerVisible, 'Mobile native scrolling reaches the complete second card without disabling snap');
+    await mobileRow.evaluate(el => el.scrollTo({ left: 0, behavior: 'instant' }));
+    await mobile.waitForFunction(() => document.querySelector('[data-faq-row]').scrollLeft === 0);
+    check(true, 'Mobile row can scroll back to the first answer');
     await mobile.getByRole('button', { name: 'Read all questions', exact: true }).click();
     check(await mobile.locator('[data-faq-section]').getByRole('article').count() === 6, 'Touch reader can show all questions at once');
     axe = await new AxeBuilder({ page: mobile }).include('[data-faq-section]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();

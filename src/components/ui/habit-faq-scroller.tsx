@@ -142,7 +142,7 @@ export default function FaqSection({ data, id = "faq", headingId, kicker = "Befo
         <h2 id={titleId} className="h2">{data.mainTitle}</h2>
         <p className="faq-subtitle">{data.mainSubtitle}</p>
       </header>
-      <div className="faq-controls" aria-label="FAQ display controls">
+      <div className="faq-controls" role="group" aria-label="FAQ display controls">
         <button type="button" className="button button-ghost" aria-controls={rowsId} onClick={() => setPaused(value => !value)} hidden={readAll || !enabled}>
           {paused ? "Resume FAQ scrolling" : "Pause FAQ scrolling"}
         </button>
