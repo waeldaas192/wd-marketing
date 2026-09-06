@@ -13,9 +13,9 @@
 .liquid { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 1; opacity: 0; }
 .liquid[data-active="false"] { display: none; }
 .liquid[data-active="true"] { opacity: 1; }
-.pulse { opacity: 0; transform-origin: 0 0; }
-.drop { fill: #7974f6; transform-box: fill-box; transform-origin: center; }
-.receiver { fill: #8d89f8; opacity: 0; }
+.pulse { opacity: 1; transform-origin: 0 0; }
+.drop { fill: #6351ed; transform-box: fill-box; transform-origin: center; }
+.receiver { fill: #7165ee; opacity: 0; }
 .stages { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; list-style: none; padding: 0; margin: 0; }
 .stage { min-width: 0; }
 .stageButton { position: relative; width: 100%; min-height: 94px; border: 0; padding: 0 0 10px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; color: #535f75; background: transparent; border-radius: 20px; cursor: pointer; }
@@ -60,3 +60,18 @@
 
 @media (prefers-reduced-motion: reduce) { .liquid { display: none; } }
 :global(html[data-motion="paused"]) .liquid { display: none; }
+
+/* The actual connection marker is never hidden between transfers. A small solid
+   bead docks at the icon edge; the liquid bridge is a separate transient layer. */
+.signal { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; z-index: 3; pointer-events: none; }
+.signal[data-ready="false"] { visibility: hidden; }
+.marker { opacity: 1; transform-origin: 0 0; }
+.markerShape { transform: scale(.72); transform-box: view-box; transform-origin: 0 0; }
+.markerHalo { fill: #6960e92e; }
+.markerCore { fill: #4f42d6; stroke: #fff; stroke-width: 2; }
+.markerShine { fill: #fff; opacity: .88; }
+.number > svg { transform-box: fill-box; transform-origin: center; }
+.number [data-glyph-part] { transform-box: fill-box; transform-origin: center; }
+.number [data-glyph-part="bar"] { transform-origin: bottom; }
+.number[data-icon-phase="settling"] { box-shadow: 0 7px 22px #625bee38,inset 0 1px 2px #ffffff6b; }
+@media (forced-colors: active) { .markerCore { fill: Highlight; stroke: Canvas; } .markerHalo,.markerShine { display: none; } }

@@ -31,7 +31,7 @@ async function ready(page){await page.goto(base,{waitUntil:'domcontentloaded'});
   const before=await engine.getAttribute('data-selected');
   await page.waitForFunction(()=>document.querySelector('[data-growth-engine]').dataset.phase==='travelling');
   const pulse=await page.evaluate(()=>{const a=document.getAnimations().find(a=>a.id==='wd-journey-pulse');return a?{duration:a.effect.getTiming().duration,frames:a.effect.getKeyframes().length}:null;});
-  check(pulse?.duration===720&&pulse.frames>=30,'Transfer lasts 720ms with a smooth sampled magnetic path');
+  check((pulse?.duration===1800||pulse?.duration===2600)&&pulse.frames>=30,'Slower transfer lasts 1800ms (2600ms return) with a smooth sampled magnetic path');
   check(await engine.getAttribute('data-selected')===before,'Outgoing description remains active until absorption completes');
   check(await engine.locator('feGaussianBlur').count()===1&&await engine.locator('feColorMatrix').count()===1,'Liquid connection uses a blur/alpha-threshold surface filter');
   check(await page.evaluate(()=>document.getAnimations().some(a=>a.id==='wd-icon-attraction')&&document.getAnimations().some(a=>a.id==='wd-liquid-stretch')),'Receiving icon attraction and droplet elongation actually animate');

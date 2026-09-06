@@ -20,13 +20,15 @@ function check(ok,name) { report.checks.push({name,passed:!!ok});if(!ok) report.
     const engine=page.locator('[data-growth-engine]');
     await page.waitForFunction(()=>document.querySelector('[data-growth-engine]').dataset.phase==='reading');
     const initial=await engine.getAttribute('data-selected');
+    const next=String((Number(initial)+1)%5);
+    const nextName=['Search','Traffic','Experience','Enquiry','Revenue'][Number(next)];
     await page.waitForFunction(()=>document.querySelector('[data-growth-engine]').dataset.phase==='travelling');
     check(await engine.getAttribute('data-selected')===initial,'Description remains unchanged while pulse travels');
     check(await page.evaluate(()=>document.getAnimations().some(a=>a.id==='wd-journey-pulse')),'Pulse is a real animation');
     await page.screenshot({path:path.join(out,'fluid-pulse-in-flight.png')});
-    await page.waitForFunction(()=>document.querySelector('[data-growth-engine]').dataset.selected==='1');
-    check(await engine.getByRole('button',{name:'Traffic',exact:true}).getAttribute('aria-pressed')==='true','Next icon activates after pulse arrival');
-    check(await engine.getByRole('region',{name:'Traffic',exact:true}).isVisible(),'Matching description opens after arrival');
+    await page.waitForFunction(next=>document.querySelector('[data-growth-engine]').dataset.selected===next,next);
+    check(await engine.getByRole('button',{name:nextName,exact:true}).getAttribute('aria-pressed')==='true','Next icon activates after pulse arrival');
+    check(await engine.getByRole('region',{name:nextName,exact:true}).isVisible(),'Matching description opens after arrival');
     const dimensions=await engine.locator('[data-journey-detail]').evaluate(el=>{const s=getComputedStyle(el);return{radius:s.borderRadius,left:s.borderLeftWidth,right:s.borderRightWidth,height:el.getBoundingClientRect().height};});
     check(dimensions.radius==='24px'&&dimensions.left==='0px'&&dimensions.right==='0px','24px description with no coloured side border');
     await engine.hover();
