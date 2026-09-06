@@ -38,7 +38,7 @@ const check = (ok,name) => {report.checks.push({name,passed:!!ok}); if(!ok)repor
   check(ids.length===new Set(ids).size,'Sculpture filter/gradient IDs are unique');
   check(await page.locator('[data-studio-card]').evaluateAll(elements=>elements.every(el=>getComputedStyle(el).borderRadius==='24px')),'24px glass-card corners');
   check(await page.locator('[data-studio-section="process"] [data-step]').evaluateAll(elements=>elements.every(el=>getComputedStyle(el,'::before').display==='none')),'No coloured side stripes on process cards');
-  check(await page.locator('header').evaluate(el=>!el.closest('[data-studio-page]')),'Header remains outside the homepage theme');
+  check(await page.getByRole('banner').evaluate(el=>!el.closest('[data-studio-page]')),'Header remains outside the homepage theme');
   check(await page.locator('[data-growth-engine]').getAttribute('data-transfer-ms')==='1800','Existing slow connection transfer is retained');
   for(const width of [320,390,680,768,1024,1440,1920]){
    await page.setViewportSize({width,height:1000});
