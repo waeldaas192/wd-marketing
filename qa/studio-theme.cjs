@@ -1,4 +1,4 @@
-/* The owner's 3D/glass reference is translated into actual HTML/CSS, not a mockup. */
+/* The owner's glass reference is translated into actual HTML/CSS, not a mockup. */
 const fs = require('node:fs');
 const path = require('node:path');
 const tools = process.env.QA_NODE_MODULES;
@@ -7,7 +7,7 @@ const AxeBuilder = require(tools ? path.join(tools,'@axe-core/playwright') : '@a
 const base = process.env.QA_BASE_URL || 'http://localhost:3000';
 const output = path.resolve('qa-results');
 fs.mkdirSync(output,{recursive:true});
-const report = {checks:[],accessibility:[],failures:[],notes:['Vector objects have simulated depth; they are decorative, not a WebGL scene.','Visual inspection is separate from automated accessibility testing.','No owner photograph, screenshot, font file or reference advertising graphic is added to the repository.']};
+const report = {checks:[],accessibility:[],failures:[],notes:['Original Lucide library geometry replaces handmade 3D decorations.','Visual inspection is separate from automated accessibility testing.','No owner photograph, screenshot, font file or reference advertising graphic is added to the repository.']};
 const check = (ok,name) => {report.checks.push({name,passed:!!ok}); if(!ok)report.failures.push(name);};
 (async()=>{
  const browser=await chromium.launch();
@@ -31,11 +31,10 @@ const check = (ok,name) => {report.checks.push({name,passed:!!ok}); if(!ok)repor
    report.accessibility.push({label:name,violations:result.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),incomplete:result.incomplete.map(v=>v.id)});
    check(result.violations.length===0,`${name}: no violations in configured axe checks`);
   }
-  check(await page.locator('[data-studio-section="services"] [data-studio-object]').count()===4,'Four service-specific vector sculptures');
-  check(await page.locator('[data-studio-cta-scene] [data-studio-object="plane"]').count()===1,'Closing panel has the plane composition');
-  check(await page.locator('.studio-object').evaluateAll(elements=>elements.every(el=>el.getAttribute('aria-hidden')==='true'&&getComputedStyle(el).pointerEvents==='none')),'Objects are decorative and do not intercept controls');
-  const ids=await page.locator('.studio-object [id]').evaluateAll(elements=>elements.map(el=>el.id));
-  check(ids.length===new Set(ids).size,'Sculpture filter/gradient IDs are unique');
+  check(await page.locator('[data-studio-section="services"] [data-icon-library="lucide"]').count()===4,'Four service-specific Lucide library icons');
+  check(await page.locator('[data-studio-cta-scene] [data-icon-name="send"]').count()===1,'Closing panel uses the original Lucide send icon');
+  check(await page.locator('[data-icon-library="lucide"]').evaluateAll(elements=>elements.every(el=>el.getAttribute('aria-hidden')==='true'&&getComputedStyle(el).pointerEvents==='none')),'Library icons are decorative and do not intercept controls');
+  check(await page.locator('.studio-object,[data-studio-object]').count()===0,'Handmade sculptures are removed from rendered content');
   check(await page.locator('[data-studio-card]').evaluateAll(elements=>elements.every(el=>getComputedStyle(el).borderRadius==='24px')),'24px glass-card corners');
   check(await page.locator('[data-studio-section="process"] [data-step]').evaluateAll(elements=>elements.every(el=>getComputedStyle(el,'::before').display==='none')),'No coloured side stripes on process cards');
   check(await page.getByRole('banner').evaluate(el=>!el.closest('[data-studio-page]')),'Header remains outside the homepage theme');
@@ -53,7 +52,7 @@ const check = (ok,name) => {report.checks.push({name,passed:!!ok}); if(!ok)repor
   check(await page.locator('[data-studio-section="faq"] details').first().evaluate(el=>el.open),'Restyled native FAQ still opens');
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.getByRole('button',{name:'Pause motion',exact:true}).click();
-  check(await page.locator('.studio-object-body').first().evaluate(el=>getComputedStyle(el).transitionDuration==='0s'),'Global motion pause removes decorative hover transitions');
+  check(await page.locator('.library-icon-frame').first().evaluate(el=>getComputedStyle(el).transitionDuration==='0s'),'Global motion pause removes decorative hover transitions');
   await page.goto(base+'/contact',{waitUntil:'domcontentloaded'});
   check(await page.locator('[data-studio-page]').count()===0,'Internal form route does not inherit homepage glass overrides');
   check(await page.locator('[data-project-wizard]').isVisible(),'Internal project brief remains available');

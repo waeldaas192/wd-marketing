@@ -84,30 +84,24 @@
   background: linear-gradient(135deg, #fff, #f2ecffed);
   box-shadow: var(--studio-edge), 0 24px 50px -28px #4a297c66;
 }
-[data-studio-service-top] { display: grid; grid-template-columns: 44px minmax(0,1fr); align-items: start; gap: 20px; min-height: 132px; }
-[data-studio-service-top] .studio-object { justify-self: end; width: clamp(132px,14vw,180px); max-width: 100%; }
-[data-studio-page] [data-studio-section="services"] [data-studio-card] h3 { margin-top: 12px; }
+[data-studio-service-top] { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 56px; }
+[data-service-index] { font-size: .75rem; line-height: 1.5; color: #70647f; font-variant-numeric: tabular-nums; letter-spacing: .08em; }
+[data-studio-page] [data-studio-section="services"] [data-studio-card] h3 { margin-top: 24px; }
 [data-studio-page] [data-studio-section="services"] ul { list-style: none; padding: 0; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px 16px; }
 [data-studio-page] [data-studio-section="services"] li { display: flex; align-items: baseline; gap: 10px; }
 [data-studio-page] [data-studio-section="services"] li::before { content: ""; flex: 0 0 5px; width: 5px; height: 5px; border-radius: 50%; background: #8b66bb; }
 [data-studio-page] [data-studio-section="services"] a > span:last-child { color: #583499; gap: 16px; }
-/* Illustrated objects are separate from copy; they never trap the mouse or load a 3D runtime. */
-.studio-object { display: block; width: 180px; max-width: 100%; aspect-ratio: 8 / 7; pointer-events: none; }
-.studio-object > svg { display: block; width: 100%; height: auto; overflow: visible; }
-.studio-object-body { transform-box: fill-box; transform-origin: center; transition: transform 700ms cubic-bezier(.16,1,.3,1); }
-.studio-object-satellite { transition: transform 700ms cubic-bezier(.16,1,.3,1); }
-@media (hover:hover) and (pointer:fine) {
-  [data-studio-card]:is(:hover,:focus-visible) .studio-object-body,
-  [data-studio-cta-panel]:hover .studio-object-body { transform: translateY(-5px) rotate(-3deg); }
-  [data-studio-card]:is(:hover,:focus-visible) .studio-object-satellite { transform: translateY(4px); }
-}
+/* Original Lucide library geometry, with fixed optical alignment and no floating 3D ornament. */
+.library-icon { display: block; flex: none; pointer-events: none; }
+.library-icon-frame { display: inline-grid; place-items: center; flex: 0 0 auto; width: 56px; height: 56px; border-radius: 16px; background: #eeebf7; color: #55338a; pointer-events: none; transition: color .2s ease, background-color .2s ease; }
+[data-studio-card]:is(:hover,:focus-visible) .library-icon-frame { background: #e6dff2; color: #422366; }
 /* The process stays fully readable; active state is a surface/number change, not a blue side border. */
 [data-studio-page] [data-studio-section="process"] [data-step] { margin-bottom: 14px; padding: 26px 24px; gap: 16px; grid-template-columns: 38px minmax(100px,130px) minmax(0,1fr) 24px; }
 [data-studio-page] [data-studio-section="process"] [data-step]::before { display: none; }
 [data-studio-page] [data-studio-section="process"] [data-step][data-active="true"] { background: #fff; box-shadow: var(--studio-edge), 0 16px 36px -22px #1d0e5466; }
 [data-studio-page] [data-studio-section="process"] [data-step][data-active="true"] [data-studio-number] { background: #6741af; color: #fff; }
-[data-studio-process-art] { margin-top: 24px; width: 210px; max-width: 75%; }
-[data-studio-process-art] .studio-object { width: 100%; }
+[data-studio-process-art] { margin-top: 24px; width: fit-content; }
+[data-studio-process-art] .library-icon-frame { color: #fff; background: #ffffff18; }
 [data-studio-page] [data-studio-section="founder"] [data-studio-founder-frame] { padding: clamp(24px,3.5vw,44px); background: #ffffffb8; box-shadow: var(--studio-edge), var(--studio-shadow); border-radius: 24px; }
 [data-studio-page] [data-studio-section="founder"] [data-studio-grid] { margin-top: 24px; }
 [data-studio-page] [data-studio-section="founder"] [data-studio-card] { padding: 26px; }
@@ -137,20 +131,17 @@
 [data-studio-page] [data-studio-section="faq"] summary::after { content: "+"; flex: 0 0 auto; color: #6236a6; font-size: 1.25rem; line-height: 1; }
 [data-studio-page] [data-studio-section="faq"] details[open] { background: #fff; }
 [data-studio-page] [data-studio-section="faq"] details[open] summary::after { content: "−"; }
-/* Closing composition follows the reference's sculpture beside a translucent reading panel. */
+/* The closing panel uses the same library; no oversized handmade plane or satellites. */
 [data-studio-page] [data-studio-section="contact"] { padding-block: 24px var(--section-space); background: #f1f0fc; }
 [data-studio-page] [data-studio-cta-panel] {
-  display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: 12px;
+  display: grid; grid-template-columns: 120px minmax(0,1fr); gap: 24px;
   padding: clamp(20px,2.4vw,32px);
   border: 0; border-radius: 24px;
   background: radial-gradient(ellipse at 14% 8%,#61d0edb3,transparent 52%),radial-gradient(ellipse at 50% 106%,#ffc779b3,transparent 40%),linear-gradient(135deg,#6475eb,#8853c0 52%,#425aab);
   box-shadow: 0 24px 64px -32px #49479866,inset 0 1px 0 #ffffff99;
 }
-[data-studio-cta-scene] { position: relative; display: grid; place-items: center; min-width: 0; min-height: 330px; }
-[data-studio-cta-scene] .studio-object { width: 100%; max-width: 390px; position: relative; z-index: 1; }
-[data-studio-cta-orb] { position: absolute; pointer-events: none; border-radius: 50%; }
-[data-studio-cta-orb="cyan"] { width: 70px; height: 70px; top: 5%; left: 5%; background: radial-gradient(circle at 30% 25%,#adf5f1,#4296ca); filter: blur(4px); opacity: .65; }
-[data-studio-cta-orb="peach"] { width: 40px; height: 40px; bottom: 7%; right: 12%; background: radial-gradient(circle at 30% 20%,#fff0c1,#f5b578); opacity: .8; }
+[data-studio-cta-scene] { display: grid; place-items: center; min-width: 0; }
+[data-studio-cta-scene] .library-icon-frame { width: 88px; height: 88px; border-radius: 24px; color: #fff; background: #ffffff14; }
 [data-studio-page] [data-studio-cta-copy] { padding: clamp(26px,3.3vw,46px); border: 0; border-radius: 24px; background: linear-gradient(140deg,#ffffffed,#f6eeffe0); box-shadow: var(--studio-edge); backdrop-filter: blur(18px); }
 [data-studio-page] [data-studio-cta-copy] > div:first-child { gap: 10px; }
 [data-studio-page] [data-studio-cta-copy] h2 { font-size: var(--type-aside); }
@@ -171,8 +162,9 @@ footer[data-studio-footer] :focus-visible { outline-color: #d5c3ff; }
 @media (max-width: 1000px) { [data-studio-process-art] { display: none; } }
 @media (max-width: 860px) {
   [data-studio-page] [data-studio-cta-panel] { grid-template-columns: minmax(0,1fr); }
-  [data-studio-cta-scene] { min-height: 200px; }
-  [data-studio-cta-scene] .studio-object { width: 260px; max-width: 80%; }
+  [data-studio-cta-scene] { justify-items: start; }
+  [data-studio-cta-scene] .library-icon-frame { width: 64px; height: 64px; border-radius: 18px; }
+  [data-studio-cta-scene] .library-icon { width: 32px; height: 32px; }
 }
 @media (max-width: 680px) {
   [data-studio-page] [data-studio-grid] { gap: 16px; }
@@ -185,11 +177,11 @@ footer[data-studio-footer] :focus-visible { outline-color: #d5c3ff; }
   [data-studio-page] [data-studio-card], [data-studio-page] [data-studio-cta-copy] { backdrop-filter: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .studio-object-body,.studio-object-satellite { transition: none; transform: none !important; }
+  .library-icon-frame { transition: none; }
 }
-html[data-motion="paused"] .studio-object-body,html[data-motion="paused"] .studio-object-satellite { transition: none; transform: none !important; }
+html[data-motion="paused"] .library-icon-frame { transition: none; }
 @media (forced-colors: active) {
   [data-studio-page] [data-studio-section],[data-studio-page] [data-studio-card],footer[data-studio-footer] { --text: CanvasText; --muted: CanvasText; --accent: LinkText; --subtle: CanvasText; color: CanvasText; background: Canvas; }
   [data-studio-page] [data-studio-card], [data-studio-page] details { border: 1px solid CanvasText; }
-  .studio-object,[data-studio-cta-orb] { display: none; }
+  .library-icon-frame { color: CanvasText; background: Canvas; }
 }

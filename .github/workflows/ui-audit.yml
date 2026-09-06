@@ -29,6 +29,8 @@ jobs:
       - run: npm ci
       - name: Contact validation and mocked provider tests
         run: node qa/contact-unit.cjs
+      - name: Verify original Lucide subset provenance
+        run: node qa/icon-source.cjs
       - run: npx tsc --noEmit
       - run: npm run build
       - name: Install isolated browser audit tools
@@ -55,6 +57,7 @@ jobs:
           node qa/connection-bead.cjs
           node qa/ripple-demo.cjs
           node qa/studio-theme.cjs
+          node qa/library-icons.cjs
       - name: Preserve audit evidence
         if: always()
         uses: actions/upload-artifact@v4

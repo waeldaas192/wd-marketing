@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { Sculpture } from "@/components/ui/Sculpture";
+import { LibraryIcon } from "@/components/ui/LibraryIcon";
 import { ArrowIcon } from "@/components/ui/Icons";
 import styles from "./Process.module.css";
 const steps = [
@@ -33,7 +33,7 @@ export function Process() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); };
   }, []);
   return <section ref={sectionRef} id="process" className={styles.section} data-studio-section="process" aria-labelledby="process-heading"><div className={`container ${styles.inner}`}>
-    <div className={styles.sticky} data-studio-process-intro><p className={styles.kicker}>Our operating system</p><h2 id="process-heading" className={styles.title}>Traffic isn&apos;t the goal. <span>Growth is.</span></h2><p className={styles.desc}>Each stage answers one commercial question, so strategy, experience and acquisition move as one system instead of six disconnected tasks.</p><div data-studio-process-art><Sculpture kind="layers"/></div><div aria-hidden="true" className={styles.progress} style={{"--progress":`${(active+1)/steps.length*100}%`} as CSSProperties}><span className={styles.bar}/></div><div className={styles.counter} aria-hidden="true"><span>0{active+1}</span><span>06</span></div></div>
+    <div className={styles.sticky} data-studio-process-intro><p className={styles.kicker}>Our operating system</p><h2 id="process-heading" className={styles.title}>Traffic isn&apos;t the goal. <span>Growth is.</span></h2><p className={styles.desc}>Each stage answers one commercial question, so strategy, experience and acquisition move as one system instead of six disconnected tasks.</p><div data-studio-process-art><span className="library-icon-frame" aria-hidden="true"><LibraryIcon name="workflow"/></span></div><div aria-hidden="true" className={styles.progress} style={{"--progress":`${(active+1)/steps.length*100}%`} as CSSProperties}><span className={styles.bar}/></div><div className={styles.counter} aria-hidden="true"><span>0{active+1}</span><span>06</span></div></div>
     <div className={styles.steps}>{steps.map(([number,title,copy],index) => <article key={number} data-step data-studio-card data-active={active === index} className={`${styles.step} ${active === index ? styles.active : ""}`}><span className={styles.number} data-studio-number>{number}</span><h3 className={styles.name}>{title}</h3><p className={styles.copy}>{copy}</p><span className={styles.badge} aria-hidden="true"><ArrowIcon/></span></article>)}</div>
   </div></section>;
 }
