@@ -64,6 +64,7 @@ const time = track => track.evaluate(el => el.getAnimations()[0]?.currentTime ??
     check(await rows.evaluateAll(els => els.every(el => el.dataset.layout === 'static' && getComputedStyle(el.querySelector('.faq-scroller-track')).animationName === 'none')), 'Still reading mode removes all scrolling');
     check(await faq.locator(originals).evaluateAll(els => els.every(el => el.scrollWidth <= el.clientWidth + 1)), 'Every answer remains complete, without clipped text');
     check(await faq.getByRole('article').count() === 6, 'Read-all mode shows each question only once');
+    check(await faq.locator('[data-faq-clone]').evaluateAll(els => els.every(el => getComputedStyle(el).display === 'none')), 'Read-all removes visual copies as well as accessible copies');
     let axe = await new AxeBuilder({ page }).include('[data-faq-section]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     report.accessibility.push({ label: 'still', violations: axe.violations }); check(axe.violations.length === 0, 'Still view: no detected axe violations');
     await all.click();
@@ -101,6 +102,7 @@ const time = track => track.evaluate(el => el.getAnimations()[0]?.currentTime ??
     const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
     const plain = await noJS.newPage(); await plain.goto(base, { waitUntil: 'domcontentloaded' });
     check(await plain.locator('[data-faq-section]').getByRole('article').count() === 6, 'All original FAQ answers present without JavaScript');
+    check(await plain.locator('[data-faq-clone]').evaluateAll(els => els.every(el => getComputedStyle(el).display === 'none')), 'No-JavaScript layout hides all duplicate visual groups');
     check(await plain.locator('#faq-heading').evaluate(el => getComputedStyle(el).opacity === '1'), 'Heading is not left invisible awaiting an entrance animation');
     check(await plain.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 2), 'No-JavaScript mobile layout fits');
     await noJS.close();
