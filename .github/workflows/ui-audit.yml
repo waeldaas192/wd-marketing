@@ -51,6 +51,7 @@ jobs:
           node qa/completion-browser.cjs
           node qa/section-motion.cjs
           node qa/fluid-hero.cjs
+          node qa/ripple-merge.cjs
       - name: Preserve audit evidence
         if: always()
         uses: actions/upload-artifact@v4

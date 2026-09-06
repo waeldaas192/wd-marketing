@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useMotionPreference } from "@/lib/motion-preferences";
 import { ArrowIcon, Icon } from "./Icons";
 import styles from "./GrowthEngine.module.css";
@@ -22,12 +22,24 @@ function StageIcon({ name }: { name: IconName }) {
     {name === "revenue" && <><path d="M3 17 9 11l4 3 8-10m-6 0h6v6"/><path d="M3 21h18"/></>}
   </svg>;
 }
-type Point = { x: number; y: number };
+type Point = { x: number; y: number; size: number };
+// Travel is faster; the reading interval remains long enough to inspect the copy.
+const READ_MS = 3600;
+const TRANSFER_MS = 720;
+const SLIDE_MS = 560;
 export function GrowthEngine() {
   const id = useId();
   const figure = useRef<HTMLElement>(null);
   const rail = useRef<HTMLDivElement>(null);
-  const pulse = useRef<HTMLSpanElement>(null);
+  const pulse = useRef<SVGGElement>(null);
+  const receiver = useRef<SVGRectElement>(null);
+  const drop = useRef<SVGEllipseElement>(null);
+  const detail = useRef<HTMLDivElement>(null);
+  const slides = useRef<(HTMLDivElement | null)[]>([]);
+  const prior = useRef(0);
+  const slideAnimations = useRef<Animation[]>([]);
+  const [receiving, setReceiving] = useState<number | null>(null);
+  const filterId = `wd-liquid-${id.replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const [points, setPoints] = useState<Point[]>([]);
   const [selected, setSelected] = useState(0);
@@ -47,7 +59,7 @@ export function GrowthEngine() {
       const origin = track.getBoundingClientRect();
       const next = buttons.current.map(button => {
         const rect = button?.querySelector('[data-stage-icon]')?.getBoundingClientRect();
-        return { x: rect ? rect.left-origin.left+rect.width/2 : 0, y: rect ? rect.top-origin.top+rect.height/2 : 0 };
+        return { x: rect ? rect.left-origin.left+rect.width/2 : 0, y: rect ? rect.top-origin.top+rect.height/2 : 0, size: rect?.width || 58 };
       });
       setPoints(current => JSON.stringify(current) === JSON.stringify(next) ? current : next);
     };
@@ -61,27 +73,92 @@ export function GrowthEngine() {
     return () => { observer.disconnect(); resize.disconnect(); document.removeEventListener('visibilitychange', visibility); };
   }, []);
   useEffect(() => {
-    if (!auto || points.length !== stages.length || !pulse.current?.animate) { setTravelling(false); return; }
+    if (!auto || points.length !== stages.length || !pulse.current?.animate) {
+      setTravelling(false); setReceiving(null); return;
+    }
     let cancelled = false;
-    let animation: Animation | undefined;
+    const animations: Animation[] = [];
     const timer = window.setTimeout(() => {
-      const next = (selected+1)%stages.length;
+      const next = (selected + 1) % stages.length;
       const from = points[selected], to = points[next];
-      // Complete the pulse transfer BEFORE activating the next description.
-      const vertical = Math.abs(to.y-from.y) > Math.abs(to.x-from.x);
-      const arc = next === 0 ? -18 : -5;
-      const frames = Array.from({length:33},(_,index) => {
-        const t=index/32, bend=Math.sin(Math.PI*t)*arc;
-        return { transform: `translate3d(${from.x+(to.x-from.x)*t+(vertical?bend:0)}px,${from.y+(to.y-from.y)*t+(vertical?0:bend)}px,0)`, opacity: Math.min(1,t*8,(1-t)*8), offset:t };
+      const vx = to.x - from.x, vy = to.y - from.y;
+      const distance = Math.max(1, Math.hypot(vx, vy));
+      const angle = Math.atan2(vy, vx) * 180 / Math.PI;
+      const vertical = Math.abs(vy) > Math.abs(vx);
+      setReceiving(next); setTravelling(true);
+      const surface = receiver.current;
+      if (surface) {
+        surface.setAttribute("x", String(to.x - to.size / 2));
+        surface.setAttribute("y", String(to.y - to.size / 2));
+        surface.setAttribute("width", String(to.size));
+        surface.setAttribute("height", String(to.size));
+        surface.setAttribute("rx", String(to.size < 54 ? 18 : 20));
+      }
+      // Slow release, faster attraction; elongate in the direction of travel and
+      // shrink into the receiving surface. Only the coloured liquid is filtered.
+      const frames = Array.from({ length: 49 }, (_, index) => {
+        const t = index / 48, progress = t * t * (2 - t);
+        const bend = Math.sin(Math.PI * progress) * (next === 0 ? -22 : -4);
+        return { transform: `translate(${from.x + vx * progress + (vertical ? bend : 0)}px,${from.y + vy * progress + (vertical ? 0 : bend)}px)`, opacity: t < .12 ? t / .12 : 1, offset: t };
       });
-      setTravelling(true);
-      animation=pulse.current?.animate(frames,{duration:1100,easing:'cubic-bezier(.4,0,.2,1)',fill:'none',id:'wd-journey-pulse'});
-      animation?.finished.then(() => {
-        if (!cancelled) { setTravelling(false); setSelected(next); }
-      }).catch(() => { /* Cancelled by pause/focus/resize/visibility or unmount. */ });
-    }, 4800);
-    return () => { cancelled=true; window.clearTimeout(timer); animation?.cancel(); };
+      const animation = pulse.current!.animate(frames, { duration: TRANSFER_MS, easing: "linear", fill: "both", id: "wd-journey-pulse" });
+      animations.push(animation);
+      const shape = drop.current?.animate([
+        { transform: `rotate(${angle}deg) scale(.7)`, offset: 0 },
+        { transform: `rotate(${angle}deg) scale(1.05,1)`, offset: .52 },
+        { transform: `rotate(${angle}deg) scale(1.9,.72)`, offset: .82 },
+        { transform: `rotate(${angle}deg) scale(.2,.3)`, offset: 1 },
+      ], { duration: TRANSFER_MS, fill: "both", id: "wd-liquid-stretch" });
+      if (shape) animations.push(shape);
+      const surfaceAnimation = surface?.animate([
+        { opacity: 0, offset: 0 }, { opacity: 0, offset: .58 },
+        { opacity: .85, offset: .78 }, { opacity: 1, offset: 1 },
+      ], { duration: TRANSFER_MS, fill: "both", id: "wd-liquid-merge" });
+      if (surfaceAnimation) animations.push(surfaceAnimation);
+      const target = buttons.current[next]?.querySelector<HTMLElement>("[data-stage-icon]");
+      const attraction = target?.animate([
+        { transform: "none", offset: 0 }, { transform: "none", offset: .58 },
+        { transform: `translate(${-vx / distance * 3}px,${-vy / distance * 3}px) scale(1.055)`, offset: .83 },
+        { transform: "none", offset: 1 },
+      ], { duration: TRANSFER_MS, easing: "ease-in-out", id: "wd-icon-attraction" });
+      if (attraction) animations.push(attraction);
+      animation.finished.then(() => {
+        if (cancelled) return;
+        // Description activation is gated by real arrival, not a parallel timer.
+        setTravelling(false); setReceiving(null); setSelected(next);
+      }).catch(() => { /* Interruption retains the last completed stage. */ });
+    }, READ_MS);
+    return () => { cancelled = true; window.clearTimeout(timer); animations.forEach(animation => animation.cancel()); };
   }, [auto, selected, points]);
+
+  useLayoutEffect(() => {
+    let cancelled = false;
+    const previous = prior.current;
+    prior.current = selected;
+    const clear = () => {
+      slideAnimations.current.forEach(animation => animation.cancel());
+      slideAnimations.current = [];
+      slides.current.forEach(slide => { if (slide) delete slide.dataset.exiting; });
+      if (detail.current) detail.current.dataset.sliderState = "idle";
+    };
+    clear();
+    const outgoing = slides.current[previous], incoming = slides.current[selected];
+    if (!sceneEnabled || previous === selected || !outgoing || !incoming || !incoming.animate) return clear;
+    outgoing.dataset.exiting = "true";
+    if (detail.current) detail.current.dataset.sliderState = "moving";
+    const options = { duration: SLIDE_MS, easing: "cubic-bezier(.65,0,.35,1)", fill: "both" as FillMode };
+    const exit = outgoing.animate([
+      { transform: "translateX(0)", opacity: 1 },
+      { transform: "translateX(-104%)", opacity: .25 },
+    ], { ...options, id: "wd-description-exit" });
+    const enter = incoming.animate([
+      { transform: "translateX(104%)", opacity: .25 },
+      { transform: "translateX(0)", opacity: 1 },
+    ], { ...options, id: "wd-description-enter" });
+    slideAnimations.current = [exit, enter];
+    Promise.all([exit.finished, enter.finished]).then(() => { if (!cancelled) clear(); }).catch(() => {});
+    return () => { cancelled = true; clear(); };
+  }, [selected, sceneEnabled]);
   function choose(index: number) { setPlaying(false); setTravelling(false); setSelected(index); }
   function onKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next: number;
@@ -94,22 +171,32 @@ export function GrowthEngine() {
   }
   const start = points[0], end = points[points.length-1];
   const path = start && end ? `M ${start.x} ${start.y} L ${end.x} ${end.y}` : '';
-  return <figure ref={figure} className={styles.engine} aria-label="WD growth system overview" data-growth-engine data-selected={selected} data-phase={travelling?'travelling':auto?'reading':'paused'} data-animate={sceneEnabled?'on':'off'} onPointerEnter={event=>{if(event.pointerType==='mouse')setHovered(true);}} onPointerLeave={()=>setHovered(false)} onFocusCapture={event=>{if(!(event.target as HTMLElement).closest('[data-journey-control]'))setFocused(true);}} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget))setFocused(false);}}>
+  return <figure ref={figure} className={styles.engine} aria-label="WD growth system overview" data-growth-engine data-transfer-ms={TRANSFER_MS} data-selected={selected} data-phase={travelling?'travelling':auto?'reading':'paused'} data-animate={sceneEnabled?'on':'off'} onPointerEnter={event=>{if(event.pointerType==='mouse')setHovered(true);}} onPointerLeave={()=>setHovered(false)} onFocusCapture={event=>{if(!(event.target as HTMLElement).closest('[data-journey-control]'))setFocused(true); if(detail.current?.contains(event.target as Node)){slideAnimations.current.forEach(animation=>animation.finish());}}} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget))setFocused(false);}}>
     <div className={styles.top}><strong>WD / Growth system</strong><button data-journey-control type="button" className={styles.play} aria-label={playing?'Pause journey':'Play journey'} onClick={()=>{setFocused(false);setPlaying(value=>!value);}}><span>{playing?'Pause journey':'Play journey'}</span><Icon name={playing?'pause':'play'}/></button></div>
     <div className={styles.intro}><p>From being discovered<br/><span>to being chosen.</span></p></div>
     <div ref={rail} className={styles.rail}>
       <svg className={styles.connections} aria-hidden="true" focusable="false"><path d={path}/></svg>
-      <span ref={pulse} className={styles.pulse} aria-hidden="true"/>
+      <svg className={styles.liquid} aria-hidden="true" focusable="false" data-liquid-layer data-active={travelling}>
+        <defs><filter id={filterId} x="-50%" y="-100%" width="200%" height="300%" colorInterpolationFilters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="soft"/>
+          <feColorMatrix in="soft" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"/>
+        </filter></defs>
+        <g filter={`url(#${filterId})`}>
+          <rect ref={receiver} className={styles.receiver}/>
+          <g ref={pulse} className={styles.pulse}><ellipse ref={drop} rx="10" ry="8" className={styles.drop}/></g>
+        </g>
+      </svg>
       <ol className={styles.stages} aria-label="Customer journey stages">
-        {stages.map((item,index)=><li key={item.title} className={styles.stage}><button ref={element=>{buttons.current[index]=element;}} type="button" id={`${id}-stage-${index}`} aria-pressed={selected===index} aria-controls={`${id}-detail`} className={styles.stageButton} onClick={()=>choose(index)} onKeyDown={event=>onKey(event,index)}><span data-stage-icon className={styles.number}><StageIcon name={item.icon}/></span><span className={styles.stageTitle}>{item.title}</span></button></li>)}
+        {stages.map((item,index)=><li key={item.title} className={styles.stage}><button ref={element=>{buttons.current[index]=element;}} type="button" id={`${id}-stage-${index}`} aria-pressed={selected===index} aria-controls={`${id}-detail`} className={styles.stageButton} onClick={()=>choose(index)} onKeyDown={event=>onKey(event,index)}><span data-stage-icon data-receiving={receiving===index} className={styles.number}><StageIcon name={item.icon}/></span><span className={styles.stageTitle}>{item.title}</span></button></li>)}
       </ol>
     </div>
-    <div className={styles.detail} id={`${id}-detail`} role="region" aria-labelledby={`${id}-stage-${selected}`} aria-live={auto?'off':'polite'} aria-atomic="true" data-journey-detail>
-      <div className={styles.detailStack}>{stages.map((item,index)=><div key={item.title} className={styles.detailSlide} data-current={index===selected} aria-hidden={index!==selected} inert={index!==selected}>
+    <div ref={detail} className={styles.detail} id={`${id}-detail`} role="region" aria-labelledby={`${id}-stage-${selected}`} aria-live={auto?'off':'polite'} aria-atomic="true" data-journey-detail>
+      <div className={styles.detailViewport}><div className={styles.detailStack}>{stages.map((item,index)=><div key={item.title} ref={element=>{slides.current[index]=element;}} className={styles.detailSlide} data-current={index===selected} aria-hidden={index!==selected} inert={index!==selected}>
         <span className={styles.detailIcon}><StageIcon name={item.icon}/></span>
-        <div><p className={styles.detailIndex}>0{index+1} / {item.title}</p><p className={styles.detailHeading}>{item.heading}</p><p className={styles.detailCopy}>{item.copy}</p></div>
-      </div>)}</div>
-      <Link href={stages[selected].href} className={styles.detailLink}>{stages[selected].link}<ArrowIcon/></Link>
+        <div><p className={styles.detailIndex}>0{index+1} / {item.title}</p><p className={styles.detailHeading}>{item.heading}</p><p className={styles.detailCopy}>{item.copy}</p>
+          <Link href={item.href} className={styles.detailLink}>{item.link}<ArrowIcon/></Link>
+        </div>
+      </div>)}</div></div>
     </div>
     <figcaption className={styles.caption}>A connected customer journey — not a live analytics report or a promise of results.</figcaption>
   </figure>;

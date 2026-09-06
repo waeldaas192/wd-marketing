@@ -110,7 +110,8 @@ async function axe(page,label) {
       check(await stageList.getByRole('button',{pressed:true}).count()===1,'Growth engine needs one selected stage');
       check(await engine.getByRole('button',{name:'Play journey',exact:true}).isVisible(),'Manual stage selection must offer an explicit Play journey action');
       check(await engine.getByRole('region',{name,exact:true}).isVisible(),`Growth stage ${name} not described`);
-      const link=engine.getByRole('region',{name,exact:true}).locator('a');
+      const link=engine.getByRole('region',{name,exact:true}).getByRole('link');
+      check(await link.count()===1,'Only the current description link is exposed to assistive technology');
       check((await link.getAttribute('href')).startsWith('/services/'),`Growth stage ${name} has no service destination`);
     }
     await engine.getByRole('button',{name:'Revenue',exact:true}).focus(); await page.keyboard.press('ArrowRight');
