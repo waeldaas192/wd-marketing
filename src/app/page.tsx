@@ -9,4 +9,4 @@ import { InsightsPreview } from "@/components/sections/InsightsPreview";
 import { FAQ } from "@/components/sections/FAQ";
 import { pageMetadata } from "@/lib/metadata";
 export const metadata=pageMetadata("Web Design, SEO & Google Ads London","Founder-led web design, SEO and paid advertising in London. Connect your website, acquisition and measurement with WD Marketing.","/");
-export default function Home(){return <><Hero/><Proof/><SelectedWork/><Services/><Process/><Founder/><InsightsPreview/><FAQ/><FinalCTA/></>;}
+export default function Home(){return <div data-studio-page><Hero/><Proof/><SelectedWork/><Services/><Process/><Founder/><InsightsPreview/><FAQ/><FinalCTA/></div>;}

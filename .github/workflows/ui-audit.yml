@@ -54,6 +54,7 @@ jobs:
           node qa/ripple-merge.cjs
           node qa/connection-bead.cjs
           node qa/ripple-demo.cjs
+          node qa/studio-theme.cjs
       - name: Preserve audit evidence
         if: always()
         uses: actions/upload-artifact@v4
