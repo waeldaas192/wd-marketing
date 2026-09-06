@@ -58,6 +58,7 @@ jobs:
           node qa/ripple-demo.cjs
           node qa/studio-theme.cjs
           node qa/library-icons.cjs
+          node qa/faq-scroller.cjs
       - name: Preserve audit evidence
         if: always()
         uses: actions/upload-artifact@v4

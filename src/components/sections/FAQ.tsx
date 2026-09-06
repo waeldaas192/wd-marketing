@@ -1,8 +1,6 @@
-const questions=[
-  ["Can we start with a single service?","Yes. A focused website, search or campaign project can be the right starting point. We define the scope around the business problem and identify any dependencies before recommending additional work."],
-  ["Can you work with an existing website?","The first step is to assess what can be improved, what should be retained and what is limiting progress. A rebuild is an option, not the automatic recommendation."],
-  ["What information should I provide?","Your website, the services you want to grow, the locations you cover and the main business goal are useful starting points. Existing results and constraints help us ask better questions. Do not send passwords in the enquiry form."],
-  ["How are scope and pricing agreed?","A proposal should define deliverables, responsibilities, dependencies and fees before paid work begins. The enquiry form collects an indicative budget; it does not make a booking or take payment."],
-  ["Do you guarantee rankings or revenue?","No. We agree a measurement plan and make decisions using the evidence available. Results depend on the offer, market, budget, implementation and follow-up, not just a website or campaign."]
-];
-export function FAQ(){return <section className="section" data-studio-section="faq" aria-labelledby="faq-heading" data-reveal><div className="container faq-grid"><div><p className="eyebrow">Before we start</p><h2 id="faq-heading" className="h2">A clearer starting point.</h2></div><div className="faq-list">{questions.map(([question,answer])=><details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>;}
+import FaqSection from "@/components/ui/habit-faq-scroller";
+import { faqData } from "@/data/faqs";
+
+export function FAQ() {
+  return <FaqSection data={faqData} headingId="faq-heading" />;
+}

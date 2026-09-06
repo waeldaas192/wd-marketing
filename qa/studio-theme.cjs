@@ -48,8 +48,10 @@ const check = (ok,name) => {report.checks.push({name,passed:!!ok}); if(!ok)repor
   }
   await page.setViewportSize({width:390,height:844});
   check(await page.locator('[data-studio-card]').first().evaluate(el=>getComputedStyle(el).backdropFilter==='none'),'Mobile glass uses the lightweight opaque fallback');
-  await page.locator('[data-studio-section="faq"] summary').first().click();
-  check(await page.locator('[data-studio-section="faq"] details').first().evaluate(el=>el.open),'Restyled native FAQ still opens');
+  const faq=page.locator('[data-studio-section="faq"]');
+  check(await faq.getByRole('article').count()===6,'Restyled FAQ exposes six distinct business answers');
+  await faq.getByRole('button',{name:'Read all questions',exact:true}).click();
+  check(await faq.getAttribute('data-read-all')==='true','FAQ has a keyboard-accessible still reading view');
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.getByRole('button',{name:'Pause motion',exact:true}).click();
   check(await page.locator('.library-icon-frame').first().evaluate(el=>getComputedStyle(el).transitionDuration==='0s'),'Global motion pause removes decorative hover transitions');

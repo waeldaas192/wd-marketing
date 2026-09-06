@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "../styles/faq-scroller.css";
 @import "../styles/design-tokens.css";
 @import "../styles/internal-pages.css";
 
@@ -51,3 +53,21 @@ html[data-motion="paused"] *, html[data-motion="paused"] *::before, html[data-mo
 .button-primary { background: linear-gradient(150deg,#1c1f29,#101219); box-shadow: inset 0 1px 0 #ffffff14; }
 @media (prefers-reduced-motion: reduce) { .wd-arrow svg,.button { transition: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(-135%); } .button:hover,.button:active { transform: none; } }
 html[data-motion="paused"] .wd-arrow svg,html[data-motion="paused"] .button { transition: none; }
+
+/* Utilities used by habit-faq-scroller; the duration is resolved on each track. */
+@theme inline {
+  --animate-scroll-horizontal: scroll-horizontal var(--scroll-duration, 40s) linear infinite;
+  --animate-scroll-horizontal-reverse: scroll-horizontal-reverse var(--scroll-duration, 40s) linear infinite;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scroll-horizontal {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes scroll-horizontal-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
