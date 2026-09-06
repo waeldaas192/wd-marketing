@@ -1,0 +1,53 @@
+/* Scoped styles: retain the site's Inter type scale and 24px glass-card language. */
+.faq-scroller-section { --bg-start: #bdccff; --bg-end: #fff; --faq-gap: 24px; min-width: 0; }
+.faq-scroller-section .faq-scroller-heading { max-width: 44rem; }
+.faq-scroller-section .faq-scroller-heading h2 { margin: 0; }
+.faq-scroller-section .faq-subtitle { margin: 20px 0 0; color: var(--muted, #584e6c); font-size: var(--type-body, 1rem); line-height: 1.7; }
+.faq-controls { display: none; flex-wrap: wrap; justify-content: center; gap: 12px; }
+[data-faq-section][data-enhanced="true"] .faq-controls { display: flex; }
+.faq-controls .button { min-height: 44px; padding: 10px 18px; font-size: .875rem; background: #ffffffd9; color: #493365; border-color: #d9d0e9; }
+.faq-controls [aria-pressed="true"] { background: #ebe5f5; border-color: #8866af; }
+.faq-scroller-row { min-width: 0; padding-block: 12px 24px; }
+.faq-scroller-track { width: max-content; animation-duration: var(--scroll-duration, 40s); animation-play-state: paused; }
+[data-faq-row][data-running="true"] > .faq-scroller-track { animation-play-state: running; }
+.faq-sequence { gap: var(--faq-gap, 24px); padding-inline-end: var(--faq-gap, 24px); }
+.faq-card { width: 24rem; min-width: 0; border: 0; box-shadow: inset 0 1px 0 #fff, 0 10px 26px -20px #39255d45; }
+.faq-card .faq-title { margin: 0; color: var(--text, #241b39); font-size: 1.25rem; line-height: 1.4; font-weight: 550; letter-spacing: -.02em; }
+.faq-card .faq-answer { margin: 0; color: var(--muted, #584e6c); font-size: 1rem; line-height: 1.7; overflow-wrap: anywhere; }
+/* No mask in the readable/manual layouts. Edge fades only apply to the decorative loop. */
+[data-faq-row][data-layout="marquee"] { overflow: clip; mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
+[data-faq-row][data-layout="manual"] { overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: #b0a0c5 transparent; }
+[data-faq-row][data-layout="manual"] .faq-card { width: min(24rem, calc(100vw - 2 * var(--gutter, 20px) - 12px)); scroll-snap-align: start; }
+[data-faq-row]:not([data-layout="marquee"]) .faq-scroller-track { animation: none; transform: none; }
+[data-faq-row][data-layout="static"] { overflow: visible; }
+[data-faq-row][data-layout="static"] .faq-scroller-track,
+[data-faq-row][data-layout="static"] .faq-loop-group { display: block; width: 100%; }
+[data-faq-row][data-layout="static"] .faq-sequence { width: 100%; padding-inline-end: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--faq-gap); }
+[data-faq-row][data-layout="static"] .faq-card { width: 100%; }
+[data-faq-row]:not([data-layout="marquee"]) [data-faq-clone] { display: none; }
+.faq-scroller-contact { margin: 0; color: var(--muted, #584e6c); font-size: .9375rem; line-height: 1.7; text-align: center; }
+.faq-scroller-contact a { color: var(--accent, #6135b5); text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 767px) {
+  .faq-scroller-section { --faq-gap: 16px; }
+  [data-faq-row][data-layout="static"] .faq-sequence { grid-template-columns: minmax(0,1fr); }
+  .faq-controls button:first-child { display: none; }
+  .faq-card { padding: 22px; }
+  .faq-scroller-row { padding-bottom: 12px; }
+}
+@media (hover: none), (pointer: coarse) { .faq-controls button:first-child { display: none; } }
+/* CSS safety nets work before hydration, when JS fails, and in forced colours. */
+@media (prefers-reduced-motion: reduce) {
+  [data-faq-row] { overflow: visible; mask-image: none; }
+  [data-faq-row] .faq-scroller-track { animation: none !important; transform: none; }
+  [data-faq-row] .faq-scroller-track, [data-faq-row] .faq-loop-group { display: block; width: 100%; }
+  [data-faq-row] [data-faq-clone] { display: none; }
+  [data-faq-row] .faq-sequence { display: grid; grid-template-columns: minmax(0,1fr); padding: 0; width: 100%; }
+  [data-faq-row] .faq-card { width: 100%; }
+}
+@media (forced-colors: active) {
+  .faq-card { background: Canvas; color: CanvasText; border: 1px solid CanvasText; box-shadow: none; }
+  .faq-card .faq-title,.faq-card .faq-answer { color: CanvasText; }
+  .faq-controls .button { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  .faq-controls [aria-pressed="true"] { outline: 2px solid Highlight; }
+  .faq-scroller-row { mask-image: none; }
+}

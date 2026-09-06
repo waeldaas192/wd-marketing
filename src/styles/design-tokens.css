@@ -26,8 +26,8 @@
   --heading-leading: 1.14;
   --body-leading: 1.7;
   --heading-tracking: -.035em;
-  --header-height: 120px;
-  --radius: 16px;
-  --ease: cubic-bezier(.2,.7,.2,1);
+  --header-height: 88px;
+  --radius: 24px;
+  --ease: cubic-bezier(.16,1,.3,1);
 }
-@media (max-width: 640px) { :root { --header-height: 104px; } }
+@media (max-width: 640px) { :root { --header-height: 80px; } }
