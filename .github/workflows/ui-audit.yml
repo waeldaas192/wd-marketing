@@ -31,8 +31,12 @@ jobs:
         run: node qa/contact-unit.cjs
       - name: Verify original Lucide subset provenance
         run: node qa/icon-source.cjs
+      - name: cPanel preview guard and archive unit tests
+        run: node --test qa/cpanel-server.cjs
       - run: npx tsc --noEmit
       - run: npm run build
+      - name: cPanel custom server production smoke test
+        run: node qa/cpanel-smoke.cjs
       - name: Install isolated browser audit tools
         run: |
           npm install --prefix /tmp/wd-ui-audit --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1 esbuild@0.25.12

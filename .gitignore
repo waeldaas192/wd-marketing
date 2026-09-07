@@ -11,3 +11,7 @@ qa-results/
 # Accidental nested repository created during initial desktop setup.
 /wd-marketing/
 /wd-marketing2/
+
+# Locally built cPanel upload archive; never commit generated deployment files.
+/wd-marketing-cpanel-preview.zip
+/wd-marketing-cpanel-preview.zip.tmp
