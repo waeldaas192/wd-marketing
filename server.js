@@ -17,7 +17,6 @@ function isPreviewRequest(req, environment = process.env) {
 
 function guardPreview(req, res, environment = process.env) {
   if (!isPreviewRequest(req, environment)) return false;
-  // An HTTP noindex directive applies even to already-prerendered HTML.
   res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
   let pathname;
   try { pathname = new URL(req.url || "/", "http://localhost").pathname; }
@@ -27,7 +26,6 @@ function guardPreview(req, res, environment = process.env) {
     return true;
   }
   if (pathname === "/robots.txt") {
-    // Allow crawling so search engines can read noindex. This is not access control.
     res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" });
     res.end("User-agent: *\nAllow: /\n");
     return true;
@@ -61,7 +59,6 @@ async function start() {
     if (guardPreview(req, res)) return;
     try { await handle(req, res); }
     catch {
-      // Do not log query strings, form values, credentials or provider messages.
       console.error("[wd-server] Request handling failed.");
       if (!res.headersSent) res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
       if (!res.writableEnded) res.end("Internal server error.");
@@ -71,7 +68,6 @@ async function start() {
     console.error("[wd-server] Could not start the HTTP listener.");
     process.exit(1);
   });
-  // Passenger takes over the first listen call. Do not start a second process/PM2.
   server.listen(port, () => console.log(`[wd-server] Ready (${process.env.DEPLOYMENT_ENV}).`));
   let stopping = false;
   function shutdown() {
@@ -86,8 +82,11 @@ async function start() {
   process.once("SIGINT", shutdown);
 }
 
-module.exports = { guardPreview, isPreviewRequest };
-if (require.main === module) {
+module.exports = { guardPreview, isPreviewRequest, start };
+
+// Passenger may load the startup file with require(), so do not gate startup
+// behind `require.main === module`. Tests opt out explicitly.
+if (process.env.WD_SERVER_IMPORT_ONLY !== "1") {
   start().catch(error => {
     console.error("[wd-server] Startup failed:", error.message);
     process.exit(1);
