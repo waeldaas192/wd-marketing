@@ -1,6 +1,7 @@
 "use strict";
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
+process.env.WD_SERVER_IMPORT_ONLY = "1";
 const { guardPreview, isPreviewRequest } = require("../server.js");
 const { crc32, collect, writeZip } = require("../scripts/package-cpanel.cjs");
 const fs = require("node:fs"), os = require("node:os"), path = require("node:path");
