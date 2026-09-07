@@ -3,7 +3,7 @@ import styles from "./SectionHeading.module.css";
 
 type Props = { id: string; kicker: string; title: ReactNode; intro?: string };
 export function SectionHeading({ id, kicker, title, intro }: Props) {
-  return <header className={styles.header}>
+  return <header className={styles.header} data-reveal="copy">
     <p className={styles.kicker}>{kicker}</p>
     <div className={styles.row}>
       <h2 id={id} className={styles.title}>{title}</h2>

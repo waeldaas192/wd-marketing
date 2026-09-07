@@ -1,13 +1,9 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/data/projects";
 import { insights } from "@/data/insights";
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://wdmarketing.co.uk";
-  const staticRoutes = ["", "/work", "/about", "/insights", "/contact", "/services/web-conversion", "/services/seo", "/services/paid-acquisition", "/services/growth-infrastructure", "/privacy", "/terms"];
-  return [
-    ...staticRoutes.map((route) => ({ url: `${base}${route}`, lastModified: new Date(), changeFrequency: route === "" ? "weekly" as const : "monthly" as const, priority: route === "" ? 1 : 0.7 })),
-    ...projects.map((project) => ({ url: `${base}/work/${project.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 })),
-    ...insights.map((item) => ({ url: `${base}/insights/${item.slug}`, lastModified: new Date(item.date), changeFrequency: "monthly" as const, priority: 0.65 })),
-  ];
+import { site } from "@/data/site";
+export default function sitemap():MetadataRoute.Sitemap{
+  const routes=["/","/work","/about","/insights","/contact","/services","/services/web-conversion","/services/seo","/services/paid-acquisition","/services/growth-infrastructure","/privacy","/terms",...projects.map(item=>`/work/${item.slug}`),...insights.map(item=>`/insights/${item.slug}`)];
+  // Do not fabricate lastModified timestamps every time the sitemap is generated.
+  return routes.map(route=>({url:new URL(route,site.url).toString()}));
 }
