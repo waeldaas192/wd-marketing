@@ -1,0 +1,13 @@
+.frame { position: relative; width: 100%; min-width: 0; overflow: hidden; background: #f2f3fa; border-radius: inherit; }
+.fill { position: absolute; inset: 0; height: 100%; }
+.cover { object-fit: cover; }
+.contain { object-fit: contain; }
+.placeholder { position: absolute; inset: 0; padding: clamp(20px,3vw,40px); display: flex; flex-direction: column; justify-content: space-between; gap: 16px; color: #464bd1; background: linear-gradient(130deg,#f6f7ff,#eceef8); }
+.monogram { font-size: clamp(32px,5vw,64px); font-weight: 600; letter-spacing: -.055em; line-height: 1; opacity: .65; }
+.lines { display: flex; align-items: end; gap: 10px; height: 22%; }
+.lines i { width: 20%; height: 35%; border: 1px solid #c3c7e1; background: #e0e4f6; }
+.lines i:nth-child(2) { height: 65%; }.lines i:nth-child(3) { height: 100%; }
+.caption { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 16px; }
+.caption strong { max-width: 30ch; font-size: clamp(14px,1.2vw,18px); font-weight: 550; line-height: 1.35; color: #282d50; }
+.caption span { color: #555e75; font-size: 12px; line-height: 1.5; }
+@media(max-width:480px) { .lines { display: none; } .placeholder { padding: 20px; } }

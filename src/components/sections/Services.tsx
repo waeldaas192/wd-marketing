@@ -1,32 +1,35 @@
 import Link from "next/link";
 import { services } from "@/data/services";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { LibraryIcon, type LibraryIconName } from "@/components/ui/LibraryIcon";
+import { ArrowIcon } from "@/components/ui/Icons";
+import styles from "./Services.module.css";
 
-const serviceHrefs = ["/services/web-conversion", "/services/seo", "/services/paid-acquisition", "/services/growth-infrastructure"];
+const capabilities = [
+  { icon: "panels-top-left", href: "/services/web-conversion" },
+  { icon: "search", href: "/services/seo" },
+  { icon: "megaphone", href: "/services/paid-acquisition" },
+  { icon: "workflow", href: "/services/growth-infrastructure" },
+] as const satisfies readonly { icon: LibraryIconName; href: string }[];
 
 export function Services() {
-  return (
-    <section id="services" className="section border-y border-white/10 bg-white/[.018]">
-      <div className="container">
-        <p className="eyebrow mb-5">Capabilities</p>
-        <h2 className="h2 max-w-[1050px]">
-          One growth system.
-          <span className="text-white/35"> Not disconnected services.</span>
-        </h2>
-
-        <div className="mt-16 grid gap-px overflow-hidden rounded-[28px] border border-white/10 bg-white/10 md:grid-cols-2">
-          {services.map((service, index) => (
-            <Link href={serviceHrefs[index]} key={service.number} className="service-home-card bg-[#090c11] p-8 md:p-10">
-              <div className="text-xs text-white/28">{service.number}</div>
-              <h3 className="mt-8 text-3xl font-semibold tracking-[-.04em]">{service.title}</h3>
-              <p className="lead mt-4 max-w-[530px]">{service.description}</p>
-              <div className="mt-9 grid gap-2 text-sm text-white/55">
-                {service.items.map((item) => <span key={item}>↳ {item}</span>)}
-              </div>
-              <div className="mt-8 text-sm font-bold">Explore capability →</div>
-            </Link>
-          ))}
-        </div>
+  return <section id="services" className={styles.section} data-studio-section="services" aria-labelledby="services-heading">
+    <div className="container">
+      <SectionHeading id="services-heading" kicker="Capabilities" title={<>One growth system. <span>Not disconnected services.</span></>} intro="Web, search, paid acquisition and measurement designed to reinforce each other around one commercial objective." />
+      <div className={styles.grid} data-studio-grid>
+        {services.map((service, index) => <Link key={service.number} href={capabilities[index].href}
+          className={styles.card} data-studio-card data-reveal="copy" data-reveal-order={index % 2}>
+          <div data-studio-service-top>
+            <span className="library-icon-frame" data-service-icon aria-hidden="true">
+              <LibraryIcon name={capabilities[index].icon} />
+            </span>
+            <span className={styles.number} data-service-index aria-hidden="true">{service.number}</span>
+          </div>
+          <h3>{service.title}</h3><p>{service.description}</p>
+          <ul className={styles.items}>{service.items.map(item => <li key={item}>{item}</li>)}</ul>
+          <span className={styles.link}>Explore capability <ArrowIcon /></span>
+        </Link>)}
       </div>
-    </section>
-  );
+    </div>
+  </section>;
 }
