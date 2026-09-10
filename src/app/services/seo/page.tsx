@@ -4,6 +4,7 @@ import { ArrowIcon } from "@/components/ui/Icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import Link from "next/link";
 import { SeoImageSlot } from "@/components/seo/SeoImageSlot";
+import { SeoGrowthMotion } from "@/components/seo/SeoGrowthMotion";
 import { seoImages } from "@/data/seoImages";
 import { site } from "@/data/site";
 import styles from "./seo.module.css";
@@ -62,6 +63,8 @@ export default function SeoPage() {
           <nav className={styles.sectionNav} aria-label="On this page"><a href="#seo-work"><span>01</span> Selected work</a><a href="#seo-deliverables"><span>02</span> What we deliver</a><a href="#seo-approach"><span>03</span> Our approach</a><a href="#seo-faq"><span>04</span> Your questions</a></nav>
         </div>
       </section>
+
+      <SeoGrowthMotion />
 
       <section className={styles.section} id="seo-work" aria-labelledby="work-title">
         <div className="container">
