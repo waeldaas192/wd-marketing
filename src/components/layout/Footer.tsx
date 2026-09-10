@@ -9,7 +9,7 @@ export function Footer() {
   return <footer className={styles.footer} data-studio-footer><div className="container">
     <div className={styles.top}><h2 className={styles.title}>Make the next move.<span>Make it count.</span></h2><Link href="/contact" className={styles.arrow} aria-label="Start a project"><ArrowIcon/></Link></div>
     <div className={styles.grid}>
-      <div className={styles.brand}><Link href="/" aria-label="WD Marketing home"><Image src={assets.brand.logo.src} alt={assets.brand.logo.alt} width={assets.brand.logo.width} height={assets.brand.logo.height}/></Link><p>{site.description}</p><a className={styles.email} href={`mailto:${site.email}`}>{site.email}</a></div>
+      <div className={styles.brand}><Link href="/" className={styles.identity} aria-label="WD Marketing home"><Image src={assets.brand.logo.src} alt="" width={assets.brand.logo.width} height={assets.brand.logo.height}/><span><strong>WD Marketing</strong><small>Digital Growth Systems</small></span></Link><p>{site.description}</p><a className={styles.email} href={`mailto:${site.email}`}>{site.email}</a></div>
       <nav className={styles.column} aria-label="Footer explore"><span className={styles.label}>Explore</span>{navigation.map(item => <Link key={item.href} href={item.href}>{item.label}</Link>)}</nav>
       <nav className={styles.column} aria-label="Footer services"><span className={styles.label}>Capabilities</span>{services.map(([label,href]) => <Link key={href} href={href}>{label}</Link>)}</nav>
       <div className={styles.column}><span className={styles.label}>Connect</span><Link href="/contact">Start a project</Link><a href={`mailto:${site.email}`}>Email</a><span className={styles.location}>{site.location}</span></div>

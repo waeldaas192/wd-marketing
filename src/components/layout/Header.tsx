@@ -91,7 +91,10 @@ export function Header() {
   return <>
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <Link href="/" className={styles.brand} aria-label="WD Marketing home" onClick={closeForNavigation}><Image src={assets.brand.logo.src} alt={assets.brand.logo.alt} width={assets.brand.logo.width} height={assets.brand.logo.height} className={styles.logo} priority /></Link>
+        <Link href="/" className={styles.brand} aria-label="WD Marketing home" onClick={closeForNavigation}>
+          <Image src={assets.brand.logo.src} alt="" width={assets.brand.logo.width} height={assets.brand.logo.height} className={styles.logo} priority />
+          <span className={styles.brandName}><strong>WD</strong> Marketing</span>
+        </Link>
         <nav className={styles.nav} aria-label="Primary navigation">
           <Link href="/work" onClick={closeForNavigation} aria-current={active("/work") ? "page" : undefined} className={`${styles.link} ${active("/work") ? styles.active : ""}`}>Work</Link>
           <div ref={disclosureRef} className={styles.disclosure}>

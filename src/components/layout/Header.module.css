@@ -1,7 +1,9 @@
 .header { container-type: inline-size; container-name: masthead; position: sticky; top: 0; z-index: 60; background: #ffffffdf; backdrop-filter: blur(20px); color: #181c2b; box-shadow: 0 1px 0 #d4dbea66; }
 .inner { min-height: 88px; display: grid; grid-template-columns: minmax(175px,1fr) auto minmax(225px,1fr); align-items: center; gap: 30px; }
-.brand { display: inline-flex; align-items: center; width: fit-content; max-width: 100%; }
-.logo { width: 188px; height: auto; filter: brightness(0); }
+.brand { display: inline-flex; align-items: center; gap: 11px; width: fit-content; max-width: 100%; color: #171928; }
+.logo { flex: none; width: 48px; height: auto; }
+.brandName { font-size: 1.08rem; font-weight: 560; line-height: 1; letter-spacing: -.035em; white-space: nowrap; }
+.brandName strong { color: #5b2293; font-weight: 750; }
 .nav { display: flex; align-items: center; gap: 26px; }
 .disclosure { display: inline-flex; }
 .link { border-radius: 12px; position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 48px; padding: 12px 0; border: 0; background: transparent; color: #505b70; font-size: .9375rem; font-weight: 450; line-height: 1.5; letter-spacing: -.016em; transition: color .25s; }
@@ -46,7 +48,7 @@
 @media (max-width: 1120px) { .inner { grid-template-columns: minmax(0,1fr) auto; gap: 16px; } .nav,.mega { display: none; } .menu { display: grid; } }
 /* em units use the container's text size, so enlarged text also switches layout. */
 @container masthead (max-width: 70em) { .inner { grid-template-columns: minmax(0,1fr) auto; gap: 16px; } .nav,.mega { display: none; } .menu { display: grid; } }
-@media (max-width: 640px) { .inner { min-height: 80px; gap: 8px; } .logo { width: 166px; } .actions { gap: 2px; } .actions > .cta { display: none; } }
+@media (max-width: 640px) { .inner { min-height: 80px; gap: 8px; } .brand { gap: 8px; } .logo { width: 42px; } .brandName { font-size: 1rem; } .actions { gap: 2px; } .actions > .cta { display: none; } }
 @media (prefers-reduced-motion: no-preference) { :global(html[data-motion="running"]) .mega:not([hidden]),:global(html[data-motion="running"]) .dialog[open] { animation: openPanel .4s var(--ease); } }
 @keyframes openPanel { from { transform: translateY(-8px); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .cta:hover,.cta:active,.serviceCard:hover { transform: none; } }
