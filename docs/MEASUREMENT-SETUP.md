@@ -1,7 +1,7 @@
 # WD Marketing — consent, GA4, GTM and search readiness
 
 Prepared 11 September 2026 against `codex/independent-cloudflare` commit `0d1864d`.
-This change prepares website code. No GA4/GTM account was configured, no tracking IDs were supplied, and no production deployment is included.
+This change prepares website code. The owner supplied GTM container `GTM-MJL3LG77`, now set as the website default and in the environment example. The GA4 Measurement ID is still outstanding. No Google account configuration or production deployment has been performed, and measurement remains disabled.
 
 ## What is implemented
 
@@ -36,7 +36,7 @@ Use the existing WD Marketing property if it is the correct one; avoid creating 
 
 ## 3. Configure the existing Web GTM container
 
-Obtain `GTM-…`. Export the current container as a backup and review existing tags first. Remove duplicate GA4 installations only after identifying them. Do not replace an existing container with a blanket import.
+Use the owner-supplied Web container `GTM-MJL3LG77`. Export the current container as a backup and review existing tags first. Remove duplicate GA4 installations only after identifying them. Do not replace an existing container with a blanket import.
 
 ### Consent template
 
@@ -93,13 +93,13 @@ In `.env.local` for local builds, or repository Actions variables for the existi
 
 ```dotenv
 NEXT_PUBLIC_MEASUREMENT_ENABLED=true
-NEXT_PUBLIC_GTM_ID=YOUR_ACTUAL_GTM_ID
+NEXT_PUBLIC_GTM_ID=GTM-MJL3LG77
 NEXT_PUBLIC_GA4_ID=YOUR_ACTUAL_GA4_ID
 WD_LEGAL_NAME=YOUR_CONFIRMED_LEGAL_NAME
 WD_CORRESPONDENCE_ADDRESS=YOUR_BUSINESS_CORRESPONDENCE_ADDRESS
 ```
 
-The example identifiers above intentionally fail validation. Substitute actual IDs; none is invented in source. These public IDs are not passwords. Rebuild after changes: Next embeds public configuration in exported assets. Runtime Worker variables alone cannot change the already-built client. Keep a single GTM installation and no unconditional noscript iframe or independent gtag.js snippet.
+The GTM identifier above is confirmed. Replace the GA4 placeholder with the actual Measurement ID before enabling measurement; that placeholder intentionally fails validation. Public tracking IDs are not passwords. Rebuild after changes: Next embeds public configuration in exported assets. Runtime Worker variables alone cannot change the already-built client. Keep a single GTM installation and no unconditional noscript iframe or independent gtag.js snippet.
 
 The Actions workflow now passes the configured build values to the build job. Existing deployment conditions remain unchanged.
 
