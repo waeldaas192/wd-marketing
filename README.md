@@ -25,6 +25,20 @@ npm run typecheck
 npm run test:deployment
 ```
 
+### Windows / PowerShell
+
+Run commands inside the new checkout (the folder containing this README). Stop the development server with Ctrl+C before pulling updates:
+
+```powershell
+git pull --ff-only origin codex/independent-cloudflare
+npm ci
+npm run dev
+```
+
+Wait for `Ready`, then open http://localhost:3000 (or the port printed by Next.js). This is a local frontend preview; it does not publish the site or start the form Worker. The configuration pins Next.js to this checkout so lockfiles in parent folders do not change its workspace root. Existing parent lockfiles do not need to be deleted.
+
+Keep the preview terminal open. Use another PowerShell tab inside this checkout for hosting setup.
+
 ## Deploy from the terminal
 
 Follow [the migration runbook](docs/GITHUB-MIGRATION.md) before changing DNS. Replace the two ID placeholders with the real values from your own account.
@@ -39,6 +53,15 @@ export CONTACT_EMAIL_ENABLED=false
 npm run build
 npm run configure:cloudflare
 npm run deploy
+```
+
+In PowerShell, replace the four `export` lines above with:
+
+```powershell
+$env:CLOUDFLARE_ACCOUNT_ID = 'YOUR_ACCOUNT_ID'
+$env:CLOUDFLARE_D1_DATABASE_ID = 'YOUR_NEW_DATABASE_ID'
+$env:DEPLOY_CUSTOM_DOMAINS = 'false'
+$env:CONTACT_EMAIL_ENABLED = 'false'
 ```
 
 Wrangler returns the actual testing URL. Initial deployment does not change the production domain. Complete runtime secrets and real email verification using the runbook.
