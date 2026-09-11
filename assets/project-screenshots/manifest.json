@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "method": "Real browser viewport captures; only the outer scrollbar is cropped. Images are proportionally resized and letterboxed, never AI-recreated or relabelled as mobile views.",
+  "records": [
+    {
+      "project": "marble-stone-polishing",
+      "section": "homepage",
+      "url": "https://marbleandstonepolishing.co.uk/",
+      "sourceFile": "wd-portfolio-polishing-hero-1789083881257.jpg",
+      "capturedAt": "2026-09-10T23:44:41.257Z",
+      "outputs": [
+        {
+          "path": "/images/projects/marble-stone-polishing/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "marble-stone-polishing",
+      "section": "details",
+      "url": "https://marbleandstonepolishing.co.uk/",
+      "sourceFile": "wd-portfolio-polishing-details-1789084110628.jpg",
+      "capturedAt": "2026-09-10T23:48:30.628Z",
+      "outputs": [
+        {
+          "path": "/images/projects/marble-stone-polishing/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "amici-executive-assistants",
+      "section": "homepage",
+      "url": "https://amiciea.com/",
+      "sourceFile": "wd-portfolio-aea-hero-1789083168480.jpg",
+      "capturedAt": "2026-09-10T23:32:48.480Z",
+      "outputs": [
+        {
+          "path": "/images/projects/amici-executive-assistants/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "amici-executive-assistants",
+      "section": "details",
+      "url": "https://amiciea.com/",
+      "sourceFile": "wd-portfolio-aea-details-1789084118434.jpg",
+      "capturedAt": "2026-09-10T23:48:38.434Z",
+      "outputs": [
+        {
+          "path": "/images/projects/amici-executive-assistants/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "km-capital-roofing",
+      "section": "homepage",
+      "url": "https://km-capitalroofing.co.uk/",
+      "sourceFile": "wd-portfolio-km-hero-1789083838304.jpg",
+      "capturedAt": "2026-09-10T23:43:58.304Z",
+      "outputs": [
+        {
+          "path": "/images/projects/km-capital-roofing/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "km-capital-roofing",
+      "section": "details",
+      "url": "https://km-capitalroofing.co.uk/",
+      "sourceFile": "wd-portfolio-km-details-1789084135820.jpg",
+      "capturedAt": "2026-09-10T23:48:55.820Z",
+      "outputs": [
+        {
+          "path": "/images/projects/km-capital-roofing/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "tim-paints-tiles",
+      "section": "homepage",
+      "url": "https://quote.timpaintsandtiles.co.uk/",
+      "sourceFile": "wd-portfolio-tim-hero-1789083846622.jpg",
+      "capturedAt": "2026-09-10T23:44:06.622Z",
+      "outputs": [
+        {
+          "path": "/images/projects/tim-paints-tiles/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "tim-paints-tiles",
+      "section": "details",
+      "url": "https://quote.timpaintsandtiles.co.uk/",
+      "sourceFile": "wd-portfolio-tim-details-1789084159123.jpg",
+      "capturedAt": "2026-09-10T23:49:19.123Z",
+      "outputs": [
+        {
+          "path": "/images/projects/tim-paints-tiles/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "prestige-painters",
+      "section": "homepage",
+      "url": "https://prestigepainters.co.uk/",
+      "sourceFile": "wd-portfolio-prestige-hero-1789083855391.jpg",
+      "capturedAt": "2026-09-10T23:44:15.391Z",
+      "outputs": [
+        {
+          "path": "/images/projects/prestige-painters/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "prestige-painters",
+      "section": "details",
+      "url": "https://prestigepainters.co.uk/",
+      "sourceFile": "wd-portfolio-prestige-details-1789084166917.jpg",
+      "capturedAt": "2026-09-10T23:49:26.917Z",
+      "outputs": [
+        {
+          "path": "/images/projects/prestige-painters/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "naranj-glasgow",
+      "section": "homepage",
+      "url": "https://naranj.co.uk/",
+      "sourceFile": "wd-portfolio-naranj-hero-1789083898724.jpg",
+      "capturedAt": "2026-09-10T23:44:58.724Z",
+      "outputs": [
+        {
+          "path": "/images/projects/naranj-glasgow/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        },
+        {
+          "path": "/images/seo-london/naranj-glasgow-website-seo.webp",
+          "width": 1600,
+          "height": 1000
+        }
+      ]
+    },
+    {
+      "project": "naranj-glasgow",
+      "section": "details",
+      "url": "https://naranj.co.uk/",
+      "sourceFile": "wd-portfolio-naranj-details-1789084196821.jpg",
+      "capturedAt": "2026-09-10T23:49:56.821Z",
+      "outputs": [
+        {
+          "path": "/images/projects/naranj-glasgow/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "london-marble-stone",
+      "section": "homepage",
+      "url": "https://londonmarblestone.co.uk/",
+      "sourceFile": "wd-portfolio-londonmarble-hero-1789083889884.jpg",
+      "capturedAt": "2026-09-10T23:44:49.884Z",
+      "outputs": [
+        {
+          "path": "/images/projects/london-marble-stone/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        },
+        {
+          "path": "/images/seo-london/london-marble-stone-website-seo.webp",
+          "width": 1600,
+          "height": 1000
+        }
+      ]
+    },
+    {
+      "project": "london-marble-stone",
+      "section": "details",
+      "url": "https://londonmarblestone.co.uk/",
+      "sourceFile": "wd-portfolio-londonmarble-details-1789084187584.jpg",
+      "capturedAt": "2026-09-10T23:49:47.584Z",
+      "outputs": [
+        {
+          "path": "/images/projects/london-marble-stone/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "floor-care-london",
+      "section": "homepage",
+      "url": "https://floorcarelondon.co.uk/",
+      "sourceFile": "wd-portfolio-floor-hero-1789083177181.jpg",
+      "capturedAt": "2026-09-10T23:32:57.181Z",
+      "outputs": [
+        {
+          "path": "/images/projects/floor-care-london/homepage.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "floor-care-london",
+      "section": "details",
+      "url": "https://floorcarelondon.co.uk/",
+      "sourceFile": "wd-portfolio-floor-details-1789084179030.jpg",
+      "capturedAt": "2026-09-10T23:49:39.030Z",
+      "outputs": [
+        {
+          "path": "/images/projects/floor-care-london/details.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "mb-legacy-roofing",
+      "section": "homepage",
+      "url": "https://mblegacyroofing.co.uk/",
+      "sourceFile": "wd-portfolio-roof-hero-1789083830021.jpg",
+      "capturedAt": "2026-09-10T23:43:50.021Z",
+      "outputs": [
+        {
+          "path": "/images/projects/roofing/mb-legacy-roofing-london-case-study.webp",
+          "width": 1800,
+          "height": 1200
+        },
+        {
+          "path": "/images/projects/roofing/mb-legacy-roofing-website-desktop.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "mb-legacy-roofing",
+      "section": "details",
+      "url": "https://mblegacyroofing.co.uk/",
+      "sourceFile": "wd-portfolio-roof-details-1789084127477.jpg",
+      "capturedAt": "2026-09-10T23:48:47.477Z",
+      "outputs": [
+        {
+          "path": "/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "exp-auto-parts",
+      "section": "homepage",
+      "url": "https://expautopart.co.uk/",
+      "sourceFile": "wd-portfolio-exp-hero-1789083185064.jpg",
+      "capturedAt": "2026-09-10T23:33:05.064Z",
+      "outputs": [
+        {
+          "path": "/images/projects/exp-auto-parts/exp-auto-parts-uk-case-study.webp",
+          "width": 1800,
+          "height": 1200
+        },
+        {
+          "path": "/images/projects/exp-auto-parts/exp-auto-parts-ecommerce-desktop.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "exp-auto-parts",
+      "section": "product",
+      "url": "https://expautopart.co.uk/product/do-not-update-preserve-current-url-121/",
+      "sourceFile": "wd-portfolio-exp-product-1789084270646.jpg",
+      "capturedAt": "2026-09-10T23:51:10.646Z",
+      "outputs": [
+        {
+          "path": "/images/projects/exp-auto-parts/exp-auto-parts-product-catalogue.webp",
+          "width": 1800,
+          "height": 1200
+        },
+        {
+          "path": "/images/seo-london/exp-auto-parts-product-search.webp",
+          "width": 1600,
+          "height": 1000
+        }
+      ]
+    }
+  ],
+  "pending": [
+    {
+      "project": "stone-pro-worktops",
+      "url": "https://stoneproworktops.co.uk/",
+      "reason": "The live capture did not show a sufficiently complete, approved portfolio view. Existing reserved image slots retained pending the latest version."
+    }
+  ]
+}

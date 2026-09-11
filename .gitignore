@@ -1,7 +1,28 @@
-node_modules
-.next
-out
-.env
-.env.local
+node_modules/
+.next/
+out/
+dist/
+.wrangler/
+.env*
+!.env.example
+!.env.*.example
 .DS_Store
 *.log
+*.tsbuildinfo
+qa-results/
+# Accidental nested repository created during initial desktop setup.
+/wd-marketing/
+/wd-marketing2/
+
+# Locally built cPanel upload archive; never commit generated deployment files.
+/wd-marketing-cpanel-preview.zip
+/wd-marketing-cpanel-preview.zip.tmp
+
+# Independent deployment configuration and private data
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+wrangler.generated.json
+backups/
+*.sqlite
+*.sqlite3

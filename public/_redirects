@@ -1,0 +1,93 @@
+# Canonical trailing-slash redirects for the new site
+/about/ /about 301
+/contact/ /contact 301
+/insights/ /insights 301
+/privacy/ /privacy 301
+/services/ /services 301
+/terms/ /terms 301
+/work/ /work 301
+/services/growth-infrastructure/ /services/growth-infrastructure 301
+/services/paid-acquisition/ /services/paid-acquisition 301
+/services/seo/ /services/seo 301
+/services/web-conversion/ /services/web-conversion 301
+/insights/growth-stack-for-local-services/ /insights/growth-stack-for-local-services 301
+/insights/landing-page-before-more-ad-spend/ /insights/landing-page-before-more-ad-spend 301
+/insights/seo-that-generates-leads/ /insights/seo-that-generates-leads 301
+/work/exp-auto-parts/ /work/exp-auto-parts 301
+/work/mb-legacy-roofing/ /work/mb-legacy-roofing 301
+/work/stone-pro-worktops/ /work/stone-pro-worktops 301
+
+# Legacy WordPress pages
+/home / 301
+/home/ / 301
+/about-us /about 301
+/about-us/ /about 301
+/portfolio /work 301
+/portfolio/ /work 301
+/projects /work 301
+/projects/ /work 301
+/privacy-policy /privacy 301
+/privacy-policy/ /privacy 301
+/conversion-rate-optimization /services/web-conversion 301
+/conversion-rate-optimization/ /services/web-conversion 301
+/product-seo-optimization /services/seo 301
+/product-seo-optimization/ /services/seo 301
+/e-commerce-marketing /services/paid-acquisition 301
+/e-commerce-marketing/ /services/paid-acquisition 301
+/e-commerce-website-development /services/web-conversion 301
+/e-commerce-website-development/ /services/web-conversion 301
+/social-media-advertising /services/paid-acquisition 301
+/social-media-advertising/ /services/paid-acquisition 301
+/google-ads-ppc /services/paid-acquisition 301
+/google-ads-ppc/ /services/paid-acquisition 301
+/ai-seo-organic-growth /services/seo 301
+/ai-seo-organic-growth/ /services/seo 301
+/graphic-design-branding /services 301
+/graphic-design-branding/ /services 301
+/web-design-development /services/web-conversion 301
+/web-design-development/ /services/web-conversion 301
+
+# Legacy service aliases used by the previous theme
+/services/ecommerce /services/web-conversion 301
+/services/ecommerce/ /services/web-conversion 301
+/services/google-ads /services/paid-acquisition 301
+/services/google-ads/ /services/paid-acquisition 301
+/services/landing-pages /services/web-conversion 301
+/services/landing-pages/ /services/web-conversion 301
+/services/paid-social /services/paid-acquisition 301
+/services/paid-social/ /services/paid-acquisition 301
+/services/web-design /services/web-conversion 301
+/services/web-design/ /services/web-conversion 301
+
+# Published WordPress articles and their clean-slug variants
+/2026/03/02/professional-web-design-london /services/web-conversion 301
+/2026/03/02/professional-web-design-london/ /services/web-conversion 301
+/professional-web-design-london /services/web-conversion 301
+/professional-web-design-london/ /services/web-conversion 301
+/2026/03/02/facebook-ads-agency-london /services/paid-acquisition 301
+/2026/03/02/facebook-ads-agency-london/ /services/paid-acquisition 301
+/facebook-ads-agency-london /services/paid-acquisition 301
+/facebook-ads-agency-london/ /services/paid-acquisition 301
+/2026/03/02/google-ads-agency-london /services/paid-acquisition 301
+/2026/03/02/google-ads-agency-london/ /services/paid-acquisition 301
+/google-ads-agency-london /services/paid-acquisition 301
+/google-ads-agency-london/ /services/paid-acquisition 301
+/2026/03/02/seo-services-london /services/seo 301
+/2026/03/02/seo-services-london/ /services/seo 301
+/seo-services-london /services/seo 301
+/seo-services-london/ /services/seo 301
+/2026/03/02/affordable-web-design-london /services/web-conversion 301
+/2026/03/02/affordable-web-design-london/ /services/web-conversion 301
+/affordable-web-design-london /services/web-conversion 301
+/affordable-web-design-london/ /services/web-conversion 301
+/2026/03/02/best-web-design-company-london /services/web-conversion 301
+/2026/03/02/best-web-design-company-london/ /services/web-conversion 301
+/best-web-design-company-london /services/web-conversion 301
+/best-web-design-company-london/ /services/web-conversion 301
+
+# Legacy archive pages
+/category/business /insights 301
+/category/business/ /insights 301
+/category/* /insights 301
+/tag/* /insights 301
+/author/* /about 301

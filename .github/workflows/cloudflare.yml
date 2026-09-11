@@ -1,0 +1,64 @@
+name: Independent website deployment
+on:
+  push:
+    branches: [main, codex/independent-cloudflare]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cloudflare-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:backend
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run test:deployment
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-site-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+  deploy:
+    needs: verify
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.CLOUDFLARE_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      DEPLOY_CUSTOM_DOMAINS: ${{ vars.DEPLOY_CUSTOM_DOMAINS }}
+      CONTACT_EMAIL_ENABLED: ${{ vars.CONTACT_EMAIL_ENABLED }}
+      TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-site-${{ github.sha }}
+          path: dist/
+      - name: Apply migrations and deploy the tested source
+        run: npm run deploy

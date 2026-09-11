@@ -6,15 +6,14 @@ Replace the placeholder files with your final assets using the **same filename a
 
 | File | Size | Format | Use |
 |---|---:|---|---|
-| `public/images/brand/wd-marketing-logo.svg` | 560×120 viewBox | SVG transparent | Header + footer horizontal logo |
-| `public/images/brand/wd-marketing-mark.svg` | 160×160 viewBox | SVG transparent | Favicon / social mark / compact brand use |
+| `public/images/brand/wd-marketing-ribbon-mark.png` | 720×356 | PNG transparent | Ribbon mark in the header + footer lockups |
+| `public/images/brand/wd-marketing-favicon.png` | 512×512 | PNG transparent | Browser icon / compact brand use |
 | `public/images/brand/wd-marketing-og-cover.jpg` | 1200×630 | JPG | Open Graph / WhatsApp / LinkedIn share image |
 
 ### Logo rules
 - Keep transparent background.
-- Preferred horizontal ratio: about 4.6:1.
-- Leave at least 8% clear space around the mark inside the SVG viewBox.
-- Main light logo: `#F5F7FA` for the dark site.
+- The horizontal lockup pairs the ribbon mark with live `WD Marketing` typography so it stays sharp and readable at every breakpoint.
+- Preserve the magenta and purple ribbon colours and transparent background.
 - Do not bake glow, shadow or background into the logo file.
 
 ## Hero
@@ -43,6 +42,14 @@ Replace the placeholder files with your final assets using the **same filename a
 | `public/images/projects/stone-pro/stone-pro-worktops-website-desktop.webp` | 1800×1125 | WebP | Desktop website presentation |
 | `public/images/projects/stone-pro/stone-pro-worktops-mobile-experience.webp` | 1200×1500 | WebP | Mobile screens / UI montage |
 | `public/images/projects/stone-pro/stone-pro-worktops-colour-gallery.webp` | 1800×1125 | WebP | Colour catalogue / gallery interface |
+
+## SMA Marble
+
+| File | Size | Format | Use |
+|---|---:|---|---|
+| `public/images/projects/sma-marble/sma-marble-london-case-study.webp` | 1800×1125 | WebP | Project cover / selected work / case-study hero |
+| `public/images/projects/sma-marble/sma-marble-worktop-services.webp` | 1800×1125 | WebP | Premium worktop range presentation |
+| `public/images/projects/sma-marble/sma-marble-project-gallery.webp` | 1800×1125 | WebP | Craftsmanship, trust and completed projects |
 
 ## MB Legacy Roofing
 
@@ -84,4 +91,3 @@ Replace the placeholder files with your final assets using the **same filename a
 - Brand + hero + founder assets: `src/data/assets.ts`
 - Project assets + alt text + galleries: `src/data/projects.ts`
 - Insight assets + alt text: `src/data/insights.ts`
-
