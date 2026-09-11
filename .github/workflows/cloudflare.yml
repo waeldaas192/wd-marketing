@@ -22,7 +22,6 @@ jobs:
       NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }}
       WD_LEGAL_NAME: ${{ vars.WD_LEGAL_NAME }}
       WD_CORRESPONDENCE_ADDRESS: ${{ vars.WD_CORRESPONDENCE_ADDRESS }}
-      WD_COMPANY_NUMBER: ${{ vars.WD_COMPANY_NUMBER }}
     steps:
       - uses: actions/checkout@v4
         with:

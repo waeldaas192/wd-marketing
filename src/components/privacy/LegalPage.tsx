@@ -9,6 +9,6 @@ export function LegalPage({ title, intro, children }: { title: string; intro: st
     <p className={styles.intro}>{intro}</p>
     <nav className={styles.links} aria-label="Policies"><Link href="/privacy">Privacy policy</Link><Link href="/cookies">Cookie policy</Link><Link href="/terms">Website terms</Link><CookieSettingsButton/></nav>
     <div className={styles.content}>{children}</div>
-    <aside className={styles.contact}><h2>Contact us</h2><p>{legal.operator}{legal.operator !== "WD Marketing" ? ", trading as WD Marketing" : ""}<br/><a href={"mailto:" + legal.email}>{legal.email}</a>{legal.correspondenceAddress && <><br/>{legal.correspondenceAddress}</>}{legal.companyNumber && <><br/>Company number: {legal.companyNumber}</>}</p></aside>
+    <aside className={styles.contact}><h2>Contact us</h2><p>{legal.tradingIdentity}<br/>Sole trader<br/><a href={"mailto:" + legal.email}>{legal.email}</a>{legal.correspondenceAddress && <><br/>{legal.correspondenceAddress}</>}</p></aside>
   </div></section>;
 }

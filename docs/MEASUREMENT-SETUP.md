@@ -29,9 +29,11 @@ Remaining browser evidence: the local Next.js **1 Issue** details; confirmed suc
 
 ## 1. Confirm business details before publishing policies
 
-Set build-time values for `WD_LEGAL_NAME` (actual individual/company responsible), `WD_CORRESPONDENCE_ADDRESS` (business correspondence address), and `WD_COMPANY_NUMBER` only if applicable. `hello@wdmarketing.co.uk` is the existing contact email in the source.
+The owner has specified that WD Marketing operates as a **sole trader**. The policy contact blocks, privacy controller wording and website terms now reflect that structure. Set build-time values for `WD_LEGAL_NAME` (the individual's full legal name) and `WD_CORRESPONDENCE_ADDRESS` (the sole trader's business correspondence address). Neither value has been supplied yet. `hello@wdmarketing.co.uk` is the existing contact email in the source.
 
-The prepared policy uses the WD Marketing brand as a fallback, not a verified legal identity. Confirm the business email provider, current hosting/security settings, Resend/address lookup usage, provider transfer arrangements and the real retention process. The criteria-based retention text does not install automated deletion. Do not publish as a verified compliance certification.
+The owner separately mentioned transferring payments to **Excellence Prime Ltd**. That statement does not establish whether clients pay the company directly, whether it collects payments on the sole trader's behalf, or whether the owner transfers funds after receiving them. No collection agency, data-processing or contracting relationship has been asserted in the public policies. The company's name, number and registered office must not substitute for the sole trader's identity or address. Any client-facing payment arrangement must be described accurately in the relevant proposal or invoice after its actual role is confirmed. The website terms ask clients to check supplier and payee details before paying.
+
+The prepared policy uses the WD Marketing brand as a fallback until the individual's legal name is provided; it is not a completed operator disclosure. These source changes do not register the business with HMRC or change its legal structure. Confirm the business email provider, current hosting/security settings, Resend/address lookup usage, provider transfer arrangements and the real retention process. The criteria-based retention text does not install automated deletion. Do not publish as a verified compliance certification.
 
 The terms concern website use. Paid service scope, deposits, cancellation and refund terms belong in the actual client service agreement; they have not been invented here.
 
@@ -163,3 +165,4 @@ The included automated test uses isolated stubs and does not send enquiries or d
 - [Template permissions](https://developers.google.com/tag-platform/tag-manager/templates/permissions)
 - [GA4 recommended events](https://developers.google.com/analytics/devguides/collection/ga4/reference/events)
 - [ICO privacy information](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/the-right-to-be-informed/what-privacy-information-should-we-provide/)
+- [GOV.UK invoice details, including sole traders](https://www.gov.uk/invoicing-and-taking-payment-from-customers/invoices-what-they-must-include)
