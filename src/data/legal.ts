@@ -1,8 +1,8 @@
 import { site } from "./site";
 
-// WD Marketing operates as a sole trader. Supply the individual's legal name,
-// not the name of a separate company used for payment arrangements.
-const operator = process.env.WD_LEGAL_NAME?.trim() || site.name;
+// The owner confirmed WAEL DAAS as the sole trader's legal name.
+// Use an override only for a subsequently confirmed change of operator.
+const operator = process.env.WD_LEGAL_NAME?.trim() || "WAEL DAAS";
 
 export const legal = {
   operator,

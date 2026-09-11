@@ -14,7 +14,7 @@ The following evidence was supplied in screenshots from the owner's browser; it 
 - GA4 Realtime received one test user, two page views (one for each displayed page title), two `form_step`, one `form_start`, one `contact_cta_click`, one `first_visit` and one `session_start`.
 - The screenshot supplied for the withdrawal test shows an analytics consent update to **denied**, with the three advertising consent states also denied. It confirms the state update; it does not by itself show the subsequent network requests or cookie jar.
 
-Remaining browser evidence: the local Next.js **1 Issue** details; confirmed successful form submission producing `generate_lead`; final post-withdrawal navigation/request and cookie checks. No DebugView event-parameter screenshot was supplied. Keep the existing isolated code-test results separate from these browser observations. Operator/address/provider details, Search Console ownership, and production deployment are still outstanding.
+Remaining browser evidence: the local Next.js **1 Issue** details; confirmed successful form submission producing `generate_lead`; final post-withdrawal navigation/request and cookie checks. No DebugView event-parameter screenshot was supplied. Keep the existing isolated code-test results separate from these browser observations. Correspondence address/provider details, Search Console ownership, and production deployment are still outstanding.
 
 ## What is implemented
 
@@ -29,11 +29,11 @@ Remaining browser evidence: the local Next.js **1 Issue** details; confirmed suc
 
 ## 1. Confirm business details before publishing policies
 
-The owner has specified that WD Marketing operates as a **sole trader**. The policy contact blocks, privacy controller wording and website terms now reflect that structure. Set build-time values for `WD_LEGAL_NAME` (the individual's full legal name) and `WD_CORRESPONDENCE_ADDRESS` (the sole trader's business correspondence address). Neither value has been supplied yet. `hello@wdmarketing.co.uk` is the existing contact email in the source.
+The owner has specified that WD Marketing operates as a **sole trader** and explicitly confirmed the legal name **WAEL DAAS** for use on the website. The default identity is now **WAEL DAAS, trading as WD Marketing** in the policy contact blocks, privacy controller wording and website terms. `WD_LEGAL_NAME` allows a build-time override only for a subsequently confirmed change. The owner wants the correspondence address left unfilled until confirmation; keep `WD_CORRESPONDENCE_ADDRESS` blank for now. `hello@wdmarketing.co.uk` is the existing contact email in the source.
 
 The owner separately mentioned transferring payments to **Excellence Prime Ltd**. That statement does not establish whether clients pay the company directly, whether it collects payments on the sole trader's behalf, or whether the owner transfers funds after receiving them. No collection agency, data-processing or contracting relationship has been asserted in the public policies. The company's name, number and registered office must not substitute for the sole trader's identity or address. Any client-facing payment arrangement must be described accurately in the relevant proposal or invoice after its actual role is confirmed. The website terms ask clients to check supplier and payee details before paying.
 
-The prepared policy uses the WD Marketing brand as a fallback until the individual's legal name is provided; it is not a completed operator disclosure. These source changes do not register the business with HMRC or change its legal structure. Confirm the business email provider, current hosting/security settings, Resend/address lookup usage, provider transfer arrangements and the real retention process. The criteria-based retention text does not install automated deletion. Do not publish as a verified compliance certification.
+The legal name is owner-confirmed; the correspondence address and remaining operating details are still pending. These source changes do not register the business with HMRC or change its legal structure. Confirm the business email provider, current hosting/security settings, Resend/address lookup usage, provider transfer arrangements and the real retention process. The criteria-based retention text does not install automated deletion. Do not publish as a verified compliance certification.
 
 The terms concern website use. Paid service scope, deposits, cancellation and refund terms belong in the actual client service agreement; they have not been invented here.
 
@@ -122,8 +122,9 @@ In `.env.local` for local builds, or repository Actions variables for the existi
 NEXT_PUBLIC_MEASUREMENT_ENABLED=true
 NEXT_PUBLIC_GTM_ID=GTM-MJL3LG77
 NEXT_PUBLIC_GA4_ID=G-P2D95M1T98
-WD_LEGAL_NAME=YOUR_CONFIRMED_LEGAL_NAME
-WD_CORRESPONDENCE_ADDRESS=YOUR_BUSINESS_CORRESPONDENCE_ADDRESS
+WD_LEGAL_NAME=WAEL DAAS
+# Leave blank until the business correspondence address is confirmed.
+WD_CORRESPONDENCE_ADDRESS=
 ```
 
 Both identifiers above were supplied by the owner. Configure and validate the GTM workspace before enabling production measurement. Public tracking IDs are not passwords. Rebuild after changes: Next embeds public configuration in exported assets. Runtime Worker variables alone cannot change the already-built client. Keep a single GTM installation and no unconditional noscript iframe or independent gtag.js snippet.
