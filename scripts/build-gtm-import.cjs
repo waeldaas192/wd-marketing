@@ -80,6 +80,6 @@ const section = (name, value) => '___' + name + '___\n\n' + (typeof value === 's
 fs.writeFileSync(path.join(dir, 'WD-Marketing-consent.tpl'),
   section('INFO', info) + section('TEMPLATE_PARAMETERS', []) +
   section('SANDBOXED_JS_FOR_WEB_TEMPLATE', fs.readFileSync(path.join(dir, 'consent-template.js'), 'utf8')) +
-  section('WEB_PERMISSIONS', permissions) + section('TESTS', 'scenarios: []') + section('NOTES', 'Prepared for GTM-MJL3LG77. Import and validate in GTM Preview before publishing.')
+  section('WEB_PERMISSIONS', permissions) + section('TESTS', 'scenarios: []') + section('NOTES', 'Prepared for GTM-MJL3LG77. Import and validate in GTM Preview before publishing.').trimEnd() + '\n'
 );
 console.log('Prepared GA4 import: 7 tags, 7 triggers, 10 variables; separate native consent template. Not published.');
