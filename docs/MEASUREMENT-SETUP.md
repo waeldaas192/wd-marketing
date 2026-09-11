@@ -1,7 +1,20 @@
 # WD Marketing — consent, GA4, GTM and search readiness
 
 Prepared 11 September 2026 against `codex/independent-cloudflare` commit `0d1864d`.
-This change prepares website code. The owner supplied GTM container `GTM-MJL3LG77` and GA4 Measurement ID `G-P2D95M1T98`, now set as website defaults and in the environment example. The GA4 import files use these same IDs. No Google account configuration or production deployment has been performed by this change, and measurement remains disabled until the account setup has been validated.
+This change prepares website code. The owner supplied GTM container `GTM-MJL3LG77` and GA4 Measurement ID `G-P2D95M1T98`, now set as website defaults and in the environment example. The GA4 import files use these same IDs. The owner has imported the configuration and tested it against `localhost:3010` using GTM Preview. Production publication of this update has not been confirmed; measurement still requires an explicit build-time enable flag.
+
+## Owner-assisted browser verification
+
+The following evidence was supplied in screenshots from the owner's browser; it was not obtained through direct access to their Google account:
+
+- GTM accepted the import: 24 added entities, zero modified/deleted. The workspace contains eight tags including the manually created native consent tag.
+- The consent tag was corrected from All Pages to **Consent Initialization – All Pages**. The saved configuration used once per page and no additional consent requirement.
+- A local Preview session connected to both supplied IDs. Initial page load after consent fired the consent tag, Google tag and page-view event tag once each. A later navigation fired its page-view event tag successfully.
+- At a consented page view, `analytics_storage` changed from default denied to granted. `ad_storage`, `ad_user_data` and `ad_personalization` stayed denied; `security_storage` stayed granted.
+- GA4 Realtime received one test user, two page views (one for each displayed page title), two `form_step`, one `form_start`, one `contact_cta_click`, one `first_visit` and one `session_start`.
+- The screenshot supplied for the withdrawal test shows an analytics consent update to **denied**, with the three advertising consent states also denied. It confirms the state update; it does not by itself show the subsequent network requests or cookie jar.
+
+Remaining browser evidence: the local Next.js **1 Issue** details; confirmed successful form submission producing `generate_lead`; final post-withdrawal navigation/request and cookie checks. No DebugView event-parameter screenshot was supplied. Keep the existing isolated code-test results separate from these browser observations. Operator/address/provider details, Search Console ownership, and production deployment are still outstanding.
 
 ## What is implemented
 
@@ -40,7 +53,7 @@ Use the owner-supplied Web container `GTM-MJL3LG77`. Export the current containe
 
 ### Prepared imports (recommended)
 
-These files are generated locally with `node scripts/build-gtm-import.cjs`. Their structure, references, consent rules and event parameters are checked locally; they have **not** been accepted or run by the live GTM account yet.
+These files are generated locally with `node scripts/build-gtm-import.cjs`. Their structure, references, consent rules and event parameters are checked locally. The owner has now successfully imported them and run the Preview checks recorded above; this is not confirmation of production publication.
 
 1. **Templates → Tag Templates → New → top-right menu → Import**: select `docs/gtm/WD-Marketing-consent.tpl`. Save as **WD Marketing - consent**. The permissions below are included.
 2. **Tags → New**: select that template, name the tag **WD - Consent**, and choose **Consent Initialization – All Pages**. Advanced Settings → Tag firing options → **Once per page**. Consent settings → **No additional consent required**. Save. This is the only tag added manually.
@@ -129,7 +142,7 @@ In GTM Preview / Tag Assistant and GA4 DebugView, inspect the browser's requests
 8. Expired/corrupt storage prompts again and blocks analytics. Closing settings without saving changes nothing. Check keyboard focus, Escape, mobile overflow and 200% zoom.
 9. The real lead endpoint must be tested with permission for the test enquiry, or using isolated test data. Code tests do not prove email delivery or real GA collection.
 
-The included test uses isolated stubs and does not send enquiries or data to Google. GTM template runtime permissions and account settings still require validation in the actual container.
+The included automated test uses isolated stubs and does not send enquiries or data to Google. The separate owner-assisted browser results are recorded above; unverified account settings and the remaining checks still need completion.
 
 ## 6. Search Console and technical SEO
 
