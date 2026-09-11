@@ -10,9 +10,9 @@ declare global {
   }
 }
 
-// Public container ID supplied by the website owner; build-time overrides remain supported.
+// Public IDs supplied by the website owner; build-time overrides remain supported.
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "GTM-MJL3LG77";
-const ga4Id = process.env.NEXT_PUBLIC_GA4_ID || "";
+const ga4Id = process.env.NEXT_PUBLIC_GA4_ID || "G-P2D95M1T98";
 export const measurementConfigured = process.env.NEXT_PUBLIC_MEASUREMENT_ENABLED === "true"
   && /^GTM-[A-Z0-9]+$/.test(gtmId) && /^G-[A-Z0-9]+$/.test(ga4Id);
 let consent: CookieConsent | null = null;

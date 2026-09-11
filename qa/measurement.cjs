@@ -55,4 +55,33 @@ assert.ok(h.timers.every(t=>t.delay>=1&&t.delay<=2147483647));
 const expires=harness();expires.api.applyConsent({...accepted,savedAt:now-c.CONSENT_MAX_AGE});assert.equal(expires.scripts.length,0);
 const sitemap=fs.readFileSync(path.join(root,'out/sitemap.xml'),'utf8');
 for(const [,url] of sitemap.matchAll(/<loc>(.*?)<\/loc>/g)) { const p=new URL(url).pathname; assert.equal(h.api.safePath(p),p,'new routes need a safe measurement path'); }
+// Check the deliverable's wiring, not just the site's event producer.
+const imported=JSON.parse(fs.readFileSync(path.join(root,'docs/gtm/WD-Marketing-GA4-import.json'),'utf8')).containerVersion;
+assert.equal(imported.container.publicId,'GTM-MJL3LG77');
+const names=new Set(imported.variable.map(v=>v.name));
+const triggers=new Map(imported.trigger.map(t=>[t.triggerId,t]));
+const param=(item,key)=>item.parameter.find(p=>p.key===key);
+const constant=imported.variable.find(v=>v.name==='WD - GA4 Measurement ID');
+assert.equal(param(constant,'value').value,'G-P2D95M1T98');
+assert.equal(imported.tag.length,7); assert.equal(imported.trigger.length,7);
+for(const tag of imported.tag) {
+  assert.equal(tag.consentSettings.consentStatus,'NEEDED');
+  assert.deepEqual(tag.consentSettings.consentType.list,[{type:'TEMPLATE',value:'analytics_storage'}]);
+  assert.equal(tag.firingTriggerId.length,1);
+  const trigger=triggers.get(tag.firingTriggerId[0]);assert.ok(trigger);
+  assert.equal(trigger.type,'CUSTOM_EVENT');assert.equal(trigger.customEventFilter[0].type,'EQUALS');
+  const source=trigger.customEventFilter[0].parameter.find(p=>p.key==='arg1').value;
+  if(tag.type==='gaawe') {
+    assert.equal(source,'wd_'+param(tag,'eventName').value);
+    assert.equal(tag.setupTag[0].tagName,'WD - Google tag - GA4');assert.equal(tag.setupTag[0].stopOnSetupFailure,true);
+    const allowed=new Set(['page_location','page_path','page_referrer','form_id','step','lead_method','contact_method']);
+    for(const row of param(tag,'eventParameters').list)assert.ok(allowed.has(row.map.find(p=>p.key==='name').value));
+  } else {assert.equal(tag.type,'googtag');assert.equal(source,'wd_analytics_ready');assert.equal(tag.tagFiringOption,'ONCE_PER_LOAD');}
+}
+for(const [,name] of JSON.stringify(imported).matchAll(/\{\{([^}]+)\}\}/g))assert.ok(name==='_event'||names.has(name),'unresolved GTM variable: '+name);
+const tpl=fs.readFileSync(path.join(root,'docs/gtm/WD-Marketing-consent.tpl'),'utf8');
+assert.equal(tpl.split('___SANDBOXED_JS_FOR_WEB_TEMPLATE___')[1].split('___WEB_PERMISSIONS___')[0].trim(),template.trim(),'imported consent code must match tested code');
+const permissions=JSON.parse(tpl.split('___WEB_PERMISSIONS___')[1].split('___TESTS___')[0]);
+assert.deepEqual(permissions.map(p=>p.instance.key.publicId).sort(),['access_consent','access_globals','write_data_layer']);
+console.log('PASS GTM import references, native consent permissions, explicit events, setup sequencing and approved parameters. Live GTM import/Preview still required.');
 console.log('PASS consent validation, expiry, disabled config, no pre-consent requests, GTM native bridge, consent order, page-view dedupe, lead dedupe, PII filtering, withdrawal, cookie cleanup, route allowlist. No Google requests or real enquiries sent.');

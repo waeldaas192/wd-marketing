@@ -1,7 +1,7 @@
 # WD Marketing — consent, GA4, GTM and search readiness
 
 Prepared 11 September 2026 against `codex/independent-cloudflare` commit `0d1864d`.
-This change prepares website code. The owner supplied GTM container `GTM-MJL3LG77`, now set as the website default and in the environment example. The GA4 Measurement ID is still outstanding. No Google account configuration or production deployment has been performed, and measurement remains disabled.
+This change prepares website code. The owner supplied GTM container `GTM-MJL3LG77` and GA4 Measurement ID `G-P2D95M1T98`, now set as website defaults and in the environment example. The GA4 import files use these same IDs. No Google account configuration or production deployment has been performed by this change, and measurement remains disabled until the account setup has been validated.
 
 ## What is implemented
 
@@ -26,7 +26,7 @@ The terms concern website use. Paid service scope, deposits, cancellation and re
 
 Use the existing WD Marketing property if it is the correct one; avoid creating a duplicate property.
 
-- Web stream: `https://wdmarketing.co.uk`; obtain its Measurement ID `G-…`.
+- Web stream: `https://wdmarketing.co.uk`; owner-supplied Measurement ID: `G-P2D95M1T98`.
 - Reporting time zone: Europe/London; currency: GBP.
 - Turn OFF Enhanced Measurement for this initial release, including history-change page views, form interactions, outbound clicks and site search. These would duplicate the explicit events or collect uncontrolled URL values. Re-enable only individually after a scoped review.
 - Leave Google Signals, user-provided data collection, enhanced conversions and advertising personalisation off for this release.
@@ -37,6 +37,18 @@ Use the existing WD Marketing property if it is the correct one; avoid creating 
 ## 3. Configure the existing Web GTM container
 
 Use the owner-supplied Web container `GTM-MJL3LG77`. Export the current container as a backup and review existing tags first. Remove duplicate GA4 installations only after identifying them. Do not replace an existing container with a blanket import.
+
+### Prepared imports (recommended)
+
+These files are generated locally with `node scripts/build-gtm-import.cjs`. Their structure, references, consent rules and event parameters are checked locally; they have **not** been accepted or run by the live GTM account yet.
+
+1. **Templates → Tag Templates → New → top-right menu → Import**: select `docs/gtm/WD-Marketing-consent.tpl`. Save as **WD Marketing - consent**. The permissions below are included.
+2. **Tags → New**: select that template, name the tag **WD - Consent**, and choose **Consent Initialization – All Pages**. Advanced Settings → Tag firing options → **Once per page**. Consent settings → **No additional consent required**. Save. This is the only tag added manually.
+3. **Admin → Import Container**: choose `docs/gtm/WD-Marketing-GA4-import.json`, select the workspace and **Merge**. The clean-container preview should add **7 tags, 7 triggers and 10 variables**, and delete nothing. Inspect detailed changes. If WD-named items already exist, review the conflict; avoid keeping duplicates by automatic renaming. Confirm the import only when the preview matches the intended changes.
+4. The workspace should now have **8 WD tags total**: one consent tag, one Google tag and six event tags. The import includes the actual Measurement ID; it does not include an account ID or impersonate another container. Two small Custom JavaScript variables return a literal `false` and `15552000` so configuration retains boolean/number types; they make no requests and read no visitor information.
+5. Use Preview and the checks in section 5 with a build that has measurement enabled. Keep Enhanced Measurement off in GA4. Publish the GTM workspace only after the checks pass; importing alone does not publish it or change the website deployment.
+
+If GTM rejects a generated file, retain the existing workspace and use the manual specification below; the import has not been presented as an account-validated export. Do not add the manual Google/event tags as well as the imported versions.
 
 ### Consent template
 
@@ -52,7 +64,7 @@ Save the template, create a tag using it, and trigger **Consent Initialization �
 
 ### Variables and triggers
 
-Create Version 2 Data Layer Variables for: `page_location`, `page_path`, `page_referrer`, `form_id`, `step`, `lead_method`, `contact_method`. Create one Constant for the actual GA4 `G-…` ID.
+Create Version 2 Data Layer Variables for: `page_location`, `page_path`, `page_referrer`, `form_id`, `step`, `lead_method`, `contact_method`. Create one Constant with `G-P2D95M1T98`.
 
 Create a Custom Event trigger for each exact website event in the table below, plus `wd_analytics_ready`. Do not use an all-events wildcard.
 
@@ -94,12 +106,12 @@ In `.env.local` for local builds, or repository Actions variables for the existi
 ```dotenv
 NEXT_PUBLIC_MEASUREMENT_ENABLED=true
 NEXT_PUBLIC_GTM_ID=GTM-MJL3LG77
-NEXT_PUBLIC_GA4_ID=YOUR_ACTUAL_GA4_ID
+NEXT_PUBLIC_GA4_ID=G-P2D95M1T98
 WD_LEGAL_NAME=YOUR_CONFIRMED_LEGAL_NAME
 WD_CORRESPONDENCE_ADDRESS=YOUR_BUSINESS_CORRESPONDENCE_ADDRESS
 ```
 
-The GTM identifier above is confirmed. Replace the GA4 placeholder with the actual Measurement ID before enabling measurement; that placeholder intentionally fails validation. Public tracking IDs are not passwords. Rebuild after changes: Next embeds public configuration in exported assets. Runtime Worker variables alone cannot change the already-built client. Keep a single GTM installation and no unconditional noscript iframe or independent gtag.js snippet.
+Both identifiers above were supplied by the owner. Configure and validate the GTM workspace before enabling production measurement. Public tracking IDs are not passwords. Rebuild after changes: Next embeds public configuration in exported assets. Runtime Worker variables alone cannot change the already-built client. Keep a single GTM installation and no unconditional noscript iframe or independent gtag.js snippet.
 
 The Actions workflow now passes the configured build values to the build job. Existing deployment conditions remain unchanged.
 
@@ -130,6 +142,8 @@ The included test uses isolated stubs and does not send enquiries or data to Goo
 
 ## Official references
 
+- [GTM container export and import](https://support.google.com/tagmanager/answer/6106997?hl=en)
+- [Google GTM boilerplate export schema](https://github.com/google-marketing-solutions/gtm-boilerplate/blob/544385db21a16cfd3b15a38631abf526d4ae8e69/google_tag_manager_web/src/web-container.json)
 - [Cloudflare error 1034](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1034/)
 - [Google basic and advanced consent](https://developers.google.com/tag-platform/security/concepts/consent-mode)
 - [GTM native consent APIs](https://developers.google.com/tag-platform/tag-manager/templates/consent-apis)
