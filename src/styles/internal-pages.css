@@ -1,0 +1,74 @@
+/* Shared internal-page layouts. These classes are used by real routes, not just the homepage. */
+.page-hero,.case-hero,.article-shell,.legal-page { padding-top: var(--section-space); }
+.page-hero { padding-bottom: 40px; }
+.page-hero h1,.case-hero h1,.article-head h1,.legal-page h1 { margin: 0; max-width: 22ch; font-size: var(--type-page); line-height: 1.12; font-weight: 550; letter-spacing: var(--heading-tracking); text-wrap: balance; }
+.page-hero h1 span { color: var(--muted); }
+.page-hero-intro p,.case-hero > .container > p,.article-head > p:not(.eyebrow) { max-width: 66ch; margin-top: 24px; color: var(--muted); font-size: var(--type-intro); line-height: var(--body-leading); }
+.split-heading,.about-grid,.case-grid,.contact-layout { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.3fr); gap: var(--section-gap); align-items: start; }
+.split-heading h2,.about-copy h2,.case-grid h2,.inline-cta h2,.evidence-card h2 { margin: 16px 0 24px; font-size: var(--type-aside); line-height: var(--heading-leading); font-weight: 550; letter-spacing: var(--heading-tracking); }
+.outcome-list > div { display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.outcome-list span,.service-detail-grid article > span,.service-process > div > span,.case-line span,.values-grid article > span { color: var(--subtle); font-size: var(--type-label); }
+.outcome-list strong { font-weight: 550; font-size: 1.125rem; line-height: 1.6; }
+.service-detail-grid,.values-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+.service-detail-grid article,.values-grid article { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); }
+.service-detail-grid h3,.values-grid h3 { margin: 20px 0 12px; font-size: var(--type-card); line-height: 1.3; font-weight: 550; }
+.service-detail-grid p,.service-process p,.about-copy > p:not(.eyebrow),.values-grid p,.evidence-card > p:not(.eyebrow) { color: var(--muted); font-size: var(--type-body); line-height: var(--body-leading); }
+.service-process > div { display: grid; grid-template-columns: 32px minmax(140px,.7fr) minmax(0,1.3fr); gap: 24px; align-items: start; padding: 24px 0; border-top: 1px solid var(--line); }
+.service-process h3 { margin: 0; font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+.service-process p { margin: 0; }
+.inline-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: 32px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); }
+.inline-cta h2 { max-width: 28ch; }
+.work-index { display: grid; }
+.work-index-card { display: grid; grid-template-columns: minmax(180px,.6fr) minmax(0,1.4fr) 32px; gap: 32px; padding: 32px 0; border-top: 1px solid var(--line); }
+.work-index-card > div:first-child { display: flex; flex-direction: column; gap: 8px; color: var(--subtle); font-size: var(--type-small); }
+.work-index-card small { font-size: var(--type-small); }
+.work-index-card h2 { margin: 0 0 12px; font-size: var(--type-card); line-height: 1.25; font-weight: 550; }
+.work-index-card p { margin: 0; color: var(--muted); line-height: var(--body-leading); }
+.work-index-card i { font-style: normal; }
+.case-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin-bottom: 20px; font-size: var(--type-small); color: var(--muted); }
+.case-visual { max-height: 620px; margin-top: 32px; border: 1px solid var(--line); border-radius: var(--radius); aspect-ratio: 3 / 2; }
+.case-grid aside { display: flex; flex-direction: column; gap: 12px; }
+.case-grid aside span { color: var(--muted); font-size: var(--type-label); text-transform: uppercase; margin-top: 16px; }
+.case-grid aside strong { font-size: var(--type-body); font-weight: 550; }
+.case-columns { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--section-gap); }
+.case-line { display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.case-line p { margin: 0; color: var(--muted); line-height: var(--body-leading); }
+.evidence-card { padding: 32px; border: 1px solid var(--line); border-radius: var(--radius); }
+.insight-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; }
+.insight-card { display: flex; flex-direction: column; min-width: 0; padding: 24px; }
+.insight-card > div:not(:first-child) { display: flex; flex-wrap: wrap; gap: 8px 16px; color: var(--subtle); font-size: var(--type-small); }
+.insight-card small { font-size: var(--type-small); }
+.insight-card h2 { font-size: 1.5rem; line-height: 1.3; font-weight: 550; letter-spacing: -.025em; margin: 20px 0 12px; }
+.insight-card p { margin: 0 0 20px; font-size: var(--type-body); color: var(--muted); line-height: 1.65; }
+.insight-card i { margin-top: auto; font-style: normal; font-size: var(--type-small); font-weight: 550; }
+.article-body { width: min(calc(100% - 2 * var(--gutter)),760px); margin: 56px auto; }
+.article-body h2,.legal-page h2 { font-size: 1.75rem; line-height: 1.3; font-weight: 550; margin: 32px 0 16px; }
+.article-body p,.legal-page p { color: var(--muted); font-size: var(--type-body); line-height: 1.8; }
+.article-note { margin-block: 24px; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--muted); font-size: var(--type-small); line-height: 1.7; }
+.legal-page { padding-bottom: var(--section-space); }
+.legal-page .container { max-width: 850px; }
+.legal-date { margin-block: 24px; }
+.contact-layout { grid-template-columns: minmax(0,.6fr) minmax(0,1.4fr); }
+.contact-layout aside > div { padding: 20px 0; border-top: 1px solid var(--line); }
+.contact-layout aside span { display: block; font-size: var(--type-label); color: var(--subtle); text-transform: uppercase; margin-bottom: 12px; }
+.contact-layout aside p { margin: 0; color: var(--muted); line-height: 1.7; }
+.contact-layout aside a { overflow-wrap: anywhere; }
+.project-form { min-width: 0; }
+.form-block { margin: 0 0 28px; padding: 0; border: 0; min-width: 0; }
+.form-block > span,.form-block legend { display: block; padding: 0; margin-bottom: 16px; font-size: var(--type-small); font-weight: 600; }
+.choice-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.choice-grid label { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: var(--type-small); line-height: 1.6; }
+.choice-grid label:has(input:checked) { border-color: var(--accent); background: #f5f5ff; }
+.choice-grid input { flex: none; width: 18px; height: 18px; accent-color: var(--accent); }
+.choice-grid b { font-weight: 500; }
+.field-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+.field-grid label,.textarea-label { display: flex; flex-direction: column; gap: 8px; font-size: var(--type-small); font-weight: 500; }
+.field-grid input,.textarea-label textarea { width: 100%; min-width: 0; min-height: 48px; padding: 12px; border: 1px solid #929aa5; border-radius: 8px; background: #fff; color: var(--text); font-size: 1rem; line-height: 1.5; }
+.textarea-label { margin-top: 20px; }
+.textarea-label textarea { resize: vertical; }
+.form-submit { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; }
+.form-submit p { margin: 0; color: var(--muted); font-size: var(--type-small); }
+.form-submit a,.form-status a { text-decoration: underline; text-underline-offset: 3px; }
+.form-status { padding: 20px; margin-top: 20px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; font-size: var(--type-body); line-height: 1.65; }
+@media (max-width: 900px) { .split-heading,.about-grid,.case-grid,.contact-layout { grid-template-columns: minmax(0,1fr); } .insight-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .work-index-card { grid-template-columns: minmax(0,1fr) 24px; } .work-index-card > div:first-child { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .service-detail-grid,.values-grid,.case-columns,.insight-grid,.choice-grid,.field-grid { grid-template-columns: minmax(0,1fr); } .service-process > div { grid-template-columns: 24px minmax(0,1fr); gap: 12px; } .service-process p { grid-column: 2; } .inline-cta,.evidence-card { padding: 24px; } }

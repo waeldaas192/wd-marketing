@@ -1,71 +1,98 @@
-# WD Marketing — Premium Website
+# WD Marketing — independent GitHub deployment
 
-Production-minded Next.js website for WD Marketing.
+Current website source, images, static Next.js pages and the form Worker. This branch prepares deployment into **WD Marketing's own Cloudflare account**, with no ChatGPT build or deployment step.
 
-## Current build
+**Status:** migration preparation, not a completed production cutover. Hosting login, runtime secrets, historical data reconciliation and DNS activation are still required. The old website continues to receive live enquiries until cutover.
 
-- Premium responsive homepage
-- Sticky desktop navigation
-- Fullscreen animated mobile navigation
-- Large multi-column footer
-- Work index
-- 3 structured case-study routes
-- 4 dedicated service pages
-- About/founder page
-- Insights index + 3 starter article routes
-- Project enquiry funnel
-- Functional `/api/contact` validation endpoint
-- Privacy and Terms draft routes
-- Global metadata
-- JSON-LD ProfessionalService schema
-- sitemap.xml + robots.txt
-- Responsive design system
-- reduced-motion support
-- AVIF/WebP-ready Next Image config
+## Develop and verify
 
-## Stack
-
-- Next.js 16.3.3
-- React 19.2
-- TypeScript
-- Tailwind CSS 4.3
-- App Router
-
-## Run
+Use Node.js 22 or later.
 
 ```bash
-npm install
+git clone https://github.com/waeldaas192/wd-marketing.git
+cd wd-marketing
+git switch codex/independent-cloudflare
+npm ci
 npm run dev
 ```
 
-## Before public launch
+The development server previews the frontend. Verification exercises the actual Worker with local D1 and mocked providers:
 
-1. Replace the temporary WD brand mark with final SVG assets.
-2. Add Wael's editorial founder photography in `public/images/founder/`.
-3. Add verified project screenshots to the project asset folders.
-4. Replace all evidence-pending case-study notes with verified metrics only.
-5. Connect `/api/contact` server-side to Resend and/or the chosen CRM. The current endpoint validates and accepts form submissions but deliberately does not send them externally.
-6. Add GA4/GTM/Google Ads/Meta tags only after consent and tracking architecture are finalised.
-7. Review Privacy/Terms with appropriate UK legal guidance before launch.
-8. Add final Open Graph image, favicon and social profile URLs.
-9. Run Lighthouse, accessibility, device and browser QA on the deployed build.
-
-## Asset map
-
-```text
-public/
-  images/
-    brand/
-    hero/
-    founder/
-    projects/
-      stone-pro/
-      roofing/
-      exp-auto-parts/
-  videos/
-  icons/
+```bash
+npm run test:backend
+npm run build
+npm run typecheck
+npm run test:deployment
 ```
 
+### Windows / PowerShell
 
-## Global Phase
-Signature hero upgraded to the WD Growth Engine: search → traffic → experience → lead → revenue, with pointer depth, animated flow, editorial typography, reduced-motion support, and no fabricated metrics.
+Run commands inside the new checkout (the folder containing this README). Stop the development server with Ctrl+C before pulling updates:
+
+```powershell
+git pull --ff-only origin codex/independent-cloudflare
+npm ci
+npm run dev
+```
+
+Wait for `Ready`, then open http://localhost:3000 (or the port printed by Next.js). This is a local frontend preview; it does not publish the site or start the form Worker. The configuration pins Next.js to this checkout so lockfiles in parent folders do not change its workspace root. Existing parent lockfiles do not need to be deleted.
+
+Keep the preview terminal open. Use another PowerShell tab inside this checkout for hosting setup.
+
+## Deploy from the terminal
+
+Follow [the migration runbook](docs/GITHUB-MIGRATION.md) before changing DNS. Replace the two ID placeholders with the real values from your own account.
+
+```bash
+npx wrangler login
+npx wrangler d1 create wd-marketing-enquiries
+export CLOUDFLARE_ACCOUNT_ID='YOUR_ACCOUNT_ID'
+export CLOUDFLARE_D1_DATABASE_ID='YOUR_NEW_DATABASE_ID'
+export DEPLOY_CUSTOM_DOMAINS=false
+export CONTACT_EMAIL_ENABLED=false
+npm run build
+npm run configure:cloudflare
+npm run deploy
+```
+
+In PowerShell, replace the four `export` lines above with:
+
+```powershell
+$env:CLOUDFLARE_ACCOUNT_ID = 'YOUR_ACCOUNT_ID'
+$env:CLOUDFLARE_D1_DATABASE_ID = 'YOUR_NEW_DATABASE_ID'
+$env:DEPLOY_CUSTOM_DOMAINS = 'false'
+$env:CONTACT_EMAIL_ENABLED = 'false'
+```
+
+Wrangler returns the actual testing URL. Initial deployment does not change the production domain. Complete runtime secrets and real email verification using the runbook.
+
+For a local full-stack preview: copy `.dev.vars.example` to `.dev.vars`, generate the configuration, run `npx wrangler d1 migrations apply DB --local --config wrangler.generated.json`, then `npm start`.
+
+## Publish updates through GitHub
+
+After this branch is merged into `main`, and the repository settings below are configured, pushing to `main` runs tests, builds, applies additive migrations and deploys the tested artifact.
+
+```bash
+git switch main
+git pull --ff-only origin main
+# Edit the intended files, then:
+git add <changed-files>
+git commit -m "Update website content"
+git push origin main
+```
+
+The workflow checks pull requests and this migration branch without deploying. Deployment remains disabled until `CLOUDFLARE_DEPLOY_ENABLED=true` is configured. Direct `npm run deploy` is also available after a fresh successful build.
+
+## Runtime
+
+- `dist/client`: HTML, CSS, JS and website images.
+- `dist/worker/index.js`: independent routing, form, address lookup and email integration.
+- `drizzle/`: enquiries, rate limits and email-outbox schema migrations.
+- `public/_redirects`: 84 existing mappings compiled into the Worker. Editorial SEO equivalence remains a separate review.
+- `/api/health`: database and form readiness without exposing private data.
+- `/api/contact/config`, `/api/contact`, `/api/address-lookup`: existing form contracts.
+- Mail: branded notification to `hello@wdmarketing.co.uk` and confirmation to the customer, preserving reply-to behaviour.
+
+The canonical host is `https://wdmarketing.co.uk`; `www` redirects to it. Test hosts return `X-Robots-Tag: noindex, nofollow`.
+
+Older cPanel/Sites documents are historical references. Use `docs/GITHUB-MIGRATION.md` for this deployment.

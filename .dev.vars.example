@@ -1,0 +1,8 @@
+# Local Worker test values only. Production values belong in Worker secrets.
+CONTACT_FORM_SECRET=replace-with-at-least-32-random-characters
+CONTACT_EMAIL_ENABLED=false
+RESEND_API_KEY=
+IDEAL_POSTCODES_API_KEY=
+# Configure both Turnstile keys, or neither.
+TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=

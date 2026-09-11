@@ -1,3 +1,5 @@
+import { portfolioAdditions } from "./portfolio-additions";
+
 export type ProjectGalleryImage = {
   src: string;
   alt: string;
@@ -18,10 +20,30 @@ export type Project = {
   strategy: string[];
   deliverables: string[];
   evidence: string;
+  website?: string;
   gallery: ProjectGalleryImage[];
 };
 
 export const projects: Project[] = [
+  {
+    slug: "sma-marble",
+    name: "SMA Marble",
+    type: "Web Design · Local SEO · Conversion",
+    headline: "Creating a premium, quote-led digital experience for a London stone worktop specialist.",
+    image: "/images/projects/sma-marble/sma-marble-london-case-study.webp",
+    imageAlt: "SMA Marble luxury stone worktops website design in London",
+    sector: "Stone & worktops",
+    location: "London",
+    challenge: "SMA Marble needed to present a wide range of premium surfaces without overwhelming visitors, while turning high-intent searches into clear quote enquiries across desktop and mobile.",
+    strategy: ["Lead with material quality and London service coverage", "Organise quartz, marble, granite and porcelain around buyer intent", "Connect project proof to a short quote journey", "Build trust through workmanship, reviews and service-area signals"],
+    deliverables: ["Website strategy", "Responsive UX and visual design", "Worktop service architecture", "Local SEO foundations", "Quote conversion journey"],
+    evidence: "The live experience brings worktop discovery, completed-project proof and quote capture into one focused customer journey.",
+    website: "https://smamarble.co.uk/",
+    gallery: [
+      { src: "/images/projects/sma-marble/sma-marble-worktop-services.webp", alt: "SMA Marble premium quartz, marble, granite and porcelain worktop range", width: 1800, height: 1125 },
+      { src: "/images/projects/sma-marble/sma-marble-project-gallery.webp", alt: "SMA Marble craftsmanship, trust signals and completed London projects", width: 1800, height: 1125 },
+    ],
+  },
   {
     slug: "stone-pro-worktops",
     name: "Stone Pro Worktops",
@@ -54,10 +76,10 @@ export const projects: Project[] = [
     strategy: ["Map roofing demand by service, roof type and London location", "Prioritise revenue-driving service pages", "Strengthen local trust and technical SEO", "Design paid-search landing paths to complement organic growth"],
     deliverables: ["Market analysis", "Keyword architecture", "90-day SEO roadmap", "Landing-page strategy", "Conversion measurement plan"],
     evidence: "The case study intentionally avoids unverified lead or ranking claims until campaign data is validated.",
+    website: "https://mblegacyroofing.co.uk/",
     gallery: [
-      { src: "/images/projects/roofing/mb-legacy-roofing-website-desktop.webp", alt: "MB Legacy Roofing London website design", width: 1800, height: 1125 },
-      { src: "/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp", alt: "MB Legacy Roofing London local SEO service architecture", width: 1800, height: 1125 },
-      { src: "/images/projects/roofing/mb-legacy-roofing-mobile-lead-page.webp", alt: "MB Legacy Roofing mobile lead generation landing page", width: 1200, height: 1500 },
+      { src: "/images/projects/roofing/mb-legacy-roofing-website-desktop.webp", alt: "MB Legacy Roofing London homepage and callback request form", width: 1800, height: 1200 },
+      { src: "/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp", alt: "MB Legacy Roofing trust information and roofing service cards", width: 1800, height: 1200 },
     ],
   },
   {
@@ -73,12 +95,13 @@ export const projects: Project[] = [
     strategy: ["Clean and normalise catalogue taxonomy", "Improve import and category workflows", "Create automation opportunities around product data", "Protect commercial tracking across ecommerce journeys"],
     deliverables: ["Catalogue architecture", "Import workflow", "Category optimisation", "Automation planning", "Tracking structure"],
     evidence: "Verified commercial metrics can be added once the implementation has sufficient measurement history.",
+    website: "https://expautopart.co.uk/",
     gallery: [
-      { src: "/images/projects/exp-auto-parts/exp-auto-parts-ecommerce-desktop.webp", alt: "EXP Auto Parts ecommerce website desktop interface", width: 1800, height: 1125 },
-      { src: "/images/projects/exp-auto-parts/exp-auto-parts-product-catalogue.webp", alt: "EXP Auto Parts product catalogue and category interface", width: 1800, height: 1125 },
-      { src: "/images/projects/exp-auto-parts/exp-auto-parts-mobile-shopping.webp", alt: "EXP Auto Parts mobile ecommerce shopping experience", width: 1200, height: 1500 },
+      { src: "/images/projects/exp-auto-parts/exp-auto-parts-ecommerce-desktop.webp", alt: "EXP Auto Parts homepage with vehicle search and spare parts imagery", width: 1800, height: 1200 },
+      { src: "/images/projects/exp-auto-parts/exp-auto-parts-product-catalogue.webp", alt: "EXP Auto Parts Mercedes air strut product page with SKU and vehicle compatibility details", width: 1800, height: 1200 },
     ],
   },
+  ...portfolioAdditions,
 ];
 
 export function getProject(slug: string) { return projects.find((project) => project.slug === slug); }

@@ -1,0 +1,12 @@
+{
+  "library": "Lucide",
+  "version": "1.41.0",
+  "license": "ISC; MIT for the Feather-derived search icon",
+  "icons": {
+    "panels-top-left": {"path":"icons/panels-top-left.svg","blobSha":"574e4dea55337481f976f0a12148ca56979d9cc6","url":"https://github.com/lucide-icons/lucide/blob/1.41.0/icons/panels-top-left.svg"},
+    "search": {"path":"icons/search.svg","blobSha":"03e442a5440cff92c219fe3a3c1f2b0788d30701","url":"https://github.com/lucide-icons/lucide/blob/1.41.0/icons/search.svg"},
+    "megaphone": {"path":"icons/megaphone.svg","blobSha":"5db6d38d53ef1205cfa16ee149279e53375e6dbe","url":"https://github.com/lucide-icons/lucide/blob/1.41.0/icons/megaphone.svg"},
+    "workflow": {"path":"icons/workflow.svg","blobSha":"20784a2ab7cedbf81fc5f8a6a8f6fcdc5d6552ea","url":"https://github.com/lucide-icons/lucide/blob/1.41.0/icons/workflow.svg"},
+    "send": {"path":"icons/send.svg","blobSha":"001843b91e1052d66954f95d48cfd332536cfeb7","url":"https://github.com/lucide-icons/lucide/blob/1.41.0/icons/send.svg"}
+  }
+}

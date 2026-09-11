@@ -5,6 +5,20 @@ export const site = {
   location: "London, United Kingdom",
   description:
     "Founder-led digital growth studio combining high-performance websites, SEO, paid acquisition, analytics and automation.",
+  socialProfiles: [
+    {
+      name: "LinkedIn",
+      href: "https://www.linkedin.com/in/wael-al-daas/",
+    },
+    {
+      name: "Instagram",
+      href: "https://www.instagram.com/wd_markiting/",
+    },
+    {
+      name: "YouTube",
+      href: "https://www.youtube.com/@Waeldaas",
+    },
+  ],
 };
 
 export const navigation = [
