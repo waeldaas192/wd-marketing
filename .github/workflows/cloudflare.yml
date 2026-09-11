@@ -16,6 +16,13 @@ jobs:
     timeout-minutes: 15
     env:
       NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_MEASUREMENT_ENABLED: ${{ vars.NEXT_PUBLIC_MEASUREMENT_ENABLED }}
+      NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
+      NEXT_PUBLIC_GA4_ID: ${{ vars.NEXT_PUBLIC_GA4_ID }}
+      NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }}
+      WD_LEGAL_NAME: ${{ vars.WD_LEGAL_NAME }}
+      WD_CORRESPONDENCE_ADDRESS: ${{ vars.WD_CORRESPONDENCE_ADDRESS }}
+      WD_COMPANY_NUMBER: ${{ vars.WD_COMPANY_NUMBER }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,6 +35,7 @@ jobs:
       - run: npm run test:backend
       - run: npm run build
       - run: npm run typecheck
+      - run: npm run test:measurement
       - run: npm run test:deployment
       - uses: actions/upload-artifact@v4
         with:

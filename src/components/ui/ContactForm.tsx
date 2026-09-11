@@ -1,4 +1,5 @@
 "use client";
+import { trackFormStart, trackFormStep, trackLead } from "@/lib/measurement";
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { contactBudgets, contactServices, emptyBrief, formatBrief, normaliseWebsite, validateBrief, type Brief, type BriefErrors } from "@/lib/contact-validation";
@@ -18,6 +19,7 @@ export function ContactForm() {
   const [token, setToken] = useState(""), [revision, setRevision] = useState(0), [copied, setCopied] = useState(false);
   const [config, setConfig] = useState<ContactConfig | null>(null), [configFailed, setConfigFailed] = useState(false), [configRevision, setConfigRevision] = useState(0);
   const formRef = useRef<HTMLFormElement>(null), titleRef = useRef<HTMLHeadingElement>(null), interacted = useRef(false), busy = useRef(false);
+  const analyticsStarted = useRef(false);
   const lastRequest = useRef({ signature: "", id: "" }); const locked = state === "loading";
   useEffect(() => {
     let active = true; const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 8000);
@@ -31,6 +33,7 @@ export function ContactForm() {
   }, [configRevision]);
   useEffect(() => { if (interacted.current) titleRef.current?.focus(); }, [step, state === "success"]);
   function update(key: keyof Brief, value: string) {
+    if (!analyticsStarted.current) analyticsStarted.current = trackFormStart();
     setBrief(current => ({ ...current, [key]: value })); setErrors(current => ({ ...current, [key]: undefined }));
     setCopied(false); setFeedback(""); if (!busy.current) setState("idle");
   }
@@ -52,6 +55,7 @@ export function ContactForm() {
       if (Object.keys(issues).length) { showErrors(issues); return; }
       setBrief(result.data);
     }
+    if (nextStep !== step) trackFormStep(nextStep + 1);
     interacted.current = true; setStep(nextStep); setFurthest(current => Math.max(current, nextStep)); setErrors({}); setState("idle"); setFeedback("");
   }
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -71,7 +75,7 @@ export function ContactForm() {
       if (!response.ok || result.ok !== true || typeof result.reference !== "string") {
         if (result.errors) showErrors(result.errors);
         setFeedback(typeof result.error === "string" ? result.error : "Saving was not confirmed. Your entries are still here; retry or use email."); setState("error");
-      } else { setReference(result.reference); setState("success"); setFeedback(""); }
+      } else { trackLead(result.reference); setReference(result.reference); setState("success"); setFeedback(""); }
     } catch { setFeedback("Saving was not confirmed. Your entries are still here; retry or use email."); setState("error"); }
     finally { busy.current = false; setRevision(value => value + 1); }
   }
@@ -79,7 +83,7 @@ export function ContactForm() {
   const mailto = "mailto:" + site.email + "?subject=" + encodeURIComponent("WD Marketing project brief") + "&body=" + encodeURIComponent(plainBrief);
   const error = (key: keyof Brief) => errors[key] ? <span className={styles.error} id={"error-" + key}>{errors[key]}</span> : null;
   return <form ref={formRef} className={"project-form " + styles.form} onSubmit={submit} noValidate aria-busy={locked} data-project-wizard>
-    {state === "success" ? <div className={styles.success} role="status"><span className={styles.check} aria-hidden="true">✓</span><h2 ref={titleRef} tabIndex={-1}>Your brief is with us.</h2><p>We have saved your project details for review. Keep this reference if you contact us about your enquiry.</p><p className={styles.reference}>{reference}</p><button type="button" className="button button-ghost" onClick={() => { setBrief({ ...emptyBrief }); setErrors({}); setFeedback(""); setState("idle"); setStep(0); setFurthest(0); setCopied(false); lastRequest.current = { signature: "", id: "" }; }}>Start another brief</button></div> : <>
+    {state === "success" ? <div className={styles.success} role="status"><span className={styles.check} aria-hidden="true">✓</span><h2 ref={titleRef} tabIndex={-1}>Your brief is with us.</h2><p>We have saved your project details for review. Keep this reference if you contact us about your enquiry.</p><p className={styles.reference}>{reference}</p><button type="button" className="button button-ghost" onClick={() => { setBrief({ ...emptyBrief }); setErrors({}); setFeedback(""); setState("idle"); setStep(0); setFurthest(0); setCopied(false); analyticsStarted.current = false; lastRequest.current = { signature: "", id: "" }; }}>Start another brief</button></div> : <>
       <div className={styles.progressTop}><span>Let’s plan your next step</span><span>Step {step + 1} of 3</span></div>
       <div className={styles.progressTrack} role="progressbar" aria-label="Project brief" aria-valuemin={1} aria-valuemax={3} aria-valuenow={step + 1}><span style={{ width: ((step + 1) / 3 * 100) + "%" }}/></div>
       <ol className={styles.steps}>{labels.map((label, index) => <li key={label}><button type="button" disabled={locked || index > furthest} onClick={() => goTo(index)} aria-current={index === step ? "step" : undefined}><span aria-hidden="true">{index < step ? "✓" : index + 1}</span>{label}</button></li>)}</ol>
