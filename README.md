@@ -20,8 +20,8 @@ The development server previews the frontend. Verification exercises the actual 
 
 ```bash
 npm run test:backend
-npm run typecheck
 npm run build
+npm run typecheck
 npm run test:deployment
 ```
 
