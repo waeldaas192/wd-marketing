@@ -43,6 +43,7 @@ html[data-motion="paused"] *, html[data-motion="paused"] *::before, html[data-mo
 
 /* Shared fluid controls. SVG arrows do not depend on glyph metrics. */
 .wd-arrow { position: relative; display: inline-block; flex: 0 0 20px; width: 20px; height: 20px; overflow: hidden; vertical-align: middle; }
+.wd-arrow-left { transform: rotate(180deg); }
 .wd-arrow svg { position: absolute; inset: 0; width: 20px; height: 20px; transition: transform 440ms cubic-bezier(.16,1,.3,1); }
 .wd-arrow svg:last-child { transform: translateX(-135%); }
 :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: translateX(135%); }
@@ -51,7 +52,56 @@ html[data-motion="paused"] *, html[data-motion="paused"] *::before, html[data-mo
 .button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #1822460d; }
 .button:active { transform: translateY(0) scale(.98); }
 .button-primary { background: linear-gradient(150deg,#1c1f29,#101219); box-shadow: inset 0 1px 0 #ffffff14; }
-@media (prefers-reduced-motion: reduce) { .wd-arrow svg,.button { transition: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(-135%); } .button:hover,.button:active { transform: none; } }
+
+/* Liquid bead: a small edge droplet that stretches away from the pill and settles back. */
+.liquid-cta { position: relative; isolation: isolate; overflow: visible; }
+.liquid-cta::before,.liquid-cta::after { content: ""; position: absolute; z-index: 2; pointer-events: none; top: 50%; border-radius: 999px; background: currentColor; }
+.liquid-cta::after { right: -4px; width: 8px; height: 8px; opacity: .72; transform: translate3d(0,-50%,0) scale(1); box-shadow: 0 0 0 4px color-mix(in srgb,currentColor 12%,transparent); }
+.liquid-cta::before { right: -3px; width: 13px; height: 13px; opacity: 0; transform: translate3d(0,-50%,0) scale(.35); filter: blur(.2px); }
+@media (hover:hover) and (pointer:fine) {
+  .liquid-cta:is(:hover,:focus-visible)::after { animation: wd-liquid-bead 760ms cubic-bezier(.18,.88,.2,1) both; }
+  .liquid-cta:is(:hover,:focus-visible)::before { animation: wd-liquid-halo 760ms cubic-bezier(.18,.88,.2,1) both; }
+}
+@keyframes wd-liquid-bead {
+  0% { transform: translate3d(0,-50%,0) scale(1); }
+  24% { transform: translate3d(5px,-50%,0) scale(1.45,.72); }
+  52% { transform: translate3d(13px,-50%,0) scale(1.9); }
+  74% { transform: translate3d(8px,-50%,0) scale(.86,1.18); }
+  100% { transform: translate3d(4px,-50%,0) scale(1.05); }
+}
+@keyframes wd-liquid-halo {
+  0%,18% { opacity: 0; transform: translate3d(0,-50%,0) scale(.35); }
+  52% { opacity: .14; transform: translate3d(13px,-50%,0) scale(2.5); }
+  100% { opacity: 0; transform: translate3d(4px,-50%,0) scale(1.1); }
+}
+
+/* Form send rocket: pure SVG + transform/opacity trails, so no emoji glyphs or layout animation. */
+.wd-send-rocket { position: relative; display: inline-grid; place-items: center; flex: 0 0 24px; width: 24px; height: 24px; color: currentColor; }
+.wd-send-rocket svg { position: relative; z-index: 2; width: 22px; height: 22px; transform: rotate(-7deg); transform-origin: 50% 50%; }
+.wd-send-air { position: absolute; z-index: 1; right: 15px; height: 1.5px; border-radius: 999px; background: currentColor; opacity: 0; transform-origin: right center; }
+.wd-send-air-one { top: 8px; width: 13px; }
+.wd-send-air-two { top: 13px; width: 18px; }
+.wd-send-air-three { top: 18px; width: 10px; }
+.wd-send-rocket.is-launching svg { animation: wd-rocket-flight 860ms cubic-bezier(.2,.75,.2,1) infinite; }
+.wd-send-rocket.is-launching .wd-send-air-one { animation: wd-air-stream 620ms ease-out infinite; }
+.wd-send-rocket.is-launching .wd-send-air-two { animation: wd-air-stream 720ms 90ms ease-out infinite; }
+.wd-send-rocket.is-launching .wd-send-air-three { animation: wd-air-stream 540ms 150ms ease-out infinite; }
+@keyframes wd-rocket-flight {
+  0% { transform: translate3d(-1px,1px,0) rotate(-7deg) scale(.98); }
+  45% { transform: translate3d(4px,-4px,0) rotate(-10deg) scale(1.04); }
+  72% { transform: translate3d(2px,-2px,0) rotate(-8deg) scale(1.01); }
+  100% { transform: translate3d(-1px,1px,0) rotate(-7deg) scale(.98); }
+}
+@keyframes wd-air-stream {
+  0% { opacity: 0; transform: translate3d(2px,0,0) scaleX(.2); }
+  24% { opacity: .72; }
+  100% { opacity: 0; transform: translate3d(-15px,0,0) scaleX(1.35); }
+}
+.submit-motion { min-width: 196px; }
+.submit-motion.is-sending { box-shadow: inset 0 1px 0 #ffffff1f,0 12px 28px -18px #3b4eb088; }
+.brief-email-link { display: inline-flex; align-items: center; gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) { .wd-arrow svg,.button { transition: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(-135%); } .button:hover,.button:active { transform: none; } .liquid-cta::before { display:none; } .liquid-cta::after { opacity:.55; } .wd-send-rocket.is-launching svg { transform: rotate(-7deg); } .wd-send-air { display:none; } }
 html[data-motion="paused"] .wd-arrow svg,html[data-motion="paused"] .button { transition: none; }
 
 /* Utilities used by habit-faq-scroller; the duration is resolved on each track. */
