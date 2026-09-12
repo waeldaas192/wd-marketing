@@ -53,24 +53,59 @@ html[data-motion="paused"] *, html[data-motion="paused"] *::before, html[data-mo
 .button:active { transform: translateY(0) scale(.98); }
 .button-primary { background: linear-gradient(150deg,#1c1f29,#101219); box-shadow: inset 0 1px 0 #ffffff14; }
 
-/* Premium liquid bead: attached to the CTA edge, stretches away, then settles back. */
+/* Premium liquid bead: a visible attached droplet stretches, detaches and magnetically settles back. */
 .liquid-cta { position: relative; isolation: isolate; overflow: visible; }
-.liquid-cta::before,.liquid-cta::after { content:""; position:absolute; pointer-events:none; border-radius:999px; top:50%; }
-.liquid-cta::after { z-index:2; right:-5px; width:10px; height:10px; background:currentColor; opacity:.34; transform:translateY(-50%) scale(1); box-shadow:0 0 0 4px currentColor; transition:opacity .25s ease; }
-.liquid-cta::before { z-index:-1; right:-8px; width:24px; height:24px; border:1px solid currentColor; opacity:0; transform:translateY(-50%) scale(.25); }
-.liquid-cta:is(:hover,:focus-visible)::after { animation:wd-liquid-bead 820ms cubic-bezier(.16,1,.3,1) both; opacity:.58; }
-.liquid-cta:is(:hover,:focus-visible)::before { animation:wd-liquid-halo 820ms cubic-bezier(.16,1,.3,1) both; }
-@keyframes wd-liquid-bead {
-  0% { transform:translateY(-50%) translateX(0) scale(1); }
-  28% { transform:translateY(-50%) translateX(7px) scale(1.8,.72); }
-  54% { transform:translateY(-50%) translateX(13px) scale(1.45); }
-  76% { transform:translateY(-50%) translateX(5px) scale(.82,1.18); }
-  100% { transform:translateY(-50%) translateX(0) scale(1); }
+.liquid-cta::before,.liquid-cta::after { content:""; position:absolute; pointer-events:none; top:50%; }
+.liquid-cta::after {
+  z-index:3;
+  right:-7px;
+  width:14px;
+  height:14px;
+  border-radius:999px;
+  background:radial-gradient(circle at 34% 30%,#ffffff 0 8%,#b9a9ff 24%,#8064ff 58%,#5b42dd 100%);
+  opacity:.96;
+  transform:translate3d(0,-50%,0) scale(1);
+  box-shadow:0 0 0 1px #ffffff70,0 4px 14px #6250d94d;
+  will-change:transform;
 }
-@keyframes wd-liquid-halo {
-  0%,18% { opacity:0; transform:translateY(-50%) scale(.25); }
-  52% { opacity:.18; transform:translateY(-50%) translateX(13px) scale(1.25); }
-  100% { opacity:0; transform:translateY(-50%) translateX(0) scale(.35); }
+.liquid-cta::before {
+  z-index:2;
+  right:-2px;
+  width:30px;
+  height:12px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#7c62ff00 0%,#7c62ff52 48%,#9c88ffb8 100%);
+  opacity:0;
+  transform:translate3d(0,-50%,0) scaleX(.15);
+  transform-origin:left center;
+  will-change:transform,opacity;
+}
+.liquid-cta:is(:hover,:focus-visible)::after { animation:wd-liquid-bead 1080ms cubic-bezier(.16,1,.3,1) both; }
+.liquid-cta:is(:hover,:focus-visible)::before { animation:wd-liquid-tether 1080ms cubic-bezier(.16,1,.3,1) both; }
+@keyframes wd-liquid-bead {
+  0% { transform:translate3d(0,-50%,0) scale(1); }
+  16% { transform:translate3d(8px,-50%,0) scale(1.85,.72); }
+  34% { transform:translate3d(21px,-50%,0) scale(1.28,1.08); }
+  52% { transform:translate3d(34px,-50%,0) scale(2.45); }
+  65% { transform:translate3d(31px,-50%,0) scale(2.05); }
+  82% { transform:translate3d(13px,-50%,0) scale(.86,1.22); }
+  100% { transform:translate3d(0,-50%,0) scale(1); }
+}
+@keyframes wd-liquid-tether {
+  0%,8% { opacity:0; transform:translate3d(0,-50%,0) scaleX(.15); }
+  22% { opacity:.65; transform:translate3d(3px,-50%,0) scaleX(.72); }
+  42% { opacity:.78; transform:translate3d(10px,-50%,0) scaleX(1.16); }
+  58% { opacity:.34; transform:translate3d(18px,-50%,0) scaleX(1.46); }
+  76% { opacity:.2; transform:translate3d(9px,-50%,0) scaleX(.68); }
+  100% { opacity:0; transform:translate3d(0,-50%,0) scaleX(.15); }
+}
+@media (hover:none) and (pointer:coarse) {
+  .liquid-cta::after { animation:wd-liquid-touch-hint 3200ms ease-in-out infinite; }
+  @keyframes wd-liquid-touch-hint {
+    0%,72%,100% { transform:translate3d(0,-50%,0) scale(1); }
+    82% { transform:translate3d(6px,-50%,0) scale(1.35,.82); }
+    90% { transform:translate3d(11px,-50%,0) scale(1.2); }
+  }
 }
 
 /* Form send icon. The rocket itself moves; the three trails create a soft air/velocity wake. */
