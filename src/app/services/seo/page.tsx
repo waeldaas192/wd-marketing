@@ -52,7 +52,7 @@ export default function SeoPage() {
             <div className={styles.heroCopy}>
               <h1 id="seo-title"><span>SEO agency London.</span>Built around the work you want to win.</h1>
               <p className={styles.intro}>WD Marketing connects search strategy, practical website improvements and enquiry tracking to help London businesses attract relevant opportunities.</p>
-              <div className={styles.actions}><a className={styles.primaryButton} href="#seo-enquiry">Discuss my SEO project <Arrow /></a><a className={styles.textLink} href="#seo-work">Explore our work <Arrow diagonal /></a></div>
+              <div className={styles.actions}><a className={`${styles.primaryButton} liquid-cta`} href="#seo-enquiry">Discuss my SEO project <Arrow /></a><a className={styles.textLink} href="#seo-work">Explore our work <Arrow diagonal /></a></div>
               <p className={styles.heroNote}>Founder-led. Clear priorities. Agreed implementation.</p>
             </div>
             <div className={styles.heroVisual}>
@@ -93,7 +93,7 @@ export default function SeoPage() {
 
       <section className={styles.section} id="seo-faq" aria-labelledby="faq-title"><div className={`container ${styles.faqGrid}`}><div><p className={styles.eyebrow}>Before we begin</p><h2 id="faq-title">Good questions.<br /><span>Clear answers.</span></h2></div><div className={styles.faqList}>{questions.map(({ question, answer }) => <details key={question}><summary>{question}<span className={styles.disclosureIcon} aria-hidden="true" /></summary><p>{answer}</p></details>)}</div></div></section>
 
-      <section className={styles.enquiry} id="seo-enquiry" aria-labelledby="enquiry-title"><div className={`container ${styles.enquiryGrid}`} data-reveal="enquiry"><div><p className={styles.eyebrow}>Your next move</p><h2 id="enquiry-title">Tell us about the work<br /><span>you want to win.</span></h2><p>Share your website, the service you want to grow and the problem you want to solve. We’ll use that information to discuss whether WD Marketing is a suitable fit.</p></div><div className={styles.enquiryAction}><a className={styles.primaryButton} href={emailHref}>Email my SEO project <Arrow diagonal /></a><p>Opens a draft in your email app.<br />Review your details, then send.</p><a className={styles.emailLink} href={`mailto:${site.email}`}>{site.email}</a></div></div></section>
+      <section className={styles.enquiry} id="seo-enquiry" aria-labelledby="enquiry-title"><div className={`container ${styles.enquiryGrid}`} data-reveal="enquiry"><div><p className={styles.eyebrow}>Your next move</p><h2 id="enquiry-title">Tell us about the work<br /><span>you want to win.</span></h2><p>Share your website, the service you want to grow and the problem you want to solve. We’ll use that information to discuss whether WD Marketing is a suitable fit.</p></div><div className={styles.enquiryAction}><a className={`${styles.primaryButton} liquid-cta`} href={emailHref}>Email my SEO project <Arrow diagonal /></a><p>Opens a draft in your email app.<br />Review your details, then send.</p><a className={styles.emailLink} href={`mailto:${site.email}`}>{site.email}</a></div></div></section>
     </div>
   );
 }
