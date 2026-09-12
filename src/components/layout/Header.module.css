@@ -31,7 +31,9 @@
 .serviceCard strong { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; color: #202637; font-size: 1.0625rem; line-height: 1.4; font-weight: 550; letter-spacing: -.018em; }
 .serviceCard p { margin: 8px 0 0; color: #616c80; font-size: .875rem; line-height: 1.65; }
 .megaAside { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; border-top: 1px solid #e5e8f170; padding-top: 16px; font-size: .875rem; }
-.megaAside a { padding-block: 8px; }
+.megaAside a { display: inline-flex; align-items: center; gap: 8px; padding-block: 8px; }
+.megaAside :global(.wd-arrow) { width: 16px; height: 16px; flex-basis: 16px; }
+.megaAside :global(.wd-arrow svg) { width: 16px; height: 16px; }
 .dialog { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: max(24px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left)); border: 0; background: #fbfcff; color: #1c2232; overflow-y: auto; overscroll-behavior: contain; }
 .dialog:not([open]) { display: none; }
 .dialog::backdrop { background: #18203638; }
@@ -46,7 +48,6 @@
 .mobileLinks a[aria-current="page"] { color: #4840cf; }
 .mobileLinks > .cta { margin-top: 28px; padding: 16px 24px; color: #fff; justify-content: center; }
 @media (max-width: 1120px) { .inner { grid-template-columns: minmax(0,1fr) auto; gap: 16px; } .nav,.mega { display: none; } .menu { display: grid; } }
-/* em units use the container's text size, so enlarged text also switches layout. */
 @container masthead (max-width: 70em) { .inner { grid-template-columns: minmax(0,1fr) auto; gap: 16px; } .nav,.mega { display: none; } .menu { display: grid; } }
 @media (max-width: 640px) { .inner { min-height: 80px; gap: 8px; } .brand { gap: 8px; } .logo { width: 42px; } .brandName { font-size: 1rem; } .actions { gap: 2px; } .actions > .cta { display: none; } }
 @media (prefers-reduced-motion: no-preference) { :global(html[data-motion="running"]) .mega:not([hidden]),:global(html[data-motion="running"]) .dialog[open] { animation: openPanel .4s var(--ease); } }
