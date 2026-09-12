@@ -41,18 +41,62 @@ h1, h2, h3, h4 { font-family: var(--font-body), Inter, Arial, sans-serif; overfl
 }
 html[data-motion="paused"] *, html[data-motion="paused"] *::before, html[data-motion="paused"] *::after { animation-play-state: paused !important; }
 
-/* Shared fluid controls. SVG arrows do not depend on glyph metrics. */
+/* Shared fluid controls. SVG arrows do not depend on platform glyphs. */
 .wd-arrow { position: relative; display: inline-block; flex: 0 0 20px; width: 20px; height: 20px; overflow: hidden; vertical-align: middle; }
 .wd-arrow svg { position: absolute; inset: 0; width: 20px; height: 20px; transition: transform 440ms cubic-bezier(.16,1,.3,1); }
 .wd-arrow svg:last-child { transform: translateX(-135%); }
+.wd-arrow-left { transform: rotate(180deg); }
 :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: translateX(135%); }
 :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(0); }
 .button { min-height: 52px; letter-spacing: -.015em; transition: transform .32s var(--ease),box-shadow .32s var(--ease),background .32s var(--ease); }
 .button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #1822460d; }
 .button:active { transform: translateY(0) scale(.98); }
 .button-primary { background: linear-gradient(150deg,#1c1f29,#101219); box-shadow: inset 0 1px 0 #ffffff14; }
-@media (prefers-reduced-motion: reduce) { .wd-arrow svg,.button { transition: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(-135%); } .button:hover,.button:active { transform: none; } }
+
+/* Premium liquid bead: attached to the CTA edge, stretches away, then settles back. */
+.liquid-cta { position: relative; isolation: isolate; overflow: visible; }
+.liquid-cta::before,.liquid-cta::after { content:""; position:absolute; pointer-events:none; border-radius:999px; top:50%; }
+.liquid-cta::after { z-index:2; right:-5px; width:10px; height:10px; background:currentColor; opacity:.34; transform:translateY(-50%) scale(1); box-shadow:0 0 0 4px currentColor; transition:opacity .25s ease; }
+.liquid-cta::before { z-index:-1; right:-8px; width:24px; height:24px; border:1px solid currentColor; opacity:0; transform:translateY(-50%) scale(.25); }
+.liquid-cta:is(:hover,:focus-visible)::after { animation:wd-liquid-bead 820ms cubic-bezier(.16,1,.3,1) both; opacity:.58; }
+.liquid-cta:is(:hover,:focus-visible)::before { animation:wd-liquid-halo 820ms cubic-bezier(.16,1,.3,1) both; }
+@keyframes wd-liquid-bead {
+  0% { transform:translateY(-50%) translateX(0) scale(1); }
+  28% { transform:translateY(-50%) translateX(7px) scale(1.8,.72); }
+  54% { transform:translateY(-50%) translateX(13px) scale(1.45); }
+  76% { transform:translateY(-50%) translateX(5px) scale(.82,1.18); }
+  100% { transform:translateY(-50%) translateX(0) scale(1); }
+}
+@keyframes wd-liquid-halo {
+  0%,18% { opacity:0; transform:translateY(-50%) scale(.25); }
+  52% { opacity:.18; transform:translateY(-50%) translateX(13px) scale(1.25); }
+  100% { opacity:0; transform:translateY(-50%) translateX(0) scale(.35); }
+}
+
+/* Form send icon. The rocket itself moves; the three trails create a soft air/velocity wake. */
+.send-rocket { position:relative; display:inline-grid; place-items:center; flex:0 0 28px; width:28px; height:28px; overflow:visible; }
+.send-rocket > svg { position:relative; z-index:2; width:24px; height:24px; transform-origin:50% 50%; }
+.send-rocket-trails { position:absolute; z-index:1; left:-11px; bottom:2px; width:23px; height:18px; transform:rotate(-43deg); transform-origin:right center; }
+.send-rocket-trails i { position:absolute; right:0; height:2px; border-radius:999px; background:currentColor; opacity:0; transform:scaleX(.25); transform-origin:right center; }
+.send-rocket-trails i:nth-child(1){top:2px;width:18px}.send-rocket-trails i:nth-child(2){top:8px;width:23px}.send-rocket-trails i:nth-child(3){top:14px;width:14px}
+.send-rocket.is-active > svg { animation:wd-rocket-flight 900ms cubic-bezier(.16,1,.3,1) infinite alternate; }
+.send-rocket.is-active .send-rocket-trails i { animation:wd-air-trail 720ms ease-out infinite; }
+.send-rocket.is-active .send-rocket-trails i:nth-child(2){animation-delay:90ms}.send-rocket.is-active .send-rocket-trails i:nth-child(3){animation-delay:180ms}
+@keyframes wd-rocket-flight { from { transform:translate(-1px,1px) rotate(-2deg) scale(.98); } to { transform:translate(7px,-7px) rotate(3deg) scale(1.04); } }
+@keyframes wd-air-trail { 0% { opacity:0; transform:translateX(5px) scaleX(.2); } 25% { opacity:.62; } 100% { opacity:0; transform:translateX(-11px) scaleX(1.15); } }
+.submit-motion.is-sending { padding-right:18px; }
+.submit-motion.is-sending::after { display:none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wd-arrow svg,.button { transition: none; }
+  :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: none; }
+  :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(-135%); }
+  .button:hover,.button:active { transform: none; }
+  .liquid-cta::before,.liquid-cta::after { animation:none !important; }
+  .send-rocket.is-active > svg,.send-rocket.is-active .send-rocket-trails i { animation:none !important; }
+}
 html[data-motion="paused"] .wd-arrow svg,html[data-motion="paused"] .button { transition: none; }
+html[data-motion="paused"] .liquid-cta::before,html[data-motion="paused"] .liquid-cta::after,html[data-motion="paused"] .send-rocket * { animation:none !important; }
 
 /* Utilities used by habit-faq-scroller; the duration is resolved on each track. */
 @theme inline {
