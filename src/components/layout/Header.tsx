@@ -33,7 +33,6 @@ export function Header() {
   const restoreMobileFocus = useRef(true);
   const active = (href: string) => !href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`));
 
-  // Navigation must not steal focus back from the destination page.
   const closeForNavigation = () => {
     restoreMobileFocus.current = false;
     setMegaOpen(false);
@@ -108,24 +107,22 @@ export function Header() {
                 targets?.[last ? targets.length - 1 : 0]?.focus();
               });
             }}>Services <Icon name="chevron" className={styles.chevron}/></button>
-            {/* Keep the panel directly after its trigger in DOM/tab order. */}
             <div ref={panelRef} id="services-menu" className={styles.mega} hidden={!megaOpen}>
               <div className={`container ${styles.megaInner}`}>
                 <div className={styles.megaIntro}><p className="eyebrow">Capabilities</p><p className={styles.megaTitle}>One connected growth system.</p><p>Explore the services behind a clearer customer journey, from discovery to enquiry.</p></div>
                 <div className={styles.serviceGrid}>{services.map((item,index) => <Link key={item.href} href={item.href} className={styles.serviceCard} onClick={closeForNavigation} aria-current={active(item.href) ? "page" : undefined}><span>0{index+1}</span><strong>{item.label} <ArrowIcon/></strong><p>{item.copy}</p></Link>)}</div>
-                <div className={styles.megaAside}><Link href="/work" onClick={closeForNavigation}>Selected work →</Link><Link href="/about" onClick={closeForNavigation}>About WD →</Link><Link href="/insights" onClick={closeForNavigation}>Insights →</Link><Link href="/contact" onClick={closeForNavigation}>Discuss your project ↗</Link></div>
+                <div className={styles.megaAside}><Link href="/work" onClick={closeForNavigation}>Selected work <ArrowIcon/></Link><Link href="/about" onClick={closeForNavigation}>About WD <ArrowIcon/></Link><Link href="/insights" onClick={closeForNavigation}>Insights <ArrowIcon/></Link><Link href="/contact" onClick={closeForNavigation}>Discuss your project <ArrowIcon/></Link></div>
               </div>
             </div>
           </div>
           {links.slice(1).map(item => <Link key={item.href} href={item.href} onClick={closeForNavigation} aria-current={active(item.href) ? "page" : undefined} className={`${styles.link} ${active(item.href) ? styles.active : ""}`}>{item.label}</Link>)}
         </nav>
-        <div className={styles.actions}><button type="button" className={styles.motion} aria-label={paused?"Resume motion":"Pause motion"} aria-pressed={paused} title={reduced?"Reduced motion follows your device settings":paused?"Resume motion":"Pause motion"} onClick={toggleMotionPreference}><Icon name={paused?"play":"pause"}/></button><Link href="/contact" className={styles.cta} onClick={closeForNavigation}>Start a project <ArrowIcon/></Link><button ref={mobileTrigger} type="button" className={styles.menu} aria-label="Open menu" aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={mobileOpen} onClick={() => { restoreMobileFocus.current = true; setMegaOpen(false); setMobileOpen(true); }}><Icon name="menu"/></button></div>
+        <div className={styles.actions}><button type="button" className={styles.motion} aria-label={paused?"Resume motion":"Pause motion"} aria-pressed={paused} title={reduced?"Reduced motion follows your device settings":paused?"Resume motion":"Pause motion"} onClick={toggleMotionPreference}><Icon name={paused?"play":"pause"}/></button><Link href="/contact" className={`${styles.cta} liquid-cta`} onClick={closeForNavigation}>Start a project <ArrowIcon/></Link><button ref={mobileTrigger} type="button" className={styles.menu} aria-label="Open menu" aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={mobileOpen} onClick={() => { restoreMobileFocus.current = true; setMegaOpen(false); setMobileOpen(true); }}><Icon name="menu"/></button></div>
       </div>
     </header>
     <dialog ref={dialogRef} id="mobile-navigation" aria-label="Mobile navigation" className={styles.dialog} onKeyDown={event => {
       if (event.key !== "Tab") return;
       const dialog = event.currentTarget;
-      // Recompute after expanding Services; never focus links inside closed details.
       const controls = Array.from(dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')).filter(element => {
         const collapsed = element.closest("details:not([open])");
         return element.tabIndex >= 0 && element.getClientRects().length > 0
@@ -150,7 +147,7 @@ export function Header() {
         <Link href="/work" onClick={closeForNavigation} aria-current={active("/work") ? "page" : undefined}>Work</Link>
         <details><summary>Services <Icon name="chevron" className={styles.chevron}/></summary><div>{services.map(item => <Link key={item.href} href={item.href} onClick={closeForNavigation} aria-current={active(item.href) ? "page" : undefined}>{item.label} <ArrowIcon/></Link>)}</div></details>
         {links.slice(1).map(item => <Link key={item.href} href={item.href} onClick={closeForNavigation} aria-current={active(item.href) ? "page" : undefined}>{item.label}</Link>)}
-        <Link href="/contact" onClick={closeForNavigation} className={styles.cta}>Start a project <ArrowIcon/></Link>
+        <Link href="/contact" onClick={closeForNavigation} className={`${styles.cta} liquid-cta`}>Start a project <ArrowIcon/></Link>
       </nav>
     </dialog>
   </>;
