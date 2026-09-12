@@ -12,7 +12,7 @@ export function FinalCTA() {
         <h2 className={styles.title}>Build the system.<span>Then make it perform.</span></h2>
         <div className={styles.bottom}>
           <p className={styles.copy}>If the problem is growth, conversion, search visibility or acquisition efficiency, start with the system — not another disconnected tactic.</p>
-          <div className={styles.actions}><Link href="/contact" className={styles.primary}>Start a project <ArrowIcon/></Link><a href="mailto:hello@wdmarketing.co.uk" className={styles.secondary}>Email WD <ArrowIcon/></a></div>
+          <div className={styles.actions}><Link href="/contact" className={`${styles.primary} liquid-cta`}>Start a project <ArrowIcon/></Link><a href="mailto:hello@wdmarketing.co.uk" className={styles.secondary}>Email WD <ArrowIcon/></a></div>
         </div>
       </div>
     </div></div>

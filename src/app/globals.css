@@ -41,18 +41,63 @@ h1, h2, h3, h4 { font-family: var(--font-body), Inter, Arial, sans-serif; overfl
 }
 html[data-motion="paused"] *, html[data-motion="paused"] *::before, html[data-motion="paused"] *::after { animation-play-state: paused !important; }
 
-/* Shared fluid controls. SVG arrows do not depend on glyph metrics. */
+/* Shared fluid controls. SVG arrows do not depend on platform glyphs. */
 .wd-arrow { position: relative; display: inline-block; flex: 0 0 20px; width: 20px; height: 20px; overflow: hidden; vertical-align: middle; }
 .wd-arrow svg { position: absolute; inset: 0; width: 20px; height: 20px; transition: transform 440ms cubic-bezier(.16,1,.3,1); }
 .wd-arrow svg:last-child { transform: translateX(-135%); }
+.wd-arrow-left { transform: rotate(180deg); }
 :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: translateX(135%); }
 :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(0); }
 .button { min-height: 52px; letter-spacing: -.015em; transition: transform .32s var(--ease),box-shadow .32s var(--ease),background .32s var(--ease); }
 .button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #1822460d; }
 .button:active { transform: translateY(0) scale(.98); }
 .button-primary { background: linear-gradient(150deg,#1c1f29,#101219); box-shadow: inset 0 1px 0 #ffffff14; }
-@media (prefers-reduced-motion: reduce) { .wd-arrow svg,.button { transition: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: none; } :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(-135%); } .button:hover,.button:active { transform: none; } }
+
+/* Fluid CTA treatment stays inside the button. No detached dot or emoji-like ornament. */
+.liquid-cta { position: relative; isolation: isolate; overflow: hidden; }
+.liquid-cta::before,.liquid-cta::after { content:""; position:absolute; pointer-events:none; border-radius:inherit; }
+.liquid-cta::before {
+  inset:-55% auto -55% -42%;
+  width:34%;
+  background:linear-gradient(90deg,transparent,#ffffff16 28%,#ffffff55 50%,#ffffff16 72%,transparent);
+  opacity:0;
+  transform:skewX(-18deg) translateX(-180%);
+}
+.liquid-cta::after {
+  inset:1px;
+  background:radial-gradient(circle at 82% 50%,#8d7cff24 0 10%,#8d7cff10 24%,transparent 48%);
+  opacity:0;
+  transform:scale(.86);
+}
+.liquid-cta:is(:hover,:focus-visible)::before { animation:wd-cta-sheen 760ms cubic-bezier(.22,1,.36,1) both; }
+.liquid-cta:is(:hover,:focus-visible)::after { animation:wd-cta-bloom 760ms cubic-bezier(.22,1,.36,1) both; }
+@keyframes wd-cta-sheen {
+  0% { opacity:0; transform:skewX(-18deg) translateX(-180%); }
+  24% { opacity:.62; }
+  100% { opacity:0; transform:skewX(-18deg) translateX(520%); }
+}
+@keyframes wd-cta-bloom {
+  0% { opacity:0; transform:scale(.86); }
+  48% { opacity:1; transform:scale(1); }
+  100% { opacity:0; transform:scale(1.08); }
+}
+
+/* Base rocket geometry. The contact form module owns the actual launch choreography. */
+.send-rocket { position:relative; display:inline-grid; place-items:center; flex:0 0 28px; width:28px; height:28px; overflow:visible; }
+.send-rocket > svg { position:relative; z-index:2; width:24px; height:24px; transform-origin:50% 50%; }
+.send-rocket-trails { position:absolute; z-index:1; left:-11px; bottom:2px; width:23px; height:18px; transform:rotate(-43deg); transform-origin:right center; }
+.send-rocket-trails i { position:absolute; right:0; height:2px; border-radius:999px; background:currentColor; opacity:0; transform:scaleX(.25); transform-origin:right center; }
+.send-rocket-trails i:nth-child(1){top:2px;width:18px}.send-rocket-trails i:nth-child(2){top:8px;width:23px}.send-rocket-trails i:nth-child(3){top:14px;width:14px}
+
+@media (prefers-reduced-motion: reduce) {
+  .wd-arrow svg,.button { transition: none; }
+  :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:first-child { transform: none; }
+  :is(a,button):is(:hover,:focus-visible) .wd-arrow svg:last-child { transform: translateX(-135%); }
+  .button:hover,.button:active { transform: none; }
+  .liquid-cta::before,.liquid-cta::after { animation:none !important; }
+}
 html[data-motion="paused"] .wd-arrow svg,html[data-motion="paused"] .button { transition: none; }
+html[data-motion="paused"] .liquid-cta::before,html[data-motion="paused"] .liquid-cta::after,html[data-motion="paused"] .send-rocket * { animation:none !important; }
 
 /* Utilities used by habit-faq-scroller; the duration is resolved on each track. */
 @theme inline {

@@ -11,7 +11,8 @@
     "test:backend": "node qa/contact-worker.cjs && node qa/contact-runtime.cjs",
     "test:deployment": "node qa/standalone.cjs",
     "configure:cloudflare": "node scripts/cloudflare-config.cjs",
-    "deploy": "node scripts/deploy-cloudflare.cjs"
+    "deploy": "node scripts/deploy-cloudflare.cjs",
+    "test:measurement": "node qa/measurement.cjs"
   },
   "dependencies": {
     "clsx": "2.1.1",

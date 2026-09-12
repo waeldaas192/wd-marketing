@@ -26,7 +26,11 @@
 .playMark { fill: #fff; stroke: none; }
 .location { margin-top: 8px; color: var(--muted); font-size: var(--type-small); line-height: 1.65; }
 .bottom { display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--line); color: var(--subtle); font-size: var(--type-label); line-height: 1.6; }
-.bottom > div { display: flex; gap: 24px; }
+.bottom > div { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .bottom a { display: inline-block; padding-block: 8px; }
 @media (max-width: 940px) { .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 520px) { .grid { grid-template-columns: minmax(0,1fr); gap: 28px; } }
+
+.cookieSettings { border: 0; padding-block: 8px; background: none; color: inherit; font: inherit; font-size: .875rem; cursor: pointer; min-height: 44px; }
+.cookieSettings:hover { text-decoration: underline; }
+.cookieSettings:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
