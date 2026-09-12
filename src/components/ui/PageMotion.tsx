@@ -37,12 +37,22 @@ export function PageMotion() {
         animation.finished.then(() => finish(element)).catch(() => { /* cancelled on focus, pause, route change or tab hiding */ });
       }
     }, { rootMargin: "0px 0px -32px 0px", threshold: 0 });
-    for (const element of root.querySelectorAll<HTMLElement>("[data-reveal]")) {
-      // Avoid double transforms when a section and its children are both marked.
-      if (element.parentElement?.closest("[data-reveal]")) continue;
-      if (element.dataset.revealed === "true" || element.getBoundingClientRect().top < window.innerHeight) finish(element);
+
+    // Batch every initial layout read before mutating reveal state. Interleaving
+    // getBoundingClientRect() with dataset writes can force repeated synchronous layouts.
+    const candidates = Array.from(root.querySelectorAll<HTMLElement>("[data-reveal]")).filter(element =>
+      !element.parentElement?.closest("[data-reveal]") && element.dataset.revealed !== "true"
+    );
+    const viewportHeight = window.innerHeight;
+    const initialPositions = candidates.map(element => ({
+      element,
+      aboveFold: element.getBoundingClientRect().top < viewportHeight,
+    }));
+    for (const { element, aboveFold } of initialPositions) {
+      if (aboveFold) finish(element);
       else observer.observe(element);
     }
+
     const focus = (event: FocusEvent) => { for (const element of active.keys()) if (element.contains(event.target as Node)) finish(element); };
     const visibility = () => { if (document.hidden) finishAll(); };
     root.addEventListener("focusin", focus);
