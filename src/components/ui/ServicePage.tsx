@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
+import { ArrowIcon } from "@/components/ui/Icons";
 
 export type ServicePageData = {
   eyebrow: string;
@@ -33,7 +34,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
           <div className="service-process">{data.process.map((item, index) => <div key={item.title}><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.copy}</p></div>)}</div>
         </div>
       </section>
-      <section className="section"><div className="container"><div className="inline-cta"><div><p className="eyebrow">Start with the problem</p><h2>Need this capability inside a larger growth system?</h2></div><Link href="/contact" className="button button-primary">Start a project ↗</Link></div></div></section>
+      <section className="section"><div className="container"><div className="inline-cta"><div><p className="eyebrow">Start with the problem</p><h2>Need this capability inside a larger growth system?</h2></div><Link href="/contact" className="button button-primary liquid-cta">Start a project <ArrowIcon/></Link></div></div></section>
     </>
   );
 }
