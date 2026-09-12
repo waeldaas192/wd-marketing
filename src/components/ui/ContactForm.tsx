@@ -12,6 +12,7 @@ import styles from "./ContactForm.module.css";
 const labels = ["Your project", "Contact & location", "Review & send"];
 const fieldsByStep: (keyof Brief)[][] = [["service", "budget", "message"], ["name", "email", "phone", "company", "website", "country", "postcode", "addressLine1", "addressLine2", "city", "region"]];
 const serviceLabels = [["A better website", "Design, performance and enquiries"], ["Get found on Google", "SEO and organic growth"], ["Reach customers with ads", "Google Ads and paid campaigns"], ["Connect my marketing", "Analytics, CRM and automation"], ["Help me choose", "A plan across more than one service"]];
+const MIN_SEND_MOTION_MS = 1050;
 export function ContactForm() {
   const [step, setStep] = useState(0), [furthest, setFurthest] = useState(0);
   const [brief, setBrief] = useState<Brief>({ ...emptyBrief }), [errors, setErrors] = useState<BriefErrors>({});
@@ -69,6 +70,7 @@ export function ContactForm() {
     const signature = JSON.stringify(validation.data);
     if (lastRequest.current.signature !== signature) lastRequest.current = { signature, id: crypto.randomUUID() };
     const websiteCheck = new FormData(event.currentTarget).get("websiteCheck");
+    const motionStarted = performance.now();
     busy.current = true; setState("loading"); setFeedback("");
     try {
       const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...validation.data, requestId: lastRequest.current.id, turnstileToken: token, websiteCheck }), signal: AbortSignal.timeout(20000) });
@@ -76,7 +78,12 @@ export function ContactForm() {
       if (!response.ok || result.ok !== true || typeof result.reference !== "string") {
         if (result.errors) showErrors(result.errors);
         setFeedback(typeof result.error === "string" ? result.error : "Saving was not confirmed. Your entries are still here; retry or use email."); setState("error");
-      } else { trackLead(result.reference); setReference(result.reference); setState("success"); setFeedback(""); }
+      } else {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const remaining = reduceMotion ? 0 : Math.max(0, MIN_SEND_MOTION_MS - (performance.now() - motionStarted));
+        if (remaining) await new Promise(resolve => window.setTimeout(resolve, remaining));
+        trackLead(result.reference); setReference(result.reference); setState("success"); setFeedback("");
+      }
     } catch { setFeedback("Saving was not confirmed. Your entries are still here; retry or use email."); setState("error"); }
     finally { busy.current = false; setRevision(value => value + 1); }
   }
@@ -112,8 +119,8 @@ export function ContactForm() {
       {feedback && <p className={styles.notice} role={state === "error" ? "alert" : "status"}>{feedback}</p>}
       <div className={styles.actions}>
         {step > 0 && <button type="button" className="button button-ghost" disabled={locked} onClick={() => goTo(step - 1)}><ArrowIcon direction="left"/> Back</button>}
-        <button type="submit" className={`button button-primary liquid-cta${step === 2 ? " submit-motion" : ""}${locked ? " is-sending" : ""}`} disabled={locked || (step === 2 && (!config?.accepting || configFailed))} data-sending={locked ? "true" : undefined}>
-          {step < 2 ? <><span>Continue</span><ArrowIcon/></> : <><span>{locked ? "Sending your brief" : "Send my project brief"}</span><SendRocketIcon active={locked}/></>}
+        <button type="submit" className={`button button-primary ${step === 2 ? styles.sendButton : styles.continueButton}${locked ? ` ${styles.sending}` : ""}`} disabled={locked || (step === 2 && (!config?.accepting || configFailed))} data-sending={locked ? "true" : undefined}>
+          {step < 2 ? <><span>Continue</span><ArrowIcon/></> : <><span className={styles.sendLabel}>{locked ? "Sending your brief" : "Send my project brief"}</span><span className={styles.rocketStage}><SendRocketIcon active={locked}/></span></>}
         </button>
       </div>
       <div className={styles.alternative}><a href={mailto}>Prefer email? Send your brief <ArrowIcon/></a><button type="button" disabled={locked} onClick={async () => { try { await navigator.clipboard.writeText(plainBrief); setCopied(true); } catch { setFeedback("Copy is unavailable. You can use the email link or select your text manually."); } }}>{copied ? <>Brief copied <CheckIcon size={15}/></> : "Copy brief"}</button></div>
