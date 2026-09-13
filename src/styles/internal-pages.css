@@ -82,3 +82,14 @@
 .form-status { padding: 20px; margin-top: 20px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; font-size: var(--type-body); line-height: 1.65; }
 @media (max-width: 900px) { .split-heading,.about-grid,.case-grid,.contact-layout,.case-proof-grid { grid-template-columns: minmax(0,1fr); } .insight-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .work-index-card { grid-template-columns: minmax(0,1fr) 24px; } .work-index-card > div:first-child { grid-column: 1 / -1; } }
 @media (max-width: 640px) { .service-detail-grid,.values-grid,.case-columns,.insight-grid,.choice-grid,.field-grid { grid-template-columns: minmax(0,1fr); } .case-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); } .case-metrics > div { padding: 20px 16px; border-bottom: 1px solid var(--line); } .case-metrics > div:nth-child(2) { border-right: 0; } .case-metrics > div:nth-child(3) { padding-left: 0; border-bottom: 0; } .case-metrics > div:nth-child(4) { border-right: 0; border-bottom: 0; } .service-process > div { grid-template-columns: 24px minmax(0,1fr); gap: 12px; } .service-process p { grid-column: 2; } .inline-cta,.evidence-card { padding: 24px; } }
+
+.roofing-approach { color: #191e2d; }
+.roofing-approach header { max-width: 850px; margin-bottom: 44px; }
+.roofing-approach h2 { font-size: clamp(1.8rem,3.2vw,2.8rem); letter-spacing: -.04em; line-height: 1.2; }
+.roofing-approach p { color: #58647a; line-height: 1.85; }
+.roofing-approach-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 36px 48px; }
+.roofing-approach article { padding-top: 24px; border-top: 1px solid #e3e6f3; }
+.roofing-approach h3 { font-size: 1.3rem; line-height: 1.4; margin: 12px 0; letter-spacing: -.02em; }
+.roofing-approach-links { margin-top: 40px; }
+.roofing-approach-links a { color: #4847df; text-decoration: underline; text-underline-offset: 4px; }
+@media(max-width:700px) { .roofing-approach-grid { grid-template-columns: 1fr; gap: 24px; } }

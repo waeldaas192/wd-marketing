@@ -92,8 +92,7 @@ export const projects: Project[] = [
     ],
     technology: ["Next.js 16", "React 19", "Tailwind CSS 4", "Cloudflare Workers + D1"],
     gallery: [
-      { src: "/images/projects/roofing/mb-legacy-roofing-website-desktop.webp", alt: "MB Legacy Roofing London homepage and callback request form", width: 1800, height: 1200 },
-      { src: "/images/projects/roofing/mb-legacy-roofing-mobile-lead-page.webp", alt: "MB Legacy Roofing mobile experience and verified PageSpeed snapshot", width: 1200, height: 1500 },
+      { src: "/images/projects/roofing/mb-legacy-roofing-responsive-website.webp", alt: "MB Legacy Roofing responsive website on desktop and mobile with roofing services, call and quote actions", width: 1800, height: 1200 },
     ],
   },
   {

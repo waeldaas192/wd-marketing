@@ -132,8 +132,10 @@ async function buildMobileEvidence() {
 
 async function main() {
   fs.mkdirSync(output, { recursive: true });
+  await sharp(path.join(source, 'mb-legacy-responsive-white-2026-09-13.webp')).resize(1800, 1200).webp({ quality: 88, effort: 6 }).toFile(path.join(output, 'mb-legacy-roofing-responsive-website.webp'));
   await Promise.all([buildCover(), buildDesktop(), buildArchitecture(), buildMobileEvidence()]);
   const expected = new Map([
+    ['mb-legacy-roofing-responsive-website.webp', [1800, 1200]],
     ['mb-legacy-roofing-london-case-study.webp', [1800, 1200]],
     ['mb-legacy-roofing-website-desktop.webp', [1800, 1200]],
     ['mb-legacy-roofing-local-seo-structure.webp', [1800, 1200]],

@@ -348,6 +348,24 @@
           "height": 1000
         }
       ]
+    },
+    {
+      "project": "mb-legacy-roofing",
+      "section": "responsive-presentation",
+      "url": "https://mblegacyroofing.co.uk/",
+      "method": "AI-composited white desktop and mobile presentation based on supplied website screenshots; illustrative mockup, not a new browser capture.",
+      "sourceFiles": [
+        "assets/project-screenshots/mb-legacy-responsive-white-2026-09-13.webp",
+        "scripts/build-mb-legacy-assets.cjs"
+      ],
+      "createdAt": "2026-09-13",
+      "outputs": [
+        {
+          "path": "/images/projects/roofing/mb-legacy-roofing-responsive-website.webp",
+          "width": 1800,
+          "height": 1200
+        }
+      ]
     }
   ],
   "pending": [
