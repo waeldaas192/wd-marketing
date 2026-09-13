@@ -5,6 +5,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { resolveMedia } from "@/lib/media";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { CaseGallery } from "@/components/ui/CaseGallery";
+import { RoofingSystem } from "@/components/ui/RoofingSystem";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 export function generateStaticParams(){return projects.map(({slug})=>({slug}));}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const project=getProject(slug);return project?pageMetadata(project.name,project.headline,`/work/${slug}`):{};}
@@ -19,7 +20,7 @@ export default async function CaseStudyPage({params}:{params:Promise<{slug:strin
       {Boolean(project.technology?.length)&&<div data-case-technology="true"><p className="eyebrow">Production technology</p><ul className="case-technology">{project.technology?.map(item=><li key={item}>{item}</li>)}</ul></div>}
     </div></section>}
     <section className="section" data-reveal><div className="container case-columns"><div><h2 className="eyebrow">Strategy</h2>{project.strategy.map((item,index)=><div className="case-line" key={item}><span>0{index+1}</span><p>{item}</p></div>)}</div><div><h2 className="eyebrow">Deliverables</h2>{project.deliverables.map((item,index)=><div className="case-line" key={item}><span>0{index+1}</span><p>{item}</p></div>)}</div></div></section>
-    <section className="section"><div className="container"><h2 className="h2 gallery-title">The experience</h2><CaseGallery images={project.gallery.map(resolveMedia)} project={project.name}/></div></section>
+    <section className="section"><div className="container"><h2 className="h2 gallery-title">The experience</h2>{slug === "mb-legacy-roofing" && <RoofingSystem/>}<CaseGallery images={project.gallery.map(resolveMedia)} project={project.name}/></div></section>
     <section className="section"><div className="container"><div className="evidence-card"><p className="eyebrow">Measurement</p><h2>Evidence before claims.</h2><p>{project.evidence}</p></div><div className="related-navigation"><Link href="/contact" className="button button-primary">Discuss a similar project ↗</Link>{project.website&&<a href={project.website} target="_blank" rel="noreferrer">Visit live website ↗</a>}<Link href={`/work/${next.slug}`}>Next project: {next.name} →</Link></div></div></section>
   </>;
 }

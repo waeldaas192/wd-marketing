@@ -11,7 +11,6 @@ const page = path.join(root, 'out/work/mb-legacy-roofing.html');
 const assets = [
   ['/images/projects/roofing/mb-legacy-roofing-london-case-study.webp', 1800, 1200],
   ['/images/projects/roofing/mb-legacy-roofing-website-desktop.webp', 1800, 1200],
-  ['/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp', 1800, 1200],
   ['/images/projects/roofing/mb-legacy-roofing-mobile-lead-page.webp', 1200, 1500],
 ];
 
@@ -23,6 +22,8 @@ async function main() {
     assert(html.includes(`>${value}<`), `Case study must render the verified metric ${value}`);
   }
   assert(html.includes('data-case-technology="true"'), 'Case study must explain the production technology');
+  assert(html.includes('data-roofing-system="true"'), 'Case study must render the connected platform component');
+  assert(!html.includes('/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp'), 'The coded platform must replace the old diagram');
   for (const label of ['Next.js 16', 'React 19', 'Tailwind CSS 4', 'Cloudflare Workers + D1']) {
     assert(html.includes(label), `Case study must render ${label}`);
   }
@@ -50,7 +51,7 @@ async function main() {
     );
   }
 
-  console.log('PASS MB Legacy case study: verified metrics, production stack and four optimised assets.');
+  console.log('PASS MB Legacy case study: verified metrics, coded platform and three optimised assets.');
 }
 
 main().catch(error => {
