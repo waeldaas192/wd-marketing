@@ -240,13 +240,12 @@
       "project": "mb-legacy-roofing",
       "section": "case-study-cover",
       "url": "https://mblegacyroofing.co.uk/",
-      "method": "Higgsfield-generated device presentation with the canonical WD Marketing SVG composited by the checked-in asset builder.",
+      "method": "AI-generated white device mockup based on supplied mobile screenshot, WD logo and advertisement reference, exported as WebP by the checked-in asset builder.",
       "sourceFiles": [
-        "assets/project-screenshots/mb-legacy-higgsfield-cover-2026-09-13.webp",
-        "public/images/brand/wd-marketing-logo.svg",
+        "assets/project-screenshots/mb-legacy-white-thumbnail-2026-09-13.webp",
         "scripts/build-mb-legacy-assets.cjs"
       ],
-      "capturedAt": "2026-09-13T18:14:35.000Z",
+      "createdAt": "2026-09-13",
       "outputs": [
         {
           "path": "/images/projects/roofing/mb-legacy-roofing-london-case-study.webp",

@@ -7,7 +7,7 @@ const source = path.join(root, 'assets/project-screenshots');
 const output = path.join(root, 'public/images/projects/roofing');
 const brandLogo = fs.readFileSync(path.join(root, 'public/images/brand/wd-marketing-logo.svg'));
 
-const coverSource = path.join(source, 'mb-legacy-higgsfield-cover-2026-09-13.webp');
+const coverSource = path.join(source, 'mb-legacy-white-thumbnail-2026-09-13.webp');
 const desktopSource = path.join(source, 'mb-legacy-live-desktop-2026-09-13.jpg');
 const mobileEvidence = path.join(source, 'mb-legacy-pagespeed-mobile-2026-09-13.webp');
 
@@ -36,15 +36,8 @@ function gridBackground(width, height) {
 }
 
 async function buildCover() {
-  const logoPng = await logo;
   const canvas = await sharp(coverSource)
     .resize(1800, 1200, { fit: 'cover', position: 'centre' })
-    .modulate({ saturation: 0.94 })
-    .composite([
-      { input: Buffer.from('<svg width="1800" height="1200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#04101c" stop-opacity=".18"/><stop offset=".55" stop-color="#04101c" stop-opacity="0"/><stop offset="1" stop-color="#04101c" stop-opacity=".12"/></linearGradient></defs><rect width="1800" height="1200" fill="url(#v)"/></svg>') },
-      { input: logoPng, left: 82, top: 58 },
-      { input: labelSvg(720, 54, 'MB LEGACY ROOFING · CASE STUDY'), left: 84, top: 142 },
-    ])
     .webp({ quality: 84, effort: 6 })
     .toBuffer();
   await fs.promises.writeFile(path.join(output, 'mb-legacy-roofing-london-case-study.webp'), canvas);
