@@ -1,15 +1,18 @@
 "use client";
+import { trackFormStart, trackFormStep, trackLead } from "@/lib/measurement";
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { contactBudgets, contactServices, emptyBrief, formatBrief, normaliseWebsite, validateBrief, type Brief, type BriefErrors } from "@/lib/contact-validation";
 import type { ContactConfig } from "@/lib/address-types";
 import { SecurityCheck } from "./SecurityCheck";
 import { BusinessAddress } from "./BusinessAddress";
+import { ArrowIcon, CheckIcon, SendRocketIcon } from "./Icons";
 import { site } from "@/data/site";
 import styles from "./ContactForm.module.css";
 const labels = ["Your project", "Contact & location", "Review & send"];
 const fieldsByStep: (keyof Brief)[][] = [["service", "budget", "message"], ["name", "email", "phone", "company", "website", "country", "postcode", "addressLine1", "addressLine2", "city", "region"]];
 const serviceLabels = [["A better website", "Design, performance and enquiries"], ["Get found on Google", "SEO and organic growth"], ["Reach customers with ads", "Google Ads and paid campaigns"], ["Connect my marketing", "Analytics, CRM and automation"], ["Help me choose", "A plan across more than one service"]];
+const MIN_SEND_MOTION_MS = 1050;
 export function ContactForm() {
   const [step, setStep] = useState(0), [furthest, setFurthest] = useState(0);
   const [brief, setBrief] = useState<Brief>({ ...emptyBrief }), [errors, setErrors] = useState<BriefErrors>({});
@@ -18,6 +21,7 @@ export function ContactForm() {
   const [token, setToken] = useState(""), [revision, setRevision] = useState(0), [copied, setCopied] = useState(false);
   const [config, setConfig] = useState<ContactConfig | null>(null), [configFailed, setConfigFailed] = useState(false), [configRevision, setConfigRevision] = useState(0);
   const formRef = useRef<HTMLFormElement>(null), titleRef = useRef<HTMLHeadingElement>(null), interacted = useRef(false), busy = useRef(false);
+  const analyticsStarted = useRef(false);
   const lastRequest = useRef({ signature: "", id: "" }); const locked = state === "loading";
   useEffect(() => {
     let active = true; const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 8000);
@@ -31,6 +35,7 @@ export function ContactForm() {
   }, [configRevision]);
   useEffect(() => { if (interacted.current) titleRef.current?.focus(); }, [step, state === "success"]);
   function update(key: keyof Brief, value: string) {
+    if (!analyticsStarted.current) analyticsStarted.current = trackFormStart();
     setBrief(current => ({ ...current, [key]: value })); setErrors(current => ({ ...current, [key]: undefined }));
     setCopied(false); setFeedback(""); if (!busy.current) setState("idle");
   }
@@ -52,6 +57,7 @@ export function ContactForm() {
       if (Object.keys(issues).length) { showErrors(issues); return; }
       setBrief(result.data);
     }
+    if (nextStep !== step) trackFormStep(nextStep + 1);
     interacted.current = true; setStep(nextStep); setFurthest(current => Math.max(current, nextStep)); setErrors({}); setState("idle"); setFeedback("");
   }
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -64,6 +70,7 @@ export function ContactForm() {
     const signature = JSON.stringify(validation.data);
     if (lastRequest.current.signature !== signature) lastRequest.current = { signature, id: crypto.randomUUID() };
     const websiteCheck = new FormData(event.currentTarget).get("websiteCheck");
+    const motionStarted = performance.now();
     busy.current = true; setState("loading"); setFeedback("");
     try {
       const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...validation.data, requestId: lastRequest.current.id, turnstileToken: token, websiteCheck }), signal: AbortSignal.timeout(20000) });
@@ -71,7 +78,12 @@ export function ContactForm() {
       if (!response.ok || result.ok !== true || typeof result.reference !== "string") {
         if (result.errors) showErrors(result.errors);
         setFeedback(typeof result.error === "string" ? result.error : "Saving was not confirmed. Your entries are still here; retry or use email."); setState("error");
-      } else { setReference(result.reference); setState("success"); setFeedback(""); }
+      } else {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const remaining = reduceMotion ? 0 : Math.max(0, MIN_SEND_MOTION_MS - (performance.now() - motionStarted));
+        if (remaining) await new Promise(resolve => window.setTimeout(resolve, remaining));
+        trackLead(result.reference); setReference(result.reference); setState("success"); setFeedback("");
+      }
     } catch { setFeedback("Saving was not confirmed. Your entries are still here; retry or use email."); setState("error"); }
     finally { busy.current = false; setRevision(value => value + 1); }
   }
@@ -79,10 +91,10 @@ export function ContactForm() {
   const mailto = "mailto:" + site.email + "?subject=" + encodeURIComponent("WD Marketing project brief") + "&body=" + encodeURIComponent(plainBrief);
   const error = (key: keyof Brief) => errors[key] ? <span className={styles.error} id={"error-" + key}>{errors[key]}</span> : null;
   return <form ref={formRef} className={"project-form " + styles.form} onSubmit={submit} noValidate aria-busy={locked} data-project-wizard>
-    {state === "success" ? <div className={styles.success} role="status"><span className={styles.check} aria-hidden="true">✓</span><h2 ref={titleRef} tabIndex={-1}>Your brief is with us.</h2><p>We have saved your project details for review. Keep this reference if you contact us about your enquiry.</p><p className={styles.reference}>{reference}</p><button type="button" className="button button-ghost" onClick={() => { setBrief({ ...emptyBrief }); setErrors({}); setFeedback(""); setState("idle"); setStep(0); setFurthest(0); setCopied(false); lastRequest.current = { signature: "", id: "" }; }}>Start another brief</button></div> : <>
+    {state === "success" ? <div className={styles.success} role="status"><span className={styles.check} aria-hidden="true"><CheckIcon size={28}/></span><h2 ref={titleRef} tabIndex={-1}>Your brief is with us.</h2><p>We have saved your project details for review. Keep this reference if you contact us about your enquiry.</p><p className={styles.reference}>{reference}</p><button type="button" className="button button-ghost" onClick={() => { setBrief({ ...emptyBrief }); setErrors({}); setFeedback(""); setState("idle"); setStep(0); setFurthest(0); setCopied(false); analyticsStarted.current = false; lastRequest.current = { signature: "", id: "" }; }}>Start another brief</button></div> : <>
       <div className={styles.progressTop}><span>Let’s plan your next step</span><span>Step {step + 1} of 3</span></div>
       <div className={styles.progressTrack} role="progressbar" aria-label="Project brief" aria-valuemin={1} aria-valuemax={3} aria-valuenow={step + 1}><span style={{ width: ((step + 1) / 3 * 100) + "%" }}/></div>
-      <ol className={styles.steps}>{labels.map((label, index) => <li key={label}><button type="button" disabled={locked || index > furthest} onClick={() => goTo(index)} aria-current={index === step ? "step" : undefined}><span aria-hidden="true">{index < step ? "✓" : index + 1}</span>{label}</button></li>)}</ol>
+      <ol className={styles.steps}>{labels.map((label, index) => <li key={label}><button type="button" disabled={locked || index > furthest} onClick={() => goTo(index)} aria-current={index === step ? "step" : undefined}><span aria-hidden="true">{index < step ? <CheckIcon size={16}/> : index + 1}</span>{label}</button></li>)}</ol>
       <h2 ref={titleRef} tabIndex={-1} className={styles.title}>{["What would you like to improve?", "How can we reach you?", "Does everything look right?"][step]}</h2>
       <p className={styles.intro}>{["Choose a starting point. We’ll help with the details.", "Just your name and email are required here.", "You can edit any section before sending. There is no payment or commitment."][step]}</p>
       <div className={styles.srOnly} aria-hidden="true"><label>Leave this empty<input name="websiteCheck" tabIndex={-1} autoComplete="off"/></label></div>
@@ -105,8 +117,13 @@ export function ContactForm() {
       </fieldset>
       {step === 2 && !config && !configFailed && <p className={styles.hint} role="status">Checking the connection before sending…</p>}
       {feedback && <p className={styles.notice} role={state === "error" ? "alert" : "status"}>{feedback}</p>}
-      <div className={styles.actions}>{step > 0 && <button type="button" className="button button-ghost" disabled={locked} onClick={() => goTo(step - 1)}>← Back</button>}<button type="submit" className="button button-primary" disabled={locked || (step === 2 && (!config?.accepting || configFailed))}>{locked ? "Saving your brief…" : step < 2 ? "Continue →" : "Send my project brief ↗"}</button></div>
-      <div className={styles.alternative}><a href={mailto}>Prefer email? Send your brief ↗</a><button type="button" disabled={locked} onClick={async () => { try { await navigator.clipboard.writeText(plainBrief); setCopied(true); } catch { setFeedback("Copy is unavailable. You can use the email link or select your text manually."); } }}>{copied ? "Brief copied ✓" : "Copy brief"}</button></div>
+      <div className={styles.actions}>
+        {step > 0 && <button type="button" className="button button-ghost" disabled={locked} onClick={() => goTo(step - 1)}><ArrowIcon direction="left"/> Back</button>}
+        <button type="submit" className={`button button-primary ${step === 2 ? styles.sendButton : styles.continueButton}${locked ? ` ${styles.sending}` : ""}`} disabled={locked || (step === 2 && (!config?.accepting || configFailed))} data-sending={locked ? "true" : undefined}>
+          {step < 2 ? <><span>Continue</span><ArrowIcon/></> : <><span className={styles.sendLabel}>{locked ? "Sending your brief" : "Send my project brief"}</span><span className={styles.rocketStage}><SendRocketIcon active={locked}/></span></>}
+        </button>
+      </div>
+      <div className={styles.alternative}><a href={mailto}>Prefer email? Send your brief <ArrowIcon/></a><button type="button" disabled={locked} onClick={async () => { try { await navigator.clipboard.writeText(plainBrief); setCopied(true); } catch { setFeedback("Copy is unavailable. You can use the email link or select your text manually."); } }}>{copied ? <>Brief copied <CheckIcon size={15}/></> : "Copy brief"}</button></div>
     </>}
     <noscript>Please email {site.email}. The guided form needs JavaScript.</noscript>
   </form>;

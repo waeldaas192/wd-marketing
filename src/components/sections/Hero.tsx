@@ -22,7 +22,7 @@ export function Hero() {
             </h1>
             <p className={styles.statement}>WD Marketing connects high-performance websites, search and paid acquisition into one measurable system — designed to turn being discovered into being chosen.</p>
             <div className={styles.actions}>
-              <Link href="/contact" className={styles.primary}>Start a project <ArrowIcon/></Link>
+              <Link href="/contact" className={`${styles.primary} liquid-cta`}>Start a project <ArrowIcon/></Link>
               <Link href="/work" className={styles.secondary}>Explore selected work <ArrowIcon/></Link>
             </div>
           </div>

@@ -12,11 +12,14 @@ try {
   const args = process.argv.slice(2);
   if (args.length && (args.length !== 1 || args[0] !== "--dry-run")) throw new Error("Only --dry-run is supported.");
   if (!fs.existsSync(path.join(root, "dist/worker/index.js"))) throw new Error("Run npm run build before deploying.");
-  fs.writeFileSync(path.join(root, "wrangler.generated.json"), JSON.stringify(config(), null, 2) + "\n");
-  // Only additive, versioned migrations. An import of existing data is a separate cutover step.
+  const generated = config();
+  fs.writeFileSync(path.join(root, "wrangler.generated.json"), JSON.stringify(generated, null, 2) + "\n");
+  const databaseName = generated.d1_databases?.[0]?.database_name;
+  if (!databaseName) throw new Error("D1 database name is missing from generated Cloudflare configuration.");
+  // Only additive, versioned migrations. Use the stable database name rather than a binding alias.
   if (args[0] === "--dry-run") run(["deploy", "--dry-run"]);
   else {
-    run(["d1", "migrations", "apply", "DB", "--remote"]);
+    run(["d1", "migrations", "apply", databaseName, "--remote"]);
     run(["deploy"]);
   }
 } catch (error) { console.error(error.message); process.exitCode = 1; }

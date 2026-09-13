@@ -1,0 +1,17 @@
+.page > div { max-width: 1000px; }
+.intro { font-size: 1.125rem; line-height: 1.75; max-width: 70ch; }
+.links { display: flex; flex-wrap: wrap; gap: 10px 24px; margin: 28px 0 40px; padding: 20px 0; border-block: 1px solid var(--line); }
+.links a, .links button { font: inherit; font-size: .875rem; color: #383cad; text-decoration: underline; text-underline-offset: 4px; padding-block: 8px; min-height: 44px; background: none; border: 0; cursor: pointer; }
+.content h2, .contact h2 { margin: 36px 0 14px; font-size: 1.5rem; line-height: 1.35; }
+.content h3 { margin: 24px 0 12px; font-size: 1.125rem; }
+.content p, .content li, .contact p { font-size: 1rem; line-height: 1.8; color: var(--muted); overflow-wrap: anywhere; }
+.content ul { list-style: disc; padding-left: 24px; }
+.content li + li { margin-top: 8px; }
+.content a, .contact a { color: #383cad; text-decoration: underline; text-underline-offset: 3px; }
+.tableWrap { overflow-x: auto; margin: 20px 0; }
+.content table { width: 100%; border-collapse: collapse; text-align: left; font-size: .875rem; line-height: 1.6; }
+.content th, .content td { padding: 14px; border: 1px solid var(--line); vertical-align: top; min-width: 130px; }
+.content th { background: var(--surface-2); font-weight: 600; }
+.contact { margin-top: 40px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); }
+.contact h2 { margin-top: 0; }
+.contact p { margin-bottom: 0; }

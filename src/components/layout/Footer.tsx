@@ -1,3 +1,4 @@
+import { CookieSettingsButton } from "@/components/privacy/CookieSettingsButton";
 import Image from "next/image";
 import { ArrowIcon } from "@/components/ui/Icons";
 import Link from "next/link";
@@ -25,6 +26,6 @@ export function Footer() {
       <nav className={styles.column} aria-label="Footer services"><span className={styles.label}>Capabilities</span>{services.map(([label,href]) => <Link key={href} href={href}>{label}</Link>)}</nav>
       <div className={styles.column}><span className={styles.label}>Connect</span><Link href="/contact">Start a project</Link><a href={`mailto:${site.email}`}>Email</a><div className={styles.socials} aria-label="WD Marketing social profiles">{site.socialProfiles.map(profile => <a key={profile.name} className={styles.socialLink} href={profile.href} target="_blank" rel="noopener noreferrer" aria-label={`WD Marketing on ${profile.name}`}><SocialIcon name={profile.name}/><span>{profile.name}</span></a>)}</div><span className={styles.location}>{site.location}</span></div>
     </div>
-    <div className={styles.bottom}><span>© {new Date().getFullYear()} WD Marketing</span><span>Strategy · Build · Acquire · Measure</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link></div></div>
+    <div className={styles.bottom}><span>© {new Date().getFullYear()} WD Marketing</span><span>Strategy · Build · Acquire · Measure</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/cookies">Cookies</Link><CookieSettingsButton className={styles.cookieSettings}/></div></div>
   </div></footer>;
 }

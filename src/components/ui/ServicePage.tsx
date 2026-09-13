@@ -37,7 +37,7 @@ function HeroVisual({ tone }: { tone: ServiceTone }) {
       <div className={styles.browser} aria-hidden="true">
         <div className={styles.browserTop}><i /><i /><i /><span>wd / conversion page</span></div>
         <div className={styles.browserBody}>
-          <div><small>MESSAGE MATCH</small><strong>Make the next step obvious.</strong><p>A clear offer, useful proof and one focused action.</p><span className={styles.mockButton}>Start an enquiry <b>↗</b></span></div>
+          <div><small>MESSAGE MATCH</small><strong>Make the next step obvious.</strong><p>A clear offer, useful proof and one focused action.</p><span className={styles.mockButton}>Start an enquiry <ArrowIcon/></span></div>
           <div className={styles.mobilePreview}><i /><span /><span /><strong>CTA</strong></div>
         </div>
       </div>
@@ -84,7 +84,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
             <div className={styles.heroCopy}>
               <h1 id="service-title">{data.title}<span>{data.accent}</span></h1>
               <p>{data.intro}</p>
-              <div className={styles.heroActions}><Link href="/contact" className={styles.primary}>{data.primaryCta}<Arrow /></Link><Link href="/work" className={styles.textLink}>View selected work <Arrow /></Link></div>
+              <div className={styles.heroActions}><Link href="/contact" className={`${styles.primary} liquid-cta`}>{data.primaryCta}<Arrow /></Link><Link href="/work" className={styles.textLink}>View selected work <Arrow /></Link></div>
               <p className={styles.reassurance}>Founder-led strategy and delivery. Scope agreed before work begins.</p>
             </div>
             <HeroVisual tone={data.tone} />
@@ -122,7 +122,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
 
       <section className={styles.connected} aria-labelledby="connected-title"><div className="container"><div className={styles.connectedHeader}><div><p>Connected capabilities</p><h2 id="connected-title">Use one service or connect the full system.</h2></div><Link href="/services" className={styles.textLink}>View all services <Arrow /></Link></div><div className={styles.connectedLinks}>{connectedServices.filter(item=>item.tone!==data.tone).map((item,index)=><Link href={item.href} key={item.href}><span>0{index+1}</span><strong>{item.label}</strong><Arrow /></Link>)}</div></div></section>
 
-      <section className={styles.finalCta}><div className="container"><div><p>Start with the commercial problem</p><h2>Tell us what needs to work better.</h2><span>Share the current situation, the outcome you need and what is getting in the way.</span></div><Link href="/contact" className={styles.primary}>{data.primaryCta}<Arrow /></Link></div></section>
+      <section className={styles.finalCta}><div className="container"><div><p>Start with the commercial problem</p><h2>Tell us what needs to work better.</h2><span>Share the current situation, the outcome you need and what is getting in the way.</span></div><Link href="/contact" className={`${styles.primary} liquid-cta`}>{data.primaryCta}<Arrow /></Link></div></section>
     </div>
   );
 }
