@@ -7,6 +7,11 @@ export type ProjectGalleryImage = {
   height: number;
 };
 
+export type ProjectMetric = {
+  value: string;
+  label: string;
+};
+
 export type Project = {
   slug: string;
   name: string;
@@ -21,6 +26,8 @@ export type Project = {
   deliverables: string[];
   evidence: string;
   website?: string;
+  metrics?: ProjectMetric[];
+  technology?: string[];
   gallery: ProjectGalleryImage[];
 };
 
@@ -66,20 +73,28 @@ export const projects: Project[] = [
   {
     slug: "mb-legacy-roofing",
     name: "MB Legacy Roofing",
-    type: "Local SEO · Lead Generation",
-    headline: "Building a London roofing growth engine around high-intent local demand.",
+    type: "Web Design · Local SEO · Conversion",
+    headline: "Rebuilding a legacy WordPress presence as a fast, structured London roofing platform.",
     image: "/images/projects/roofing/mb-legacy-roofing-london-case-study.webp",
     imageAlt: "MB Legacy Roofing London SEO and lead generation case study",
     sector: "Roofing / home services",
     location: "London",
-    challenge: "The business needed a route to qualified roofing enquiries in a competitive London market, with visibility tied to actual commercial service intent rather than broad traffic.",
-    strategy: ["Map roofing demand by service, roof type and London location", "Prioritise revenue-driving service pages", "Strengthen local trust and technical SEO", "Design paid-search landing paths to complement organic growth"],
-    deliverables: ["Market analysis", "Keyword architecture", "90-day SEO roadmap", "Landing-page strategy", "Conversion measurement plan"],
-    evidence: "The case study intentionally avoids unverified lead or ranking claims until campaign data is validated.",
+    challenge: "The existing site needed to move beyond a slow, fragmented WordPress experience without losing useful roofing content or established URLs. The new platform had to make urgent and planned enquiries clear on every screen while creating a scalable foundation for service and London-area search demand.",
+    strategy: ["Rebuild the customer journey around repair, replacement and emergency intent", "Structure service and location content as crawlable routes with unique metadata", "Preserve useful legacy URLs through permanent redirects", "Connect responsive quote journeys to a protected enquiry backend"],
+    deliverables: ["Next.js 16 website build", "Responsive conversion UX", "47-route SEO architecture", "Cloudflare Worker and D1 enquiries", "Legacy URL migration"],
+    evidence: "Google PageSpeed Insights lab snapshot captured 13 September 2026: 99 desktop performance, 90 mobile performance, 97 accessibility, 96 best practices and 100 SEO. Lab scores can vary by run and do not represent lead, revenue or ranking guarantees.",
     website: "https://mblegacyroofing.co.uk/",
+    metrics: [
+      { value: "99", label: "Desktop performance" },
+      { value: "90", label: "Mobile performance" },
+      { value: "100", label: "SEO" },
+      { value: "47", label: "SEO routes" },
+    ],
+    technology: ["Next.js 16", "React 19", "Tailwind CSS 4", "Cloudflare Workers + D1"],
     gallery: [
       { src: "/images/projects/roofing/mb-legacy-roofing-website-desktop.webp", alt: "MB Legacy Roofing London homepage and callback request form", width: 1800, height: 1200 },
-      { src: "/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp", alt: "MB Legacy Roofing trust information and roofing service cards", width: 1800, height: 1200 },
+      { src: "/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp", alt: "MB Legacy Roofing Next.js, local SEO and Cloudflare enquiry architecture", width: 1800, height: 1200 },
+      { src: "/images/projects/roofing/mb-legacy-roofing-mobile-lead-page.webp", alt: "MB Legacy Roofing mobile experience and verified PageSpeed snapshot", width: 1200, height: 1500 },
     ],
   },
   {

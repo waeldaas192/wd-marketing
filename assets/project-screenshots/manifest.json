@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "method": "Real browser viewport captures; only the outer scrollbar is cropped. Images are proportionally resized and letterboxed, never AI-recreated or relabelled as mobile views.",
+  "method": "Unless a record declares its own method and sourceFiles, outputs are real browser viewport captures: only the outer scrollbar is cropped, and images are proportionally resized and letterboxed.",
   "records": [
     {
       "project": "marble-stone-polishing",
@@ -238,16 +238,35 @@
     },
     {
       "project": "mb-legacy-roofing",
-      "section": "homepage",
+      "section": "case-study-cover",
       "url": "https://mblegacyroofing.co.uk/",
-      "sourceFile": "wd-portfolio-roof-hero-1789083830021.jpg",
-      "capturedAt": "2026-09-10T23:43:50.021Z",
+      "method": "Higgsfield-generated device presentation with the canonical WD Marketing SVG composited by the checked-in asset builder.",
+      "sourceFiles": [
+        "assets/project-screenshots/mb-legacy-higgsfield-cover-2026-09-13.webp",
+        "public/images/brand/wd-marketing-logo.svg",
+        "scripts/build-mb-legacy-assets.cjs"
+      ],
+      "capturedAt": "2026-09-13T18:14:35.000Z",
       "outputs": [
         {
           "path": "/images/projects/roofing/mb-legacy-roofing-london-case-study.webp",
           "width": 1800,
           "height": 1200
-        },
+        }
+      ]
+    },
+    {
+      "project": "mb-legacy-roofing",
+      "section": "live-desktop",
+      "url": "https://mblegacyroofing.co.uk/",
+      "method": "Real browser desktop capture placed in an authored browser frame with the canonical WD Marketing SVG.",
+      "sourceFiles": [
+        "assets/project-screenshots/mb-legacy-live-desktop-2026-09-13.jpg",
+        "public/images/brand/wd-marketing-logo.svg",
+        "scripts/build-mb-legacy-assets.cjs"
+      ],
+      "capturedAt": "2026-09-13T17:50:00.000Z",
+      "outputs": [
         {
           "path": "/images/projects/roofing/mb-legacy-roofing-website-desktop.webp",
           "width": 1800,
@@ -257,15 +276,39 @@
     },
     {
       "project": "mb-legacy-roofing",
-      "section": "details",
+      "section": "platform-architecture",
       "url": "https://mblegacyroofing.co.uk/",
-      "sourceFile": "wd-portfolio-roof-details-1789084127477.jpg",
-      "capturedAt": "2026-09-10T23:48:47.477Z",
+      "method": "Script-authored technical infographic based on the verified production repository and rendered with the canonical WD Marketing SVG.",
+      "sourceFiles": [
+        "public/images/brand/wd-marketing-logo.svg",
+        "scripts/build-mb-legacy-assets.cjs"
+      ],
+      "capturedAt": "2026-09-13T17:50:00.000Z",
       "outputs": [
         {
           "path": "/images/projects/roofing/mb-legacy-roofing-local-seo-structure.webp",
           "width": 1800,
           "height": 1200
+        }
+      ]
+    },
+    {
+      "project": "mb-legacy-roofing",
+      "section": "mobile-performance-evidence",
+      "url": "https://pagespeed.web.dev/analysis/https-mblegacyroofing-co-uk/",
+      "method": "Authored performance card using the supplied mobile PageSpeed capture and canonical WD Marketing SVG; scores are transcribed with an explicit lab-data caveat.",
+      "sourceFiles": [
+        "assets/project-screenshots/mb-legacy-pagespeed-mobile-2026-09-13.webp",
+        "assets/project-screenshots/mb-legacy-pagespeed-desktop-2026-09-13.webp",
+        "public/images/brand/wd-marketing-logo.svg",
+        "scripts/build-mb-legacy-assets.cjs"
+      ],
+      "capturedAt": "2026-09-13T17:50:00.000Z",
+      "outputs": [
+        {
+          "path": "/images/projects/roofing/mb-legacy-roofing-mobile-lead-page.webp",
+          "width": 1200,
+          "height": 1500
         }
       ]
     },

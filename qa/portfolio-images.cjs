@@ -29,8 +29,9 @@ async function main() {
   assert.equal(new Set(projects.map(p => p.slug)).size, projects.length);
   const exportIndex = new Map(manifest.records.flatMap(c => c.outputs.map(o => [o.path, o])));
   for (const record of manifest.records) {
-    const raw = path.join(root, 'assets/project-screenshots', record.sourceFile);
-    assert(fs.statSync(raw).size > 0);
+    const inputs = record.sourceFiles || [path.join('assets/project-screenshots', record.sourceFile)];
+    assert(inputs.length > 0, `${record.project}/${record.section} must declare at least one input`);
+    for (const input of inputs) assert(fs.statSync(path.join(root, input)).size > 0);
     assert.equal(new URL(record.url).protocol, 'https:');
     for (const output of record.outputs) {
       const bytes = fs.readFileSync(path.join(root, 'public', output.path));

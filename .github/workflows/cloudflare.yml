@@ -33,6 +33,7 @@ jobs:
       - run: npm ci
       - run: npm run test:backend
       - run: npm run build
+      - run: npm run test:mb-legacy
       - run: npm run typecheck
       - run: npm run test:measurement
       - run: npm run test:deployment
