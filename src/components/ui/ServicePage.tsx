@@ -4,6 +4,9 @@ import styles from "./ServicePage.module.css";
 
 export type ServiceTone = "web" | "paid" | "infrastructure";
 
+type ProofPoint = string | { label: string; href: string };
+type RelatedLink = { label: string; href: string };
+
 export type ServicePageData = {
   tone: ServiceTone;
   eyebrow: string;
@@ -15,7 +18,8 @@ export type ServicePageData = {
   problems: { title: string; copy: string }[];
   capabilities: { title: string; copy: string; deliverable: string }[];
   process: { title: string; copy: string }[];
-  proof: { eyebrow: string; title: string; copy: string; points: string[] };
+  proof: { eyebrow: string; title: string; copy: string; points: ProofPoint[] };
+  related?: { eyebrow: string; title: string; links: RelatedLink[] };
   faqs: { question: string; answer: string }[];
 };
 
@@ -114,9 +118,11 @@ export function ServicePage({ data }: { data: ServicePageData }) {
         </div>
       </section>
 
-      <section className={styles.proofSection} aria-labelledby="proof-title"><div className={`container ${styles.proofGrid}`}><div><p>{data.proof.eyebrow}</p><h2 id="proof-title">{data.proof.title}</h2></div><div><p>{data.proof.copy}</p><ul>{data.proof.points.map(point=><li key={point}>{point}</li>)}</ul><Link href="/work" className={styles.textLink}>Explore selected work <Arrow /></Link></div></div></section>
+      <section className={styles.proofSection} aria-labelledby="proof-title"><div className={`container ${styles.proofGrid}`}><div><p>{data.proof.eyebrow}</p><h2 id="proof-title">{data.proof.title}</h2></div><div><p>{data.proof.copy}</p><ul>{data.proof.points.map(point=>typeof point === "string" ? <li key={point}>{point}</li> : <li key={point.href}><Link href={point.href} className={styles.textLink}>{point.label}<Arrow /></Link></li>)}</ul><Link href="/work" className={styles.textLink}>Explore selected work <Arrow /></Link></div></div></section>
 
       <section className={styles.section} id="service-process" aria-labelledby="process-title"><div className="container"><div className={styles.editorialHeading}><div><p>Delivery model</p><h2 id="process-title">One accountable path from problem to progress.</h2></div><p>The detail changes by project. The discipline does not.</p></div><ol className={styles.process}>{data.process.map((item,index)=><li key={item.title}><span>0{index+1}</span><h3>{item.title}</h3><p>{item.copy}</p></li>)}</ol></div></section>
+
+      {data.related && <section className={styles.connected} aria-labelledby="related-title"><div className="container"><div className={styles.connectedHeader}><div><p>{data.related.eyebrow}</p><h2 id="related-title">{data.related.title}</h2></div><Link href="/insights" className={styles.textLink}>View all insights <Arrow /></Link></div><div className={styles.connectedLinks}>{data.related.links.map((item,index)=><Link href={item.href} key={item.href}><span>0{index+1}</span><strong>{item.label}</strong><Arrow /></Link>)}</div></div></section>}
 
       <section className={`${styles.section} ${styles.questions}`} id="service-questions" aria-labelledby="questions-title"><div className={`container ${styles.questionsGrid}`}><div><p>Before we begin</p><h2 id="questions-title">Useful questions deserve direct answers.</h2></div><div>{data.faqs.map(({question,answer})=><details key={question}><summary>{question}<i aria-hidden="true" /></summary><p>{answer}</p></details>)}</div></div></section>
 

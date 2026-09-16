@@ -31,6 +31,18 @@ async function main() {
       assert.equal(response.status, 200, url); assert.equal(response.headers.get('x-robots-tag'), null, url);
       assert.match(await response.text(), /<html/);
     }
+    const webDesignResponse = await runtime.dispatchFetch('https://wdmarketing.co.uk/services/web-conversion');
+    assert.equal(webDesignResponse.status, 200);
+    const webDesignHtml = await webDesignResponse.text();
+    assert.match(webDesignHtml, /Founder-led web design agency in London/i);
+    assert.match(webDesignHtml, /Website redesign (?:&amp;|&) SEO migration/i);
+    assert.match(webDesignHtml, /href="\/work\/stone-pro-worktops"/);
+    assert.match(webDesignHtml, /href="\/work\/exp-auto-parts"/);
+    assert.match(webDesignHtml, /href="\/work\/mb-legacy-roofing"/);
+    assert.match(webDesignHtml, /href="\/insights\/landing-page-before-more-ad-spend"/);
+    assert.match(webDesignHtml, /href="\/services\/seo"/);
+    assert.match(webDesignHtml, /Will I own the website/i);
+    assert.match(webDesignHtml, /without damaging SEO/i);
     const rules = fs.readFileSync(path.join(root, 'public/_redirects'), 'utf8').split(/\r?\n/).map(x => x.trim()).filter(x => x && !x.startsWith('#'));
     for (const rule of rules) {
       const [from, to, status] = rule.split(/\s+/);
@@ -53,7 +65,7 @@ async function main() {
     assert.equal(response.status, 200); assert.equal((await response.json()).ok, true);
     assert.equal((await db.prepare('SELECT COUNT(*) n FROM contact_enquiries').first()).n, 1);
     assert.equal((await db.prepare('SELECT COUNT(*) n FROM contact_email_outbox').first()).n, 0);
-    console.log(`PASS standalone: ${urls.length} pages, ${rules.length} redirects, ${resources.length} assets; 404s, www, noindex, D1 health and form persistence.`);
+    console.log(`PASS standalone: ${urls.length} pages, ${rules.length} redirects, ${resources.length} assets; 404s, www, noindex, D1 health, web-design SEO proof and form persistence.`);
   } finally { await runtime.dispose(); }
 }
 main().catch(error => { console.error(error.message); process.exitCode = 1; });
