@@ -14,7 +14,12 @@
     "configure:cloudflare": "node scripts/cloudflare-config.cjs",
     "deploy": "node scripts/deploy-cloudflare.cjs",
     "test:measurement": "node qa/measurement.cjs",
-    "test:mb-legacy": "node qa/mb-legacy-case-study.cjs"
+    "test:mb-legacy": "node qa/mb-legacy-case-study.cjs",
+    "test:workflow-docs": "node qa/workflow-docs-contract.cjs",
+    "test:workflow-profile": "node qa/workflow-profile-contract.cjs",
+    "test:browser": "node qa/browser-audit.cjs",
+    "test:browser-contract": "node qa/browser-audit-contract.cjs",
+    "test:ci-workflow": "node qa/ci-workflow-contract.cjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
