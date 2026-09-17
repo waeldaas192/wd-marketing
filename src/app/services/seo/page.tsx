@@ -3,10 +3,12 @@ import { pageMetadata } from "@/lib/metadata";
 import { ArrowIcon } from "@/components/ui/Icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import Link from "next/link";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { SeoImageSlot } from "@/components/seo/SeoImageSlot";
 import { SeoGrowthMotion } from "@/components/seo/SeoGrowthMotion";
 import { seoImages } from "@/data/seoImages";
 import { site } from "@/data/site";
+import { serviceStructuredData } from "@/lib/structured-data";
 import styles from "./seo.module.css";
 
 const description = "SEO services for London businesses, connecting search strategy, website improvements and enquiry tracking. Discuss your project with WD Marketing.";
@@ -41,6 +43,7 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 export default function SeoPage() {
   return (
     <div className={styles.page}>
+      <JsonLd value={serviceStructuredData({ name: "SEO Services", description, pathname: "/services/seo", serviceType: "Search engine optimization" })} />
       <Breadcrumbs items={[{label:"Services",href:"/services"},{label:"SEO services",href:"/services/seo"}]} />
       <section className={styles.hero} id="seo-content" aria-labelledby="seo-title">
         <div className="container">
