@@ -11,6 +11,7 @@ for (const phrase of [
   'npm run test:workflow-profile',
   'npm run test:browser-contract',
   'npm run test:ci-workflow',
+  'npm run test:seo',
   'playwright@1.63.0',
   '@axe-core/playwright@4.13.0',
   'npx playwright install --with-deps chromium',
@@ -24,6 +25,7 @@ for (const phrase of [
 ]) assert.ok(yaml.includes(phrase), `cloudflare.yml missing: ${phrase}`);
 
 assert.ok(yaml.indexOf('npm audit --omit=dev --audit-level=high') < yaml.indexOf('npm run build'), 'production security gate must run before build');
+assert.ok(yaml.indexOf('npm run test:seo') < yaml.indexOf('npm run build'), 'SEO contract must run before build');
 assert.ok(yaml.indexOf('npm run configure:cloudflare') < yaml.indexOf('npm run start -- --ip 127.0.0.1 --port 8787'), 'preview config must be generated before Wrangler starts');
 assert.ok(yaml.includes('needs: verify'), 'deploy must remain gated by verify');
 assert.ok(yaml.includes("github.ref == 'refs/heads/main'"), 'production deploy must remain main-only');
