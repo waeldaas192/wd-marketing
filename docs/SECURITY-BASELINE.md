@@ -37,6 +37,13 @@ After the PostCSS and Cloudflare tooling remediations, the full audit reports 4 
 
 This chain is development-only and is not part of the deployed browser/Worker dependency set. `drizzle.config.ts` still depends on Drizzle Kit for migration tooling, so it is intentionally retained rather than downgraded or removed merely to silence the audit.
 
+## Final security state for this change
+
+- Production audit: 0 vulnerabilities.
+- Full audit: 4 moderate, 0 high, 0 critical.
+- Remaining findings: development-only Drizzle Kit chain.
+- Cloudflare tooling: updated and validated through the full WD quality pipeline before commit.
+
 ## Remediation policy
 
 - Do not use `npm audit fix --force` or `--legacy-peer-deps` to bypass dependency resolution.
