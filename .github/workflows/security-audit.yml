@@ -22,6 +22,8 @@ jobs:
       - name: Regenerate lockfile from candidate dependency policy
         run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
+      - name: Verify Drizzle Kit migration compatibility
+        run: npx drizzle-kit check
       - name: Capture full npm audit report
         run: |
           npm audit --json > audit-full.json || true
