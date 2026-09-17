@@ -17,6 +17,10 @@ for (const phrase of [
   'meta-ads-mobile',
   'meta-ads-desktop',
   'data-meta-brand-icon',
+  '/services/conversion-rate-optimisation',
+  'cro-mobile',
+  'cro-desktop',
+  'data-cro-journey',
 ]) assert.ok(audit.includes(phrase), `browser audit missing expected coverage: ${phrase}`);
 
 const workflow = fs.readFileSync('.github/workflows/cloudflare.yml', 'utf8');

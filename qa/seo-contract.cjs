@@ -19,7 +19,7 @@ for (const path of ['/wp-sitemap.xml','/sitemap_index.xml','/post-sitemap.xml','
 
 assert.ok(fs.existsSync('public/llms.txt'), 'public/llms.txt must exist');
 const llms = read('public/llms.txt');
-for (const url of ['https://wdmarketing.co.uk','/services/web-conversion','/services/seo','/services/paid-acquisition','/services/growth-infrastructure','/services/meta-ads','/about','/work','/insights','/contact']) {
+for (const url of ['https://wdmarketing.co.uk','/services/web-conversion','/services/seo','/services/paid-acquisition','/services/growth-infrastructure','/services/meta-ads','/services/conversion-rate-optimisation','/about','/work','/insights','/contact']) {
   assert.ok(llms.includes(url), `llms.txt missing: ${url}`);
 }
 
@@ -51,6 +51,22 @@ assert.ok(paidPage.includes('/services/meta-ads'), 'Paid Acquisition page must l
 const header = read('src/components/layout/Header.tsx');
 assert.ok(header.includes('href: "/services/meta-ads"'), 'Primary Services navigation must expose the Meta Ads service');
 assert.ok(header.includes('label: "Meta Ads & Social"'), 'Primary Services navigation must label the Meta Ads service clearly');
+
+const croPagePath = 'src/app/services/conversion-rate-optimisation/page.tsx';
+assert.ok(fs.existsSync(croPagePath), 'Conversion Rate Optimisation London service page must exist');
+const croPage = read(croPagePath);
+for (const phrase of ['Conversion Rate Optimisation Agency London', 'qualified enquiries', 'A/B testing', 'Low traffic', 'High traffic', 'serviceSchema']) {
+  assert.ok(croPage.includes(phrase), `CRO page missing required commercial or SEO element: ${phrase}`);
+}
+assert.ok(sitemap.includes('/services/conversion-rate-optimisation'), 'CRO page must be in sitemap');
+for (const file of [
+  'src/app/services/web-conversion/page.tsx',
+  'src/app/services/paid-acquisition/page.tsx',
+  'src/app/services/meta-ads/page.tsx',
+  'src/app/services/growth-infrastructure/page.tsx',
+]) {
+  assert.ok(read(file).includes('/services/conversion-rate-optimisation'), `${file} must link to the CRO service`);
+}
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');

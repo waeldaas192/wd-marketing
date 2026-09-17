@@ -207,6 +207,19 @@ async function axe(page,label) {
       report.interactions.push(`${label}: SVG brand icons, no emoji-like marks, no horizontal overflow`);
     }
 
+    for (const [width,label] of [[390,'cro-mobile'],[1440,'cro-desktop']]) {
+      await page.setViewportSize({width,height:width===390?844:1000});
+      await ready(page,'/services/conversion-rate-optimisation');
+      const journey=page.locator('[data-cro-journey]');
+      check(await journey.count()===1,`${label}: missing CRO conversion journey`);
+      const journeyText=await journey.textContent();
+      for (const phrase of ['Visit','Friction','Qualified lead']) check((journeyText||'').includes(phrase),`${label}: CRO journey missing ${phrase}`);
+      check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${label}: horizontal overflow`);
+      await axe(page,label);
+      await page.screenshot({path:path.join(out,`${label}.png`),fullPage:true});
+      report.interactions.push(`${label}: CRO journey present, accessible and free of horizontal overflow`);
+    }
+
     const configResponse=await context.request.get(base+'/api/contact/config');
     check(configResponse.status()===200,'Contact config endpoint unavailable');
     const contactConfig=await configResponse.json();
