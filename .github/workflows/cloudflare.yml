@@ -13,7 +13,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       NEXT_TELEMETRY_DISABLED: '1'
       NEXT_PUBLIC_MEASUREMENT_ENABLED: ${{ vars.NEXT_PUBLIC_MEASUREMENT_ENABLED }}
@@ -31,12 +31,41 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: npm run test:workflow-docs
+      - run: npm run test:workflow-profile
+      - run: npm run test:browser-contract
+      - run: npm run test:ci-workflow
       - run: npm run test:backend
       - run: npm run build
       - run: npm run test:mb-legacy
       - run: npm run typecheck
       - run: npm run test:measurement
       - run: npm run test:deployment
+      - name: Install pinned browser QA tools
+        run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.63.0 @axe-core/playwright@4.13.0
+      - run: npx playwright install --with-deps chromium
+      - name: Start verified Cloudflare preview
+        run: |
+          npm run start -- --ip 127.0.0.1 --port 8787 > /tmp/wd-preview.log 2>&1 &
+          echo $! > /tmp/wd-preview.pid
+          for i in $(seq 1 45); do
+            if curl --fail --silent http://127.0.0.1:8787/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/wd-preview.log
+          exit 1
+      - name: Run browser responsive and accessibility audit
+        run: QA_BASE_URL=http://127.0.0.1:8787 npm run test:browser
+      - name: Upload browser QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-qa-${{ github.sha }}
+          path: qa-results/
+          retention-days: 7
+          if-no-files-found: warn
       - uses: actions/upload-artifact@v4
         with:
           name: verified-site-${{ github.sha }}
