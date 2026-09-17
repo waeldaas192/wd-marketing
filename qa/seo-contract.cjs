@@ -52,6 +52,15 @@ const header = read('src/components/layout/Header.tsx');
 assert.ok(header.includes('href: "/services/meta-ads"'), 'Primary Services navigation must expose the Meta Ads service');
 assert.ok(header.includes('label: "Meta Ads & Social"'), 'Primary Services navigation must label the Meta Ads service clearly');
 
+const metaNetwork = read('src/components/meta-ads/MetaAdsNetwork.tsx');
+for (const emojiLike of ['☎','✉','∞','◎']) {
+  assert.ok(!metaNetwork.includes(emojiLike), `Meta Ads network must not use emoji/text glyph icon: ${emojiLike}`);
+}
+for (const svgComponent of ['MetaMark','FacebookMark','InstagramMark','HighLevelMark','LeadMark','CallMark','MessageMark','PipelineMark','GrowthMark']) {
+  assert.ok(metaNetwork.includes(svgComponent), `Meta Ads network missing SVG component: ${svgComponent}`);
+}
+assert.ok(metaNetwork.includes('/images/brand/wd-marketing-ribbon-mark.png'), 'Meta Ads network must use the current transparent WD ribbon brand asset');
+
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 console.log('WD SEO contract passed');
