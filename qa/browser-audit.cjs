@@ -65,7 +65,7 @@ async function axe(page,label) {
   page.on('pageerror', error => report.failures.push(`Browser runtime error: ${error.message}`));
   page.setDefaultTimeout(15000);
   try {
-    for (const width of [320,360,390,430,640,768,1024,1280,1440,1920]) {
+    for (const width of [320,360,375,390,430,640,768,1024,1280,1440,1920]) {
       await page.setViewportSize({width,height:900});
       await ready(page);
       await imagesReady(page,`home-${width}`);
