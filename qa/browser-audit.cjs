@@ -143,6 +143,7 @@ async function axe(page,label) {
     await page.setViewportSize({width:390,height:844}); await ready(page);
     await page.getByRole('button',{name:'Open menu',exact:true}).click();
     const dialog=page.locator('#mobile-navigation');
+    await page.waitForFunction(()=>document.querySelector('#mobile-navigation')?.open === true);
     check(await dialog.evaluate(el=>el.open),'Mobile dialog did not open');
     for (const key of ['Tab','Shift+Tab']) {
       for(let i=0;i<10;i++) {
