@@ -189,6 +189,24 @@ async function axe(page,label) {
       await axe(page,`route-${route}`);
       check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${route}: mobile overflow`);
     }
+
+    for (const [width,label] of [[390,'meta-ads-mobile'],[1440,'meta-ads-desktop']]) {
+      await page.setViewportSize({width,height:width===390?844:1000});
+      await ready(page,'/services/meta-ads');
+      await imagesReady(page,label);
+      const network=page.locator('[data-meta-network]');
+      check(await network.count()===1,`${label}: missing Meta acquisition network`);
+      const brandIcons=page.locator('[data-meta-brand-icon]');
+      check(await brandIcons.count()===4,`${label}: expected four SVG brand icons`);
+      check(await brandIcons.evaluateAll(nodes=>nodes.every(node=>node.tagName.toLowerCase()==='svg')),`${label}: brand icons must render as SVG`);
+      const networkText=await network.textContent();
+      check(!/[☎✉∞◎↳↗]/u.test(networkText||''),`${label}: emoji-like network marks remain`);
+      check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${label}: horizontal overflow`);
+      await axe(page,label);
+      await page.screenshot({path:path.join(out,`${label}.png`),fullPage:true});
+      report.interactions.push(`${label}: SVG brand icons, no emoji-like marks, no horizontal overflow`);
+    }
+
     const configResponse=await context.request.get(base+'/api/contact/config');
     check(configResponse.status()===200,'Contact config endpoint unavailable');
     const contactConfig=await configResponse.json();
