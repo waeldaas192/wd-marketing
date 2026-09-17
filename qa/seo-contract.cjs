@@ -78,6 +78,12 @@ for (const file of [
 for (const href of ['/services/web-conversion','/services/paid-acquisition','/services/meta-ads','/services/growth-infrastructure']) {
   assert.ok(croPage.includes(href), `CRO page must link to connected service: ${href}`);
 }
+assert.ok(header.includes('href: "/services/conversion-rate-optimisation"'), 'Primary Services navigation must expose the CRO service');
+assert.ok(header.includes('label: "Conversion Optimisation"'), 'Primary Services navigation must label the CRO service clearly');
+const webNavIndex = header.indexOf('href: "/services/web-conversion"');
+const croNavIndex = header.indexOf('href: "/services/conversion-rate-optimisation"');
+const seoNavIndex = header.indexOf('href: "/services/seo"');
+assert.ok(webNavIndex !== -1 && croNavIndex > webNavIndex && seoNavIndex > croNavIndex, 'CRO service must appear between Web & Conversion and SEO in the Services navigation');
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
