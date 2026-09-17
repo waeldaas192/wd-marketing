@@ -4,23 +4,24 @@
 
 **Goal:** Turn the approved WD Development Workflow specification into repository instructions, project-specific quality gates, browser QA automation, and CI enforcement for `waeldaas192/wd-marketing` without changing the live website design or deployment architecture.
 
-**Architecture:** Keep the current Next.js + Cloudflare build/deploy path and existing QA scripts. Add a thin documentation/instruction layer plus machine-checkable contract tests, then wire the existing `qa/browser-audit.cjs` into the existing GitHub Actions `verify` job so deploy still depends on verified artifacts. Browser QA runs against the built Cloudflare preview and uploads `qa-results/` evidence separately from `dist/`.
+**Architecture:** Preserve the current Next.js + Cloudflare build/deploy path and existing QA scripts. Add a thin documentation/instruction layer plus machine-checkable contract tests, then wire the existing `qa/browser-audit.cjs` into the current GitHub Actions `verify` job so production deployment still depends on a verified build artifact. Browser QA runs against the built Cloudflare preview and uploads `qa-results/` evidence separately from `dist/`.
 
-**Tech Stack:** Next.js 15.5.25, React 19.2.0, TypeScript 5.9.x, Node.js 22, Cloudflare Wrangler 4.131.0, existing CommonJS QA scripts, Playwright 1.63.0, `@axe-core/playwright` 4.13.0, GitHub Actions.
+**Tech Stack:** Next.js 15.5.25, React 19.2.0, TypeScript 5.9.x, Node.js 22, Cloudflare Wrangler 4.131.0, CommonJS QA scripts, Playwright 1.63.0, `@axe-core/playwright` 4.13.0, GitHub Actions.
 
 **Spec:** `docs/superpowers/specs/2026-09-17-wd-development-workflow-design.md`
 
 ## Global Constraints
 
-- Preserve `src/styles/design-tokens.css` as the visual source of truth for this repository.
+- Preserve `src/styles/design-tokens.css` as this repository's visual source of truth.
 - Preserve `docs/UI-SYSTEM.md` and `docs/MEASUREMENT-SETUP.md` as authoritative project-specific rules unless a later approved spec supersedes them.
-- Preserve the existing Wrangler/Cloudflare deployment path and `deploy` job dependency on the `verify` job.
+- Preserve the Wrangler/Cloudflare runtime and the `deploy` job dependency on the `verify` job.
 - Reuse existing commands: `typecheck`, `build`, `test:backend`, `test:deployment`, `test:measurement`, `test:mb-legacy`.
-- Do not redesign the website or change public copy/content as part of this implementation.
-- Do not invent testimonials, awards, performance scores, rankings, social URLs, results or business claims.
-- Do not expose secrets or copy production credentials into source-controlled files.
+- Do not redesign the website or change public marketing copy as part of this implementation.
+- Never invent testimonials, awards, performance scores, rankings, social URLs, client results or business claims.
+- Never commit credentials, API secrets, private keys or production tokens.
 - Browser automation is evidence, not a claim of complete WCAG conformance or field Core Web Vitals.
-- Use exact pinned browser QA versions: `playwright` `1.63.0` and `@axe-core/playwright` `4.13.0`.
+- Pin browser QA to `playwright` `1.63.0` and `@axe-core/playwright` `4.13.0`.
+- Preserve all existing browser-audit viewport coverage and add the spec-required 375px viewport.
 
 ---
 
@@ -34,10 +35,10 @@
 - Test: `qa/workflow-docs-contract.cjs`
 
 **Interfaces:**
-- Consumes: approved spec and existing `docs/UI-SYSTEM.md`, `docs/MEASUREMENT-SETUP.md`.
-- Produces: repository-wide agent instructions, human operating standard, and npm command `test:workflow-docs`.
+- Consumes: approved spec plus `docs/UI-SYSTEM.md` and `docs/MEASUREMENT-SETUP.md`.
+- Produces: repository-wide agent rules, the human operating standard, and `npm run test:workflow-docs`.
 
-- [ ] **Step 1: Write the failing documentation contract test**
+- [ ] **Step 1: Write the failing documentation contract**
 
 Create `qa/workflow-docs-contract.cjs`:
 
@@ -45,23 +46,15 @@ Create `qa/workflow-docs-contract.cjs`:
 const fs = require('node:fs');
 const assert = require('node:assert/strict');
 
-const required = [
-  'AGENTS.md',
-  'docs/WD-DEVELOPMENT-WORKFLOW.md',
-];
-for (const file of required) {
+for (const file of ['AGENTS.md', 'docs/WD-DEVELOPMENT-WORKFLOW.md']) {
   assert.ok(fs.existsSync(file), `${file} must exist`);
-  const text = fs.readFileSync(file, 'utf8');
-  assert.ok(text.length > 600, `${file} is unexpectedly small`);
+  assert.ok(fs.readFileSync(file, 'utf8').length > 600, `${file} is unexpectedly small`);
 }
 
 const agents = fs.readFileSync('AGENTS.md', 'utf8');
 for (const phrase of [
-  'docs/UI-SYSTEM.md',
-  'docs/MEASUREMENT-SETUP.md',
-  'npm run typecheck',
-  'npm run build',
-  'Production verification',
+  'docs/UI-SYSTEM.md', 'docs/MEASUREMENT-SETUP.md',
+  'npm run typecheck', 'npm run build', 'Production verification'
 ]) assert.ok(agents.includes(phrase), `AGENTS.md missing: ${phrase}`);
 
 const workflow = fs.readFileSync('docs/WD-DEVELOPMENT-WORKFLOW.md', 'utf8');
@@ -74,30 +67,28 @@ for (const phase of [
 console.log('WD workflow documentation contract passed');
 ```
 
-- [ ] **Step 2: Run the test and verify it fails**
-
-Run:
+- [ ] **Step 2: Verify the contract fails before implementation**
 
 ```bash
 node qa/workflow-docs-contract.cjs
 ```
 
-Expected: FAIL because `AGENTS.md` and `docs/WD-DEVELOPMENT-WORKFLOW.md` do not yet exist.
+Expected: FAIL because the two target documents do not yet exist.
 
-- [ ] **Step 3: Create `AGENTS.md` with mandatory repository rules**
+- [ ] **Step 3: Create `AGENTS.md`**
 
-The file must state, in compact form:
+Use these exact operating rules as the minimum content:
 
 ```markdown
 # WD Marketing repository instructions
 
-Before modifying code, read `docs/UI-SYSTEM.md`, `docs/MEASUREMENT-SETUP.md`, `docs/PROJECT-PROFILE.md`, `docs/QUALITY-GATES.md`, and any feature-specific doc touching the requested area.
+Before modifying code, read `docs/UI-SYSTEM.md`, `docs/MEASUREMENT-SETUP.md`, `docs/PROJECT-PROFILE.md`, `docs/QUALITY-GATES.md`, and any feature-specific document touching the requested area.
 
-Preserve existing component, routing, measurement and Cloudflare patterns unless an approved spec requires a change. `src/styles/design-tokens.css` is the visual source of truth. Do not introduce a new library when existing code or platform APIs solve the requirement cleanly.
+Preserve existing component, routing, measurement and Cloudflare patterns unless an approved spec requires a change. `src/styles/design-tokens.css` is the visual source of truth. Do not add a library when current code or platform APIs solve the requirement cleanly.
 
 For UI work, verify mobile and desktop behaviour, keyboard access, reduced motion, scroll stability, image loading and responsive overflow. Important content must not depend on animation.
 
-For SEO work, preserve valid existing URLs, canonicals, redirects, sitemap intent, robots behaviour and structured-data truthfulness. Never fabricate reviews, FAQs, awards, rankings, client results or performance claims.
+For SEO work, preserve valid existing URLs, canonicals, redirects, sitemap intent, robots behaviour and truthful structured data. Never fabricate reviews, FAQs, awards, rankings, client results or performance claims.
 
 For analytics work, preserve the consent model in `docs/MEASUREMENT-SETUP.md`; never send enquiry content or personal data to analytics.
 
@@ -108,14 +99,14 @@ Minimum code gates before claiming implementation complete:
 - `npm run build`
 - relevant repository QA scripts from `docs/QUALITY-GATES.md`
 - browser/responsive evidence for user-interface changes
-- production verification after deployment when deployment is in scope
+- Production verification after deployment when deployment is in scope
 
 A successful build alone is not completion. Report what was actually tested and identify any external system that was not observed.
 ```
 
 - [ ] **Step 4: Create `docs/WD-DEVELOPMENT-WORKFLOW.md`**
 
-Use the approved spec as the source, preserving the phase order exactly:
+Preserve the spec's exact phase order:
 
 1. Requirements and scope
 2. Design direction
@@ -130,11 +121,11 @@ Use the approved spec as the source, preserving the phase order exactly:
 11. Automated verification
 12. Deployment and production verification
 
-For each phase, include: objective, required checks, evidence expected, and explicit completion gate. Include the approved field-performance targets: LCP <= 2.5 s, INP <= 200 ms and CLS <= 0.1 at the 75th percentile when field data exists.
+For every phase include four fields: objective, required checks, evidence, completion gate. Include the approved field targets: LCP <= 2.5 s, INP <= 200 ms and CLS <= 0.1 at the 75th percentile when real-user data exists.
 
-- [ ] **Step 5: Add the npm script and run the contract test**
+- [ ] **Step 5: Add and run the documentation contract npm script**
 
-Add to `package.json` scripts:
+Add to `package.json`:
 
 ```json
 "test:workflow-docs": "node qa/workflow-docs-contract.cjs"
@@ -168,9 +159,9 @@ git commit -m "docs: add WD development operating standard"
 
 **Interfaces:**
 - Consumes: current package scripts, `docs/UI-SYSTEM.md`, `docs/MEASUREMENT-SETUP.md`, `.github/workflows/cloudflare.yml`.
-- Produces: repository-specific launch constraints and a canonical command/evidence matrix; npm command `test:workflow-profile`.
+- Produces: repository-specific launch constraints, command/evidence matrix, and `npm run test:workflow-profile`.
 
-- [ ] **Step 1: Write the failing project-profile contract**
+- [ ] **Step 1: Write the failing profile contract**
 
 Create `qa/workflow-profile-contract.cjs`:
 
@@ -198,7 +189,7 @@ for (const command of [
 console.log('WD project profile contract passed');
 ```
 
-- [ ] **Step 2: Run the test and verify it fails**
+- [ ] **Step 2: Verify the profile contract fails**
 
 ```bash
 node qa/workflow-profile-contract.cjs
@@ -208,21 +199,21 @@ Expected: FAIL because the two documents do not exist.
 
 - [ ] **Step 3: Create `docs/PROJECT-PROFILE.md`**
 
-Document exact repository facts and gates:
+Document these exact repository facts and constraints:
 
-- App: Next.js 15.5.25 + React 19.2.0 + TypeScript.
-- Hosting/runtime: Cloudflare Workers via Wrangler.
-- Data: Cloudflare D1/Drizzle where used by contact/runtime flows.
+- Next.js 15.5.25 + React 19.2.0 + TypeScript.
+- Cloudflare Workers/Wrangler runtime.
+- Cloudflare D1/Drizzle where used by contact/runtime flows.
 - UI authority: `docs/UI-SYSTEM.md` + `src/styles/design-tokens.css`.
 - Measurement authority: `docs/MEASUREMENT-SETUP.md`.
-- Deployment authority: `.github/workflows/cloudflare.yml` and `npm run deploy`.
-- Preserve the current contact, consent and canonical behaviours.
-- Carry forward existing launch blockers from `docs/UI-SYSTEM.md`, including founder imagery approval and real contact delivery verification, without claiming they are resolved.
-- Do not treat account-side GA4, GTM, Search Console, email or Cloudflare settings as verified from code alone.
+- Deployment authority: `.github/workflows/cloudflare.yml` + `npm run deploy`.
+- Preserve current contact, consent and canonical behaviour.
+- Carry forward the existing `docs/UI-SYSTEM.md` launch blockers, including Founder images approval and real contact endpoint delivery verification, without claiming they are resolved.
+- Account-side GA4, GTM, Search Console, email and Cloudflare settings are not considered verified from code alone.
 
 - [ ] **Step 4: Create `docs/QUALITY-GATES.md`**
 
-Include a table mapping each gate to command and evidence. The mandatory pre-deploy command order must match current CI:
+Include a table mapping each gate to its command and evidence. Preserve the existing pre-deploy order:
 
 ```text
 npm ci
@@ -234,9 +225,9 @@ npm run test:measurement
 npm run test:deployment
 ```
 
-Also document browser QA as a mandatory UI-change gate once Task 3 is implemented, and state that `qa-results/report.json` plus screenshots are the evidence artifact.
+Also document browser QA as mandatory for UI changes after Task 3, with `qa-results/report.json` and screenshots as the evidence artifact.
 
-- [ ] **Step 5: Add and run the profile contract script**
+- [ ] **Step 5: Add and run the profile npm script**
 
 Add:
 
@@ -261,18 +252,18 @@ git commit -m "docs: define WD project quality gates"
 
 ---
 
-### Task 3: Make Existing Browser Audit Reproducible from npm
+### Task 3: Make the Existing Browser Audit Reproducible and Spec-Complete
 
 **Files:**
+- Modify: `qa/browser-audit.cjs`
 - Modify: `package.json`
 - Modify: `package-lock.json`
-- Use existing: `qa/browser-audit.cjs`
 - Create: `qa/browser-audit-contract.cjs`
 - Test: `qa/browser-audit-contract.cjs`
 
 **Interfaces:**
-- Consumes: existing `qa/browser-audit.cjs`, built local Cloudflare preview at `QA_BASE_URL`.
-- Produces: pinned Playwright/axe dependencies and npm command `test:browser`.
+- Consumes: existing `qa/browser-audit.cjs` and a built Cloudflare preview at `QA_BASE_URL`.
+- Produces: pinned Playwright/axe dependencies, `test:browser`, and viewport coverage including 375px while retaining every existing viewport.
 
 - [ ] **Step 1: Write the failing browser-audit contract**
 
@@ -290,24 +281,38 @@ assert.equal(pkg.scripts['test:browser'], 'node qa/browser-audit.cjs');
 const audit = fs.readFileSync('qa/browser-audit.cjs', 'utf8');
 for (const phrase of [
   'playwright', '@axe-core/playwright',
-  '320,360,390,430,640,768,1024,1280,1440,1920',
+  '320,360,375,390,430,640,768,1024,1280,1440,1920',
   'home-text-200', 'sitemap.xml', 'qa-results'
 ]) assert.ok(audit.includes(phrase), `browser audit missing expected coverage: ${phrase}`);
 
 console.log('WD browser audit contract passed');
 ```
 
-- [ ] **Step 2: Run it and verify it fails**
+- [ ] **Step 2: Verify it fails before implementation**
 
 ```bash
 node qa/browser-audit-contract.cjs
 ```
 
-Expected: FAIL because Playwright, axe and `test:browser` are not yet declared in `package.json`.
+Expected: FAIL because the dependencies/script are undeclared and 375px is not yet in the viewport array.
 
-- [ ] **Step 3: Install pinned browser QA dependencies**
+- [ ] **Step 3: Add the missing 375px viewport without removing existing coverage**
 
-Run:
+In `qa/browser-audit.cjs`, change only the viewport array from:
+
+```js
+[320,360,390,430,640,768,1024,1280,1440,1920]
+```
+
+to:
+
+```js
+[320,360,375,390,430,640,768,1024,1280,1440,1920]
+```
+
+No other browser-audit behaviour is changed in this task.
+
+- [ ] **Step 4: Install pinned browser QA dependencies**
 
 ```bash
 npm install --save-dev --save-exact playwright@1.63.0 @axe-core/playwright@4.13.0
@@ -315,7 +320,7 @@ npm install --save-dev --save-exact playwright@1.63.0 @axe-core/playwright@4.13.
 
 Expected: `package.json` and `package-lock.json` contain those exact versions.
 
-- [ ] **Step 4: Add the browser npm command**
+- [ ] **Step 5: Add browser scripts**
 
 Add:
 
@@ -324,7 +329,7 @@ Add:
 "test:browser-contract": "node qa/browser-audit-contract.cjs"
 ```
 
-- [ ] **Step 5: Run the static browser contract**
+- [ ] **Step 6: Run the browser contract**
 
 ```bash
 npm run test:browser-contract
@@ -332,16 +337,16 @@ npm run test:browser-contract
 
 Expected: PASS with `WD browser audit contract passed`.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add package.json package-lock.json qa/browser-audit-contract.cjs
+git add qa/browser-audit.cjs qa/browser-audit-contract.cjs package.json package-lock.json
 git commit -m "test: make browser audit reproducible"
 ```
 
 ---
 
-### Task 4: Enforce Browser QA and Workflow Contracts in GitHub Actions
+### Task 4: Enforce Workflow Contracts and Browser QA in GitHub Actions
 
 **Files:**
 - Modify: `.github/workflows/cloudflare.yml`
@@ -350,10 +355,10 @@ git commit -m "test: make browser audit reproducible"
 - Test: `qa/ci-workflow-contract.cjs`
 
 **Interfaces:**
-- Consumes: `npm run build`, `npm run start`, `npm run test:browser`, existing `verify`/`deploy` jobs.
-- Produces: CI that blocks deployment on workflow-contract or browser-QA failure and uploads browser evidence.
+- Consumes: `npm run build`, `npm run start`, `npm run test:browser`, existing `verify` and `deploy` jobs.
+- Produces: CI that blocks deployment on workflow-contract/browser-QA failure and uploads browser evidence.
 
-- [ ] **Step 1: Write the failing CI contract test**
+- [ ] **Step 1: Write the failing CI contract**
 
 Create `qa/ci-workflow-contract.cjs`:
 
@@ -378,17 +383,17 @@ assert.ok(yaml.includes("github.ref == 'refs/heads/main'"), 'production deploy m
 console.log('WD CI workflow contract passed');
 ```
 
-- [ ] **Step 2: Run it and verify it fails**
+- [ ] **Step 2: Verify it fails before CI changes**
 
 ```bash
 node qa/ci-workflow-contract.cjs
 ```
 
-Expected: FAIL because browser QA/workflow contract steps are not in CI yet.
+Expected: FAIL because the new workflow and browser steps are not yet present.
 
-- [ ] **Step 3: Add contract tests early in the existing `verify` job**
+- [ ] **Step 3: Add workflow contract checks after `npm ci`**
 
-After `npm ci`, add:
+Add to the existing `verify` job:
 
 ```yaml
       - run: npm run test:workflow-docs
@@ -396,17 +401,15 @@ After `npm ci`, add:
       - run: npm run test:browser-contract
 ```
 
-Keep the existing backend/build/measurement/deployment commands and their current semantics.
+Keep every existing backend/build/measurement/deployment test.
 
-- [ ] **Step 4: Install the pinned Chromium runtime in CI**
+- [ ] **Step 4: Install the Chromium runtime matching the lockfile-pinned Playwright**
 
-After `npm ci` and before launching the browser audit, add:
+Add:
 
 ```yaml
       - run: npx playwright install --with-deps chromium
 ```
-
-This installs the browser runtime matching the package-lock-pinned Playwright version.
 
 - [ ] **Step 5: Start the built Cloudflare preview and wait for readiness**
 
@@ -427,7 +430,7 @@ After `npm run build`, add:
           exit 1
 ```
 
-- [ ] **Step 6: Run browser QA against the built preview**
+- [ ] **Step 6: Run browser QA**
 
 Add:
 
@@ -436,9 +439,9 @@ Add:
         run: QA_BASE_URL=http://127.0.0.1:8787 npm run test:browser
 ```
 
-- [ ] **Step 7: Upload browser evidence even when the audit fails**
+- [ ] **Step 7: Upload browser evidence even on audit failure**
 
-Add after the browser-audit step:
+Add immediately after browser QA:
 
 ```yaml
       - name: Upload browser QA evidence
@@ -451,9 +454,9 @@ Add after the browser-audit step:
           if-no-files-found: warn
 ```
 
-Do not replace the existing `verified-site-${{ github.sha }}` artifact. `deploy` must continue downloading only the tested `dist/` artifact.
+Do not replace the current `verified-site-${{ github.sha }}` artifact. The `deploy` job must continue downloading only `dist/` from that verified-site artifact.
 
-- [ ] **Step 8: Add the CI contract npm command and run it**
+- [ ] **Step 8: Add and run the CI contract npm script**
 
 Add:
 
@@ -469,7 +472,7 @@ npm run test:ci-workflow
 
 Expected: PASS with `WD CI workflow contract passed`.
 
-- [ ] **Step 9: Run the complete non-browser local regression set**
+- [ ] **Step 9: Run the complete non-browser regression set**
 
 ```bash
 npm run test:workflow-docs
@@ -484,9 +487,9 @@ npm run test:measurement
 npm run test:deployment
 ```
 
-Expected: all commands exit 0.
+Expected: every command exits 0.
 
-- [ ] **Step 10: Run browser QA locally against a production-style preview**
+- [ ] **Step 10: Run browser QA locally against the built preview**
 
 Terminal 1:
 
@@ -500,7 +503,7 @@ Terminal 2:
 QA_BASE_URL=http://127.0.0.1:8787 npm run test:browser
 ```
 
-Expected: exit 0, `qa-results/report.json` generated, screenshots generated for responsive widths and interaction states, and report contains no failures.
+Expected: exit 0, `qa-results/report.json` generated, screenshots generated for all viewport and interaction states, and the report contains no failures.
 
 - [ ] **Step 11: Commit**
 
@@ -511,7 +514,7 @@ git commit -m "ci: enforce WD quality gates and browser audit"
 
 ---
 
-### Task 5: Final Verification and Pull Request Evidence
+### Task 5: Final Verification and PR Evidence
 
 **Files:**
 - Review: all files changed by Tasks 1-4
@@ -519,21 +522,19 @@ git commit -m "ci: enforce WD quality gates and browser audit"
 - No application source changes expected.
 
 **Interfaces:**
-- Consumes: completed implementation and all test outputs.
-- Produces: reviewable PR with exact verification evidence and no unsupported completion claims.
+- Consumes: completed implementation and test outputs.
+- Produces: a reviewable PR with exact verification evidence and no unsupported completion claims.
 
-- [ ] **Step 1: Verify the diff scope**
-
-Run:
+- [ ] **Step 1: Verify diff scope and whitespace**
 
 ```bash
 git diff --stat main...HEAD
 git diff --check main...HEAD
 ```
 
-Expected: only workflow/documentation/QA/package files from this plan; no whitespace errors; no website redesign/application-content edits.
+Expected: only docs/instructions/QA/package/workflow files from this plan; no website redesign or marketing-content edits; no whitespace errors.
 
-- [ ] **Step 2: Re-run the full verification sequence**
+- [ ] **Step 2: Re-run all static/backend/build gates**
 
 ```bash
 npm run test:workflow-docs
@@ -548,40 +549,44 @@ npm run test:measurement
 npm run test:deployment
 ```
 
-Then start the built preview and run:
+Expected: all exit 0.
+
+- [ ] **Step 3: Re-run browser QA**
+
+With the built preview running on `127.0.0.1:8787`:
 
 ```bash
 QA_BASE_URL=http://127.0.0.1:8787 npm run test:browser
 ```
 
-Expected: all pass.
+Expected: exit 0.
 
-- [ ] **Step 3: Inspect browser evidence manually**
+- [ ] **Step 4: Inspect visual evidence manually**
 
-Open `qa-results/report.json` and representative screenshots for 390, 768, 1440 and 1920 widths plus `mobile-menu.png`, `desktop-menu.png` and `home-text-200.png`. Confirm no obvious layout regression, broken image, stuck scroll lock, unreadable typography or unexpected flashing/jumping.
+Review `qa-results/report.json` plus representative screenshots for 375, 390, 768, 1440 and 1920 widths and the interaction evidence `mobile-menu.png`, `desktop-menu.png`, `home-text-200.png`. Confirm no obvious layout regression, broken image, stuck scroll lock, unreadable typography or flashing/jumping regression.
 
-- [ ] **Step 4: Confirm CI architecture was preserved**
+- [ ] **Step 5: Confirm production deployment architecture is unchanged**
 
-Confirm `.github/workflows/cloudflare.yml` still has:
+Verify `.github/workflows/cloudflare.yml` still includes:
 
 ```yaml
 deploy:
   needs: verify
 ```
 
-and still deploys only on `refs/heads/main` when `CLOUDFLARE_DEPLOY_ENABLED == 'true'`.
+and the deploy condition still requires `github.ref == 'refs/heads/main'` and `CLOUDFLARE_DEPLOY_ENABLED == 'true'`.
 
-- [ ] **Step 5: Update PR #7 description with evidence**
+- [ ] **Step 6: Update PR #7 description with evidence**
 
-The PR description must state:
+Record:
 
 - files added/changed;
-- exact commands run and their results;
-- browser QA artifact name;
-- that no live-site design/content changes were made;
-- any known external/account-side items not verified;
-- that deployment still requires the existing production gate.
+- exact commands run and results;
+- browser artifact name `browser-qa-${{ github.sha }}`;
+- confirmation that no live-site design/content change was part of this implementation;
+- any external/account-side systems not verified;
+- the preserved production deployment gate.
 
-- [ ] **Step 6: Keep PR as draft until CI is green and evidence reviewed**
+- [ ] **Step 7: Keep the PR draft until CI and visual review are complete**
 
-Do not merge solely because the files exist. Mark ready for review only after GitHub Actions `verify` passes and browser evidence has been inspected.
+Do not merge solely because files exist. Mark ready for review only after the GitHub Actions `verify` job passes and browser evidence is reviewed.
