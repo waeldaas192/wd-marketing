@@ -1,0 +1,46 @@
+name: Dependency security audit
+
+on:
+  push:
+    branches:
+      - security/dependency-audit
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Capture npm audit report
+        run: |
+          npm audit --json > audit.json || true
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const audit = JSON.parse(fs.readFileSync('audit.json', 'utf8'));
+          const vulnerabilities = Object.fromEntries(
+            Object.entries(audit.vulnerabilities || {}).map(([name, value]) => [name, {
+              severity: value.severity,
+              isDirect: value.isDirect,
+              via: value.via,
+              effects: value.effects,
+              range: value.range,
+              nodes: value.nodes,
+              fixAvailable: value.fixAvailable,
+            }])
+          );
+          console.log(JSON.stringify({ metadata: audit.metadata, vulnerabilities }, null, 2));
+          NODE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit-${{ github.sha }}
+          path: audit.json
+          retention-days: 7
