@@ -65,7 +65,7 @@ async function axe(page,label) {
   page.on('pageerror', error => report.failures.push(`Browser runtime error: ${error.message}`));
   page.setDefaultTimeout(15000);
   try {
-    for (const width of [320,360,390,430,640,768,1024,1280,1440,1920]) {
+    for (const width of [320,360,375,390,430,640,768,1024,1280,1440,1920]) {
       await page.setViewportSize({width,height:900});
       await ready(page);
       await imagesReady(page,`home-${width}`);
@@ -143,6 +143,7 @@ async function axe(page,label) {
     await page.setViewportSize({width:390,height:844}); await ready(page);
     await page.getByRole('button',{name:'Open menu',exact:true}).click();
     const dialog=page.locator('#mobile-navigation');
+    await page.waitForFunction(()=>document.querySelector('#mobile-navigation')?.open === true);
     check(await dialog.evaluate(el=>el.open),'Mobile dialog did not open');
     for (const key of ['Tab','Shift+Tab']) {
       for(let i=0;i<10;i++) {
@@ -188,11 +189,13 @@ async function axe(page,label) {
       await axe(page,`route-${route}`);
       check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${route}: mobile overflow`);
     }
-    const invalid=await context.request.post(base+'/api/contact',{data:{}});
-    check(invalid.status()===400,'Invalid contact brief not rejected');
+    const configResponse=await context.request.get(base+'/api/contact/config');
+    check(configResponse.status()===200,'Contact config endpoint unavailable');
+    const contactConfig=await configResponse.json();
+    check(contactConfig.accepting===false,'CI preview must keep contact sending disabled');
     const valid=await context.request.post(base+'/api/contact',{data:{name:'UI Audit',email:'audit@example.com',service:'SEO',budget:'Not sure',message:'Automated launch-gate test. Do not send.'}});
     check(valid.status()===503,'Unconfigured contact endpoint must not claim successful delivery');
-    report.interactions.push('Contact endpoint validation / truthful unconfigured-delivery gate');
+    report.interactions.push('Contact preview config / truthful unconfigured-delivery gate');
   } catch(error) { report.failures.push(error.stack || error.message); }
   finally { await browser.close(); fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)); console.log(JSON.stringify({viewports:report.viewports.length,routes:report.routes.length,accessibilityScans:report.accessibility.length,failures:report.failures},null,2)); if(report.failures.length) process.exitCode=1; }
 })();

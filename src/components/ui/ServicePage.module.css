@@ -78,7 +78,7 @@
 .outcomeBand .sectionLead p { color:#aeadff; }.page[data-tone="infrastructure"] .outcomeBand .sectionLead p { color:#71d9d6; }
 .outcomes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 28px; margin:0; padding:0; list-style:none; }
 .outcomes li { display:grid; grid-template-columns:28px minmax(0,1fr); gap:12px; align-items:start; padding:14px 0; border-top:1px solid #ffffff20; }
-.outcomes span { color:#ffffff72; font-size:.66rem; }.outcomes strong { font-size:.98rem; font-weight:520; line-height:1.45; }
+.outcomes span { color:#ffffff80; font-size:.66rem; }.outcomes strong { font-size:.98rem; font-weight:520; line-height:1.45; }
 .section { scroll-margin-top:var(--header-height); padding:clamp(64px,7vw,100px) 0; }
 .editorialHeading { display:grid; grid-template-columns:minmax(0,.85fr) minmax(280px,.55fr); gap:clamp(30px,6vw,90px); align-items:end; margin-bottom:42px; }
 .editorialHeading h2,.proofGrid h2,.questionsGrid h2,.connectedHeader h2,.finalCta h2 { margin:0; max-width:17ch; font-size:clamp(2rem,1.48rem + 1.7vw,3.15rem); font-weight:560; line-height:1.07; letter-spacing:-.045em; text-wrap:balance; }
