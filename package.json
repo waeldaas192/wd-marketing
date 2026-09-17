@@ -24,7 +24,7 @@
   "dependencies": {
     "clsx": "2.1.1",
     "next": "15.5.25",
-    "react": "19.2.0",
+    "react": "19.3.0",
     "react-dom": "19.2.0",
     "tailwind-merge": "3.3.1"
   },
@@ -32,7 +32,7 @@
     "@cloudflare/workers-types": "5.20260916.1",
     "@tailwindcss/postcss": "^4.3.0",
     "@types/node": "^22.0.0",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.3.0",
     "@types/react-dom": "^19.0.0",
     "drizzle-kit": "0.31.10",
     "drizzle-orm": "0.45.2",
