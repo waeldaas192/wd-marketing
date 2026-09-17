@@ -91,3 +91,11 @@
 /category/* /insights 301
 /tag/* /insights 301
 /author/* /about 301
+
+# Legacy WordPress sitemap endpoints
+/wp-sitemap.xml /sitemap.xml 301
+/sitemap_index.xml /sitemap.xml 301
+/post-sitemap.xml /sitemap.xml 301
+/page-sitemap.xml /sitemap.xml 301
+/category-sitemap.xml /sitemap.xml 301
+/author-sitemap.xml /sitemap.xml 301
