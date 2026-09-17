@@ -7,6 +7,7 @@
 /terms/ /terms 301
 /work/ /work 301
 /services/growth-infrastructure/ /services/growth-infrastructure 301
+/services/meta-ads/ /services/meta-ads 301
 /services/paid-acquisition/ /services/paid-acquisition 301
 /services/seo/ /services/seo 301
 /services/web-conversion/ /services/web-conversion 301
@@ -36,8 +37,8 @@
 /e-commerce-marketing/ /services/paid-acquisition 301
 /e-commerce-website-development /services/web-conversion 301
 /e-commerce-website-development/ /services/web-conversion 301
-/social-media-advertising /services/paid-acquisition 301
-/social-media-advertising/ /services/paid-acquisition 301
+/social-media-advertising /services/meta-ads 301
+/social-media-advertising/ /services/meta-ads 301
 /google-ads-ppc /services/paid-acquisition 301
 /google-ads-ppc/ /services/paid-acquisition 301
 /ai-seo-organic-growth /services/seo 301
@@ -54,8 +55,8 @@
 /services/google-ads/ /services/paid-acquisition 301
 /services/landing-pages /services/web-conversion 301
 /services/landing-pages/ /services/web-conversion 301
-/services/paid-social /services/paid-acquisition 301
-/services/paid-social/ /services/paid-acquisition 301
+/services/paid-social /services/meta-ads 301
+/services/paid-social/ /services/meta-ads 301
 /services/web-design /services/web-conversion 301
 /services/web-design/ /services/web-conversion 301
 
@@ -64,10 +65,10 @@
 /2026/03/02/professional-web-design-london/ /services/web-conversion 301
 /professional-web-design-london /services/web-conversion 301
 /professional-web-design-london/ /services/web-conversion 301
-/2026/03/02/facebook-ads-agency-london /services/paid-acquisition 301
-/2026/03/02/facebook-ads-agency-london/ /services/paid-acquisition 301
-/facebook-ads-agency-london /services/paid-acquisition 301
-/facebook-ads-agency-london/ /services/paid-acquisition 301
+/2026/03/02/facebook-ads-agency-london /services/meta-ads 301
+/2026/03/02/facebook-ads-agency-london/ /services/meta-ads 301
+/facebook-ads-agency-london /services/meta-ads 301
+/facebook-ads-agency-london/ /services/meta-ads 301
 /2026/03/02/google-ads-agency-london /services/paid-acquisition 301
 /2026/03/02/google-ads-agency-london/ /services/paid-acquisition 301
 /google-ads-agency-london /services/paid-acquisition 301
