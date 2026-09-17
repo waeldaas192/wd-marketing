@@ -8,6 +8,7 @@ The current pre-deploy verification order is:
 
 ```text
 npm ci
+npm run test:seo
 npm run test:backend
 npm run build
 npm run test:mb-legacy
@@ -16,13 +17,14 @@ npm run test:measurement
 npm run test:deployment
 ```
 
-The workflow implementation may add contract/browser checks around this sequence, but it must not silently remove any of the existing gates.
+The workflow implementation may add contract/browser/security checks around this sequence, but it must not silently remove any of the existing gates.
 
 ## Gate matrix
 
 | Gate | Command / evidence | Required for |
 | --- | --- | --- |
 | Dependency install | `npm ci` | every CI verification |
+| Technical SEO / migration / AI-search contract | `npm run test:seo` | indexable, metadata, crawler, redirect, structured-data and AI-search changes; also CI |
 | Backend/contact regression | `npm run test:backend` | backend/contact changes and CI |
 | Production build | `npm run build` | every deployable change |
 | MB Legacy case-study regression | `npm run test:mb-legacy` | CI while this route/test remains part of production coverage |
@@ -65,14 +67,17 @@ For a substantive UI change, completion requires:
 
 For an indexable marketing change, also verify:
 
+- `npm run test:seo` passes;
 - intended route returns the correct status;
 - title/description exist and match the page topic;
 - one primary H1 remains;
 - canonical behaviour is correct;
 - sitemap/robots intent is preserved;
+- legacy redirects remain deliberate and permanent where migration requires them;
 - structured data remains truthful and matches visible content;
 - internal links are deliberate;
-- no preview/staging host is accidentally indexable.
+- no preview/staging host is accidentally indexable;
+- external Search Console indexing state is recorded separately when account-side inspection is in scope.
 
 ## Measurement-change completion gate
 
