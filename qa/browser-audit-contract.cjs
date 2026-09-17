@@ -13,6 +13,10 @@ for (const phrase of [
   'home-text-200',
   'sitemap.xml',
   'qa-results',
+  '/services/meta-ads',
+  'meta-ads-mobile',
+  'meta-ads-desktop',
+  'data-meta-brand-icon',
 ]) assert.ok(audit.includes(phrase), `browser audit missing expected coverage: ${phrase}`);
 
 const workflow = fs.readFileSync('.github/workflows/cloudflare.yml', 'utf8');
