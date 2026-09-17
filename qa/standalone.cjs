@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { Miniflare } = require('miniflare');
+const { createMiniflare } = require('./miniflare-compat.cjs');
 const { config } = require('../scripts/cloudflare-config.cjs');
 const root = path.resolve(__dirname, '..');
 async function main() {
@@ -11,7 +11,7 @@ async function main() {
   assert.equal(config(inputs).vars.CONTACT_EMAIL_ENABLED, 'false');
   assert.equal(config({ ...inputs, DEPLOY_CUSTOM_DOMAINS: 'true' }).routes.length, 2);
   assert.throws(() => config({ ...inputs, CONTACT_EMAIL_ENABLED: 'yes' }), /true or false/);
-  const runtime = new Miniflare({
+  const runtime = createMiniflare({
     modules: true, scriptPath: path.join(root, 'dist/worker/index.js'), compatibilityDate: '2026-07-01',
     assets: { directory: path.join(root, 'dist/client'), binding: 'ASSETS', routerConfig: { has_user_worker: true, invoke_user_worker_ahead_of_assets: true }, assetConfig: { html_handling: 'drop-trailing-slash', not_found_handling: '404-page' } },
     d1Databases: ['DB'], bindings: { DEPLOYMENT_STAGE: 'production', CONTACT_FORM_SECRET: 'local-only-test-secret-32-characters-long', CONTACT_EMAIL_ENABLED: 'false' },

@@ -3,6 +3,10 @@ const assert = require('node:assert/strict');
 const yaml = fs.readFileSync('.github/workflows/cloudflare.yml', 'utf8');
 
 for (const phrase of [
+  'Capture dependency security baseline',
+  'node qa/security-audit-report.cjs npm-audit.json',
+  'security-audit-${{ github.sha }}',
+  'npm audit --omit=dev --audit-level=high',
   'npm run test:workflow-docs',
   'npm run test:workflow-profile',
   'npm run test:browser-contract',
@@ -19,6 +23,7 @@ for (const phrase of [
   'qa-results/',
 ]) assert.ok(yaml.includes(phrase), `cloudflare.yml missing: ${phrase}`);
 
+assert.ok(yaml.indexOf('npm audit --omit=dev --audit-level=high') < yaml.indexOf('npm run build'), 'production security gate must run before build');
 assert.ok(yaml.indexOf('npm run configure:cloudflare') < yaml.indexOf('npm run start -- --ip 127.0.0.1 --port 8787'), 'preview config must be generated before Wrangler starts');
 assert.ok(yaml.includes('needs: verify'), 'deploy must remain gated by verify');
 assert.ok(yaml.includes("github.ref == 'refs/heads/main'"), 'production deploy must remain main-only');

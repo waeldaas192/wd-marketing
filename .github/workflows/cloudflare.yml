@@ -31,6 +31,20 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Capture dependency security baseline
+        run: |
+          npm audit --json > npm-audit.json || true
+          node qa/security-audit-report.cjs npm-audit.json
+      - name: Upload dependency security baseline
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-${{ github.sha }}
+          path: npm-audit.json
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Enforce production dependency security gate
+        run: npm audit --omit=dev --audit-level=high
       - run: npm run test:workflow-docs
       - run: npm run test:workflow-profile
       - run: npm run test:browser-contract
