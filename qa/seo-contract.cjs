@@ -48,6 +48,9 @@ for (const path of ['/2026/03/02/facebook-ads-agency-london','/facebook-ads-agen
 }
 const paidPage = read('src/app/services/paid-acquisition/page.tsx');
 assert.ok(paidPage.includes('/services/meta-ads'), 'Paid Acquisition page must link to Meta Ads service');
+const header = read('src/components/layout/Header.tsx');
+assert.ok(header.includes('href: "/services/meta-ads"'), 'Primary Services navigation must expose the Meta Ads service');
+assert.ok(header.includes('label: "Meta Ads & Social"'), 'Primary Services navigation must label the Meta Ads service clearly');
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
