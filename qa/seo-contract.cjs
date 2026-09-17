@@ -59,7 +59,7 @@ for (const emojiLike of ['☎','✉','∞','◎']) {
 for (const svgComponent of ['MetaMark','FacebookMark','InstagramMark','HighLevelMark','LeadMark','CallMark','MessageMark','PipelineMark','GrowthMark']) {
   assert.ok(metaNetwork.includes(svgComponent), `Meta Ads network missing SVG component: ${svgComponent}`);
 }
-assert.ok(metaNetwork.includes('/images/brand/wd-marketing-logo.svg'), 'Meta Ads network must use the transparent WD Marketing SVG logo');
+assert.ok(metaNetwork.includes('/images/brand/wd-marketing-ribbon-mark.png'), 'Meta Ads network must use the current transparent WD ribbon brand asset');
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
