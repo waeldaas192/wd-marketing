@@ -1,11 +1,14 @@
 import { ServicePage, type ServicePageData } from "@/components/ui/ServicePage";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { servicePages } from "@/data/servicePages";
 import { pageMetadata } from "@/lib/metadata";
+import { serviceSchema } from "@/lib/structured-data";
 
+const description = "Founder-led web design and development in London, connecting responsive UX, landing pages, technical SEO and conversion tracking.";
 export const metadata = pageMetadata(
   "Web Design Agency London | Conversion-Focused Websites",
-  "Founder-led web design and development in London, connecting responsive UX, landing pages, technical SEO and conversion tracking.",
+  description,
   "/services/web-conversion",
 );
 
@@ -67,5 +70,5 @@ const webPageData = {
 } satisfies ServicePageData;
 
 export default function Page() {
-  return <><Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Web & Conversion", href: "/services/web-conversion" }]} /><ServicePage data={webPageData} /></>;
+  return <><JsonLd data={serviceSchema({ name: "Web Design & Conversion", description, pathname: "/services/web-conversion", serviceType: "Web Design & Conversion" })} /><Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Web & Conversion", href: "/services/web-conversion" }]} /><ServicePage data={webPageData} /></>;
 }

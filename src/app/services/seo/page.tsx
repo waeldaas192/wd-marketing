@@ -1,5 +1,7 @@
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMetadata } from "@/lib/metadata";
+import { serviceSchema } from "@/lib/structured-data";
 import { ArrowIcon } from "@/components/ui/Icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import Link from "next/link";
@@ -41,6 +43,7 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 export default function SeoPage() {
   return (
     <div className={styles.page}>
+      <JsonLd data={serviceSchema({ name: "SEO & Organic Growth", description, pathname: "/services/seo", serviceType: "SEO & Organic Growth" })} />
       <Breadcrumbs items={[{label:"Services",href:"/services"},{label:"SEO services",href:"/services/seo"}]} />
       <section className={styles.hero} id="seo-content" aria-labelledby="seo-title">
         <div className="container">
