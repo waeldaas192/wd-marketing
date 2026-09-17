@@ -4,7 +4,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { build } = require("esbuild");
-const { Miniflare } = require("miniflare");
+const { createMiniflare } = require("./miniflare-compat.cjs");
 const root = path.resolve(__dirname, "..");
 
 async function main() {
@@ -36,7 +36,7 @@ async function main() {
     }
     throw new Error("Unexpected outbound request in runtime test");
   };
-  const runtime = new Miniflare({
+  const runtime = createMiniflare({
     modules: true, script: output.outputFiles[0].text, compatibilityDate: "2026-07-01",
     outboundService, d1Databases: ["DB"],
     bindings: { CONTACT_FORM_SECRET: "runtime-test-secret-at-least-32-characters", IDEAL_POSTCODES_API_KEY: "ak_runtime_test_only", CONTACT_EMAIL_ENABLED: "true", RESEND_API_KEY: "re_runtime_test_only" },
