@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Regenerate lockfile from candidate dependency policy
+        run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
       - name: Capture full npm audit report
         run: |
@@ -26,19 +28,8 @@ jobs:
           node - <<'NODE'
           const fs = require('node:fs');
           const audit = JSON.parse(fs.readFileSync('audit-full.json', 'utf8'));
-          const vulnerabilities = Object.fromEntries(
-            Object.entries(audit.vulnerabilities || {}).map(([name, value]) => [name, {
-              severity: value.severity,
-              isDirect: value.isDirect,
-              via: value.via,
-              effects: value.effects,
-              range: value.range,
-              nodes: value.nodes,
-              fixAvailable: value.fixAvailable,
-            }])
-          );
           console.log('FULL_AUDIT');
-          console.log(JSON.stringify({ metadata: audit.metadata, vulnerabilities }, null, 2));
+          console.log(JSON.stringify({ metadata: audit.metadata, vulnerabilities: audit.vulnerabilities || {} }, null, 2));
           NODE
       - name: Capture production-only npm audit report
         run: |
@@ -49,10 +40,18 @@ jobs:
           console.log('PRODUCTION_AUDIT');
           console.log(JSON.stringify({ metadata: audit.metadata, vulnerabilities: audit.vulnerabilities || {} }, null, 2));
           NODE
+      - name: Verify candidate dependencies
+        run: |
+          npm run test:backend
+          npm run build
+          npm run typecheck
+          npm run test:measurement
+          npm run test:deployment
       - uses: actions/upload-artifact@v4
         with:
-          name: dependency-audit-${{ github.sha }}
+          name: dependency-remediation-${{ github.sha }}
           path: |
+            package-lock.json
             audit-full.json
             audit-prod.json
           retention-days: 7
