@@ -71,10 +71,12 @@ assert.ok(sitemap.includes('/services/conversion-rate-optimisation'), 'CRO page 
 for (const file of [
   'src/app/services/web-conversion/page.tsx',
   'src/app/services/paid-acquisition/page.tsx',
-  'src/app/services/meta-ads/page.tsx',
   'src/app/services/growth-infrastructure/page.tsx',
 ]) {
   assert.ok(read(file).includes('/services/conversion-rate-optimisation'), `${file} must link to CRO service`);
+}
+for (const href of ['/services/web-conversion','/services/paid-acquisition','/services/meta-ads','/services/growth-infrastructure']) {
+  assert.ok(croPage.includes(href), `CRO page must link to connected service: ${href}`);
 }
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
