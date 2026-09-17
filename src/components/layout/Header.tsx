@@ -11,6 +11,7 @@ import styles from "./Header.module.css";
 
 const services = [
   { label: "Web & Conversion", href: "/services/web-conversion", copy: "Websites and landing pages built around customer intent." },
+  { label: "Conversion Optimisation", href: "/services/conversion-rate-optimisation", copy: "CRO for landing pages, forms and lead journeys built around qualified enquiries." },
   { label: "SEO & Organic Growth", href: "/services/seo", copy: "Search strategy, technical SEO and demand-led content." },
   { label: "Paid Acquisition", href: "/services/paid-acquisition", copy: "Google Ads connected to landing pages, tracking and lead quality." },
   { label: "Meta Ads & Social", href: "/services/meta-ads", copy: "Facebook and Instagram lead generation connected to CRM follow-up." },
