@@ -4,6 +4,9 @@ import { site } from "@/data/site";
 const organizationId = `${site.url}/#organization`;
 const websiteId = `${site.url}/#website`;
 const founderId = `${site.url}/#founder`;
+const founderProfiles = site.socialProfiles
+  .filter((profile) => profile.name === "LinkedIn" || profile.name === "YouTube")
+  .map((profile) => profile.href);
 
 const areaServed = [
   { "@type": "City", name: "London" },
@@ -44,7 +47,7 @@ export function siteGraph() {
         image: new URL(assets.founder.portraitWide.src, site.url).toString(),
         jobTitle: "Founder / Digital Growth Strategist",
         worksFor: { "@id": organizationId },
-        sameAs: site.socialProfiles.map((profile) => profile.href),
+        sameAs: founderProfiles,
       },
     ],
   };
