@@ -49,6 +49,7 @@ jobs:
       - run: npm run test:workflow-profile
       - run: npm run test:browser-contract
       - run: npm run test:ci-workflow
+      - run: npm run test:seo-index
       - run: npm run test:backend
       - run: npm run build
       - run: npm run test:mb-legacy
