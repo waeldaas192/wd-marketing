@@ -10,8 +10,8 @@
 .journeyNote { margin-top: 28px !important; font-size: .875rem; color: #5543b5; }
 .mapsSection, .businessSection { padding: var(--section-space) 0; border-block: 1px solid var(--line); background: #f7f8fa; }
 .businessSection { background: #111318; color: #fff; }
-.darkEyebrow { color: #bbb3ff !important; }
-.businessSection h2 span { color: #b8bdc8; }
+.darkEyebrow { color: #bbb3ff !important; }\n.darkBody { color: #c4c9d2 !important; }
+.businessSection h2 span { color: #c4c9d2 !important; }
 .businessSection p { color: #c4c9d2; }
 .split, .splitReverse { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(36px, 6vw, 84px); align-items: center; }
 .splitReverse { grid-template-columns: .95fr 1.05fr; }
