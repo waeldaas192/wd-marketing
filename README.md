@@ -81,7 +81,7 @@ git commit -m "Update website content"
 git push origin main
 ```
 
-The workflow checks pull requests and this migration branch without deploying. Deployment remains disabled until `CLOUDFLARE_DEPLOY_ENABLED=true` is configured. Direct `npm run deploy` is also available after a fresh successful build.
+The workflow checks pull requests without deploying. A verified push to `main` automatically deploys the tested artifact to Cloudflare. Direct `npm run deploy` is also available after a fresh successful build.
 
 ## Runtime
 
