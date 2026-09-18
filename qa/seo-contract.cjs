@@ -100,7 +100,7 @@ for (const phrase of [
 assert.ok(sitemap.includes('/services/local-seo-london'), 'Local SEO London page must be in sitemap');
 assert.ok(read('src/app/services/seo/page.tsx').includes('/services/local-seo-london'), 'SEO pillar page must link to Local SEO London');
 const localSeoCss = read('src/app/services/local-seo-london/local-seo.module.css');
-assert.ok(!localSeoCss.includes('\\\\n.'), 'Local SEO CSS must not contain literal escaped newlines between rules');
+assert.ok(!localSeoCss.includes('\\n.'), 'Local SEO CSS must not contain literal escaped newlines between rules');
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
