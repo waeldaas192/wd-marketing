@@ -182,7 +182,7 @@ export default function LocalSeoLondonPage() {
           <div>
             <p className={`${base.eyebrow} ${styles.darkEyebrow}`}>Built for local demand</p>
             <h2 id="business-title">Local SEO for businesses that need<br /><span>customers, not traffic reports.</span></h2>
-            <p>This approach is especially relevant where location and service intent influence the buying decision: trades, specialist cleaning, property services, construction, stone and surfaces, security, professional services, hospitality, automotive services and other location-led businesses.</p>
+            <p className={styles.darkBody}>This approach is especially relevant where location and service intent influence the buying decision: trades, specialist cleaning, property services, construction, stone and surfaces, security, professional services, hospitality, automotive services and other location-led businesses.</p>
             <p className={styles.callout}>Before content production begins, we ask: Which services matter commercially? Which locations can you genuinely serve? What proof does a customer need before contacting you?</p>
           </div>
           <GeneratedImage asset={generatedImages.businesses} />
