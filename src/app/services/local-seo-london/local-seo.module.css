@@ -10,7 +10,7 @@
 .journeyNote { margin-top: 28px !important; font-size: .875rem; color: #5543b5; }
 .mapsSection, .businessSection { padding: var(--section-space) 0; border-block: 1px solid var(--line); background: #f7f8fa; }
 .businessSection { background: #111318; color: #fff; }
-.businessSection :global(.eyebrow) { color: #bbb3ff; }
+.darkEyebrow { color: #bbb3ff !important; }
 .businessSection h2 span { color: #b8bdc8; }
 .businessSection p { color: #c4c9d2; }
 .split, .splitReverse { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(36px, 6vw, 84px); align-items: center; }
@@ -29,7 +29,7 @@
 .proofGrid article { min-width: 0; }
 .proofGrid img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; display: block; border-radius: var(--radius); background: #f0f1f3; border: 1px solid var(--line); }
 .proofGrid h3 { margin-top: 8px; font-size: 1.5rem; }
-.proofGrid article > p:not(:global(.projectMeta)) { margin-top: 16px; color: var(--muted); }
+.proofGrid article > p:not(.proofMeta) { margin-top: 16px; color: var(--muted); }
 .proofGrid article > a { margin-top: 18px; }
 .processGrid { display: grid; grid-template-columns: repeat(3, 1fr); list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
 .processGrid li { padding: 25px 28px 30px 0; border-bottom: 1px solid var(--line); }
