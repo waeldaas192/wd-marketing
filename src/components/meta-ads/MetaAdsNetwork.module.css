@@ -83,8 +83,8 @@
   border:1px dashed #8571ba6b;
   box-shadow:0 0 0 1px #ffffff8f inset;
 }
-.decorRingOne{width:316px}
-.decorRingTwo{width:470px;border-color:#a090c65c}
+.decorRingOne{width:350px}
+.decorRingTwo{width:490px;border-color:#a090c65c}
 .decorRingTwo::before,.decorRingTwo::after{
   content:"";
   position:absolute;
@@ -112,13 +112,13 @@
   will-change:transform;
 }
 .innerOrbit{
-  --ring-size:316px;
-  --orbit-radius:-132px;
+  --ring-size:350px;
+  --orbit-radius:-154px;
   width:var(--ring-size);
 }
 .outerOrbit{
-  --ring-size:470px;
-  --orbit-radius:-202px;
+  --ring-size:490px;
+  --orbit-radius:-214px;
   width:var(--ring-size);
 }
 .orbitItem{
@@ -173,28 +173,27 @@
 .facebook .brandSvg{fill:#1877f2;width:34px;height:34px}
 .instagram .brandSvg{width:34px;height:34px}
 .whatsapp .brandSvg{width:36px;height:36px}
-.messenger .brandSvg{width:36px;height:36px}
+.messenger .brandSvg{width:37px;height:37px}
 .highLevel{padding:14px}
 .highLevelSvg{width:48px;height:32px}
 .center{
   position:relative;
   z-index:6;
   display:flex;
-  width:190px;
-  height:190px;
+  width:174px;
+  height:174px;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  border:1px solid #ffffff20;
+  border:1px solid #d8cbed;
   border-radius:50%;
   background:
-    radial-gradient(circle at 35% 22%,#ffffff17,transparent 32%),
-    linear-gradient(145deg,#201931,#2b1a49);
-  color:#fff;
+    radial-gradient(circle at 35% 25%,#fff 0,#fff 45%,#faf7ff 100%);
+  color:#2a1a49;
   box-shadow:
-    0 38px 74px -36px #241342,
-    0 0 0 10px #f6f1ff,
-    0 0 0 11px #d8cbed;
+    0 38px 74px -38px #24134288,
+    0 0 0 9px #f7f2ff,
+    0 0 0 10px #d8cbed;
 }
 .centerGlow{
   position:absolute;
@@ -204,33 +203,18 @@
   background:radial-gradient(circle,#7450df2c 0,transparent 68%);
   filter:blur(4px);
 }
-.logoWrap{
-  display:grid;
-  place-items:center;
-  width:78px;
-  height:78px;
-  margin-bottom:12px;
-  overflow:hidden;
-  border:1px solid #ffffff24;
-  border-radius:25px;
-  background:#fff;
-  box-shadow:0 14px 28px -18px #0009;
-}
 .wdLogo{
-  width:64px;
-  height:64px;
+  display:block;
+  width:128px;
+  height:auto;
   object-fit:contain;
 }
-.center strong{
-  font-size:1.02rem;
-  font-weight:720;
-  letter-spacing:-.025em;
-}
 .center small{
-  margin-top:5px;
-  color:#d7c9f5;
-  font-size:.69rem;
-  letter-spacing:.07em;
+  margin-top:7px;
+  color:#705a93;
+  font-size:.61rem;
+  font-weight:700;
+  letter-spacing:.075em;
   text-transform:uppercase;
 }
 .caption{
@@ -294,23 +278,24 @@
 @media (max-width:1100px){
   .shell{min-height:560px}
   .stage{min-height:470px}
-  .decorRingOne,.innerOrbit{--ring-size:292px;width:292px}
-  .innerOrbit{--orbit-radius:-120px}
-  .decorRingTwo,.outerOrbit{--ring-size:430px;width:430px}
-  .outerOrbit{--orbit-radius:-181px}
-  .center{width:178px;height:178px}
-  .orbitItem{width:72px;height:72px}
+  .decorRingOne,.innerOrbit{--ring-size:318px;width:318px}
+  .innerOrbit{--orbit-radius:-139px}
+  .decorRingTwo,.outerOrbit{--ring-size:446px;width:446px}
+  .outerOrbit{--orbit-radius:-194px}
+  .center{width:162px;height:162px}
+  .wdLogo{width:118px}
+  .orbitItem{width:70px;height:70px}
 }
 @media (max-width:760px){
   .shell{min-height:0;padding:14px;border-radius:24px}
   .topline{padding:0 2px 10px}
   .topline span{font-size:.66rem}
   .stage{min-height:420px}
-  .decorRingOne,.innerOrbit{--ring-size:232px;width:232px}
-  .innerOrbit{--orbit-radius:-91px}
-  .decorRingTwo,.outerOrbit{--ring-size:344px;width:344px}
-  .outerOrbit{--orbit-radius:-143px}
-  .orbitItem{width:60px;height:60px}
+  .decorRingOne,.innerOrbit{--ring-size:248px;width:248px}
+  .innerOrbit{--orbit-radius:-108px}
+  .decorRingTwo,.outerOrbit{--ring-size:350px;width:350px}
+  .outerOrbit{--orbit-radius:-151px}
+  .orbitItem{width:58px;height:58px}
   .logoCard{padding:13px;border-radius:19px}
   .brandSvg{width:27px;height:27px}
   .meta .brandSvg{width:30px;height:30px}
@@ -318,32 +303,28 @@
   .whatsapp .brandSvg,.messenger .brandSvg{width:29px;height:29px}
   .highLevel{padding:10px}
   .highLevelSvg{width:39px;height:27px}
-  .center{width:148px;height:148px;box-shadow:0 30px 60px -36px #241342,0 0 0 8px #f6f1ff,0 0 0 9px #d8cbed}
-  .logoWrap{width:62px;height:62px;margin-bottom:8px;border-radius:20px}
-  .wdLogo{width:52px;height:52px}
-  .center strong{font-size:.92rem}
-  .center small{font-size:.58rem}
+  .center{width:136px;height:136px;box-shadow:0 30px 60px -38px #24134288,0 0 0 7px #f6f1ff,0 0 0 8px #d8cbed}
+  .wdLogo{width:98px}
+  .center small{margin-top:5px;font-size:.5rem}
   .caption{margin:3px 4px 2px;font-size:.7rem}
 }
 @media (max-width:430px){
   .shell{padding:12px}
   .stage{min-height:370px}
-  .decorRingOne,.innerOrbit{--ring-size:204px;width:204px}
-  .innerOrbit{--orbit-radius:-79px}
-  .decorRingTwo,.outerOrbit{--ring-size:300px;width:300px}
-  .outerOrbit{--orbit-radius:-124px}
-  .orbitItem{width:54px;height:54px}
+  .decorRingOne,.innerOrbit{--ring-size:228px;width:228px}
+  .innerOrbit{--orbit-radius:-104px}
+  .decorRingTwo,.outerOrbit{--ring-size:318px;width:318px}
+  .outerOrbit{--orbit-radius:-146px}
+  .orbitItem{width:52px;height:52px}
   .logoCard{padding:11px;border-radius:17px}
   .brandSvg{width:24px;height:24px}
   .meta .brandSvg{width:27px;height:27px}
   .facebook .brandSvg,.instagram .brandSvg{width:25px;height:25px}
   .whatsapp .brandSvg,.messenger .brandSvg{width:26px;height:26px}
   .highLevelSvg{width:34px;height:23px}
-  .center{width:132px;height:132px}
-  .logoWrap{width:55px;height:55px;border-radius:18px}
-  .wdLogo{width:46px;height:46px}
-  .center strong{font-size:.86rem}
-  .center small{font-size:.52rem;letter-spacing:.055em}
+  .center{width:124px;height:124px}
+  .wdLogo{width:88px}
+  .center small{font-size:.46rem;letter-spacing:.055em}
 }
 @media (prefers-reduced-motion:reduce){
   .orbit,.counterSpin,.centerGlow{animation:none!important}
