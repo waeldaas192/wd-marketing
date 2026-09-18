@@ -2,11 +2,11 @@ import Image from "next/image";
 import styles from "./HeroCentralLondonMap.module.css";
 
 const areas = [
-  { id: "marylebone", name: "Marylebone", left: "34%", top: "17%", delay: "0.30s", path: "M500 310 Q430 230 340 120" },
+  { id: "marylebone", name: "Marylebone", left: "28%", top: "16%", delay: "0.30s", path: "M500 310 Q405 220 280 96" },
   { id: "mayfair", name: "Mayfair", left: "47%", top: "24%", delay: "0.48s", path: "M500 310 Q480 250 470 165" },
   { id: "westminster", name: "Westminster", left: "22%", top: "39%", delay: "0.66s", path: "M500 310 Q370 305 220 240" },
   { id: "soho", name: "Soho", left: "45%", top: "39%", delay: "0.84s", path: "M500 310 Q475 300 450 235" },
-  { id: "covent-garden", name: "Covent Garden", left: "61%", top: "39%", delay: "1.02s", path: "M500 310 Q555 300 610 235" },
+  { id: "covent-garden", name: "Covent Garden", left: "64%", top: "40%", delay: "1.02s", path: "M500 310 Q565 300 640 240" },
   { id: "holborn", name: "Holborn", left: "71%", top: "27%", delay: "1.20s", path: "M500 310 Q630 255 715 160" },
   { id: "city-of-london", name: "City of London", left: "82%", top: "49%", delay: "1.38s", path: "M500 310 Q700 310 820 295" },
   { id: "south-bank", name: "South Bank", left: "61%", top: "76%", delay: "1.56s", path: "M500 310 Q545 410 610 470" },
