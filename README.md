@@ -96,3 +96,5 @@ The workflow checks pull requests without deploying. A verified push to `main` a
 The canonical host is `https://wdmarketing.co.uk`; `www` redirects to it. Test hosts return `X-Robots-Tag: noindex, nofollow`.
 
 Older cPanel/Sites documents are historical references. Use `docs/GITHUB-MIGRATION.md` for this deployment.
+
+<!-- production-verification: meta-orbit-mobile -->
