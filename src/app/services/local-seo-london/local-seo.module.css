@@ -29,7 +29,11 @@
 .callout { margin-top: 28px !important; padding-left: 18px; border-left: 2px solid #7770ff; color: #fff !important; }
 .proofGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .proofGrid article { min-width: 0; }
-.proofGrid img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; display: block; border-radius: var(--radius); background: #f0f1f3; border: 1px solid var(--line); }
+.proofSignal { min-height: 168px; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: #f7f8fa; display: flex; flex-direction: column; justify-content: space-between; }
+.proofSignal > span { color: #5543b5; font-size: .75rem; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; }
+.proofSignal > div { display: grid; gap: 6px; }
+.proofSignal strong { color: var(--ink); font-size: 1.05rem; font-weight: 650; }
+.proofSignal > div span { color: var(--muted); font-size: .8125rem; }
 .proofGrid h3 { margin-top: 8px; font-size: 1.5rem; }
 .proofGrid article > p:not(.proofMeta) { margin-top: 16px; color: var(--muted); }
 .proofGrid article > a { margin-top: 18px; }
