@@ -17,7 +17,7 @@
 .splitReverse { grid-template-columns: .95fr 1.05fr; }
 .split h2, .splitReverse h2, .londonGrid h2, .differentGrid h2 { font-size: var(--type-section); font-weight: 550; line-height: var(--heading-leading); letter-spacing: var(--heading-tracking); }
 .split h2 span, .splitReverse h2 span, .londonGrid h2 span, .differentGrid h2 span { color: var(--muted); }
-.split > div > p:not(:first-child), .splitReverse > div > p:not(:first-child) { margin-top: 22px; color: var(--muted); }
+.split > div > p:not(:first-child), .splitReverse > div > p:not(:first-child) { margin-top: 22px; color: var(--muted); }\n.businessSection .splitReverse > div > p:not(:first-child) { color: #c4c9d2; }
 .systemLine { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 30px; padding: 18px 0; border-block: 1px solid var(--line); font-size: .8125rem; font-weight: 650; }
 .systemLine i { color: #5543b5; font-style: normal; }
 .smallPrint { font-size: .875rem; }
