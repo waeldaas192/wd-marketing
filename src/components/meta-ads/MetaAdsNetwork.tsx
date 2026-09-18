@@ -1,6 +1,5 @@
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
-import { assets } from "@/data/assets";
 import styles from "./MetaAdsNetwork.module.css";
 
 type OrbitBrand = {
@@ -27,7 +26,7 @@ function WhatsAppIcon() {
   return <svg data-meta-brand-icon="whatsapp" className={styles.brandSvg} viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="#25D366"/><path d="M7.7 17.25 8.4 14.7a6.9 6.9 0 1 1 2.62 2.55l-3.32.86.86-3.12" fill="none" stroke="#fff" strokeWidth="1.55" strokeLinejoin="round"/><path d="M9.45 8.8c.18-.4.37-.41.55-.42h.47c.14 0 .34.05.45.31.12.29.55 1.34.59 1.44.05.1.08.22.02.35-.06.13-.1.21-.2.33l-.31.37c-.1.11-.22.23-.1.44.12.21.52.86 1.12 1.39.77.69 1.41.91 1.62 1.01.21.11.33.09.45-.05.13-.14.54-.63.68-.84.14-.21.28-.18.47-.11.19.07 1.21.57 1.42.68.2.1.34.16.39.25.05.09.05.51-.12 1-.17.49-.99.94-1.36 1-.35.05-.81.08-1.31-.08-.3-.1-.69-.22-1.18-.43-.52-.22-2.28-.84-3.88-2.94-.45-.59-.76-1.25-.84-1.46-.09-.21-.93-2.23-.28-3.23Z" fill="#fff"/></svg>;
 }
 function MessengerIcon() {
-  return <svg data-meta-brand-icon="messenger" className={styles.brandSvg} viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11.5" r="9.3" fill="#168AFF"/><path d="m6.8 14.55 3.35-3.58 2.65 2.03 4.42-4.72-3.36 3.58-2.66-2.03-4.4 4.72Z" fill="#fff"/></svg>;
+  return <svg data-meta-brand-icon="messenger" className={styles.brandSvg} viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="messenger-orbit-brand" x1="4" x2="20" y1="21" y2="2" gradientUnits="userSpaceOnUse"><stop stopColor="#A033FF"/><stop offset=".45" stopColor="#006AFF"/><stop offset="1" stopColor="#00B2FF"/></linearGradient></defs><path fill="url(#messenger-orbit-brand)" d="M12 2C6.477 2 2 6.145 2 11.258c0 2.913 1.456 5.511 3.732 7.207V22l3.407-1.87c.91.25 1.87.386 2.861.386 5.523 0 10-4.145 10-9.258S17.523 2 12 2Z"/><path d="m6.8 14.6 3.34-3.55 2.67 2.03 4.39-4.68-3.35 3.57-2.66-2.03L6.8 14.6Z" fill="#fff"/></svg>;
 }
 function HighLevelIcon() {
   return <svg data-meta-brand-icon="highlevel" className={[styles.brandSvg, styles.highLevelSvg].join(" ")} viewBox="0 0 72 46" aria-hidden="true"><path fill="#FFD000" d="M2 17 13.5 3 25 17h-6v26H8V17H2Z"/><path fill="#2896FB" d="M24 25 35.5 11 47 25h-6v18H30V25h-6Z"/><path fill="#17D94B" d="M46 17 57.5 3 69 17h-6v26H52V17h-6Z"/><path fill="#07223D" opacity=".24" d="m8 17 11 10V17H8Zm22 8 11 10V25H30Zm22-8 11 10V17H52Z"/></svg>;
@@ -82,17 +81,14 @@ export function MetaAdsNetwork() {
 
         <div className={styles.center}>
           <span className={styles.centerGlow} aria-hidden="true"/>
-          <span className={styles.logoWrap}>
-            <Image
-              src={assets.brand.mark.src}
-              alt="WD Marketing"
-              width={assets.brand.mark.width}
-              height={assets.brand.mark.height}
-              className={styles.wdLogo}
-              priority
-            />
-          </span>
-          <strong>WD Marketing</strong>
+          <Image
+            src="/images/brand/wd-marketing-transparent.webp"
+            alt="WD Marketing"
+            width={180}
+            height={111}
+            className={styles.wdLogo}
+            priority
+          />
           <small>Meta acquisition system</small>
         </div>
       </div>
