@@ -29,7 +29,7 @@ assert.ok(yaml.indexOf('npm run test:seo') < yaml.indexOf('npm run build'), 'SEO
 assert.ok(yaml.indexOf('npm run configure:cloudflare') < yaml.indexOf('npm run start -- --ip 127.0.0.1 --port 8787'), 'preview config must be generated before Wrangler starts');
 assert.ok(yaml.includes('needs: verify'), 'deploy must remain gated by verify');
 assert.ok(yaml.includes("github.ref == 'refs/heads/main'"), 'production deploy must remain main-only');
-assert.ok(yaml.includes("vars.CLOUDFLARE_DEPLOY_ENABLED == 'true'"), 'production deploy enable flag must remain required');
+assert.ok(!yaml.includes("vars.CLOUDFLARE_DEPLOY_ENABLED == 'true'"), 'verified main should not be silently blocked by an optional deploy flag');
 assert.ok(yaml.includes('verified-site-${{ github.sha }}'), 'verified deployment artifact must remain present');
 
 console.log('WD CI workflow contract passed');
