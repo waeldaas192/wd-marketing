@@ -112,10 +112,12 @@
 }
 .innerOrbit{
   --ring-size:316px;
+  --orbit-radius:-132px;
   width:var(--ring-size);
 }
 .outerOrbit{
   --ring-size:470px;
+  --orbit-radius:-202px;
   width:var(--ring-size);
 }
 .orbitItem{
@@ -127,7 +129,7 @@
   transform:
     translate(-50%,-50%)
     rotate(var(--angle))
-    translateY(calc(var(--ring-size) / -2));
+    translateY(var(--orbit-radius));
   transform-origin:center;
 }
 .angleReset{
@@ -273,7 +275,9 @@
   .shell{min-height:560px}
   .stage{min-height:470px}
   .decorRingOne,.innerOrbit{--ring-size:292px;width:292px}
+  .innerOrbit{--orbit-radius:-120px}
   .decorRingTwo,.outerOrbit{--ring-size:430px;width:430px}
+  .outerOrbit{--orbit-radius:-181px}
   .center{width:178px;height:178px}
   .orbitItem{width:72px;height:72px}
 }
@@ -283,7 +287,9 @@
   .topline span{font-size:.66rem}
   .stage{min-height:420px}
   .decorRingOne,.innerOrbit{--ring-size:232px;width:232px}
+  .innerOrbit{--orbit-radius:-91px}
   .decorRingTwo,.outerOrbit{--ring-size:344px;width:344px}
+  .outerOrbit{--orbit-radius:-143px}
   .orbitItem{width:60px;height:60px}
   .logoCard{padding:13px;border-radius:19px}
   .brandSvg{width:27px;height:27px}
@@ -303,7 +309,9 @@
   .shell{padding:12px}
   .stage{min-height:370px}
   .decorRingOne,.innerOrbit{--ring-size:204px;width:204px}
+  .innerOrbit{--orbit-radius:-79px}
   .decorRingTwo,.outerOrbit{--ring-size:300px;width:300px}
+  .outerOrbit{--orbit-radius:-124px}
   .orbitItem{width:54px;height:54px}
   .logoCard{padding:11px;border-radius:17px}
   .brandSvg{width:24px;height:24px}
