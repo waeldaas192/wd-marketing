@@ -77,7 +77,7 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 function GeneratedImage({ asset, priority = false }: { asset: (typeof generatedImages)[keyof typeof generatedImages]; priority?: boolean }) {
   return <figure className={styles.mediaFrame}>
     <img src={asset.src} alt={asset.alt} width="1344" height="752" loading={priority ? "eager" : "lazy"} decoding="async" />
-    <figcaption>{asset.label} · Generated for WD Marketing</figcaption>
+    <figcaption>{asset.label}</figcaption>
   </figure>;
 }
 
