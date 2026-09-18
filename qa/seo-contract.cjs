@@ -87,4 +87,24 @@ assert.ok(webNavIndex !== -1 && croNavIndex > webNavIndex && seoNavIndex > croNa
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
+
+const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
+assert.ok(fs.existsSync(localHeroPath), 'Local SEO hero animation component must exist');
+const localHero = read(localHeroPath);
+for (const area of ['Central London','Westminster','Mayfair','Soho','Covent Garden','Marylebone','Holborn','City of London','South Bank']) {
+  assert.ok(localHero.includes(area), `Local SEO hero missing Central London area: ${area}`);
+}
+for (const oldArea of ['Ealing','Northolt','Greenford','Harrow','Hounslow','Uxbridge']) {
+  assert.ok(!localHero.includes(oldArea), `Local SEO hero must not use outer-west London label: ${oldArea}`);
+}
+assert.ok(localHero.includes('<svg'), 'Local SEO hero must render SVG routes');
+assert.ok(localHero.includes('routeFlow'), 'Local SEO hero must include animated route flow');
+const localHeroCssPath = 'src/components/seo/HeroCentralLondonMap.module.css';
+assert.ok(fs.existsSync(localHeroCssPath), 'Local SEO hero animation stylesheet must exist');
+const localHeroCss = read(localHeroCssPath);
+assert.ok(localHeroCss.includes('@keyframes drawRoute'), 'Local SEO hero must animate route drawing');
+assert.ok(localHeroCss.includes('@keyframes flowDash'), 'Local SEO hero must animate route flow');
+assert.ok(localHeroCss.includes('prefers-reduced-motion'), 'Local SEO hero must respect reduced motion');
+const localSeoPage = read('src/app/services/local-seo-london/page.tsx');
+assert.ok(localSeoPage.includes('HeroCentralLondonMap'), 'Local SEO page must use the animated Central London hero');
 console.log('WD SEO contract passed');
