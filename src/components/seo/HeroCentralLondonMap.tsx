@@ -8,7 +8,7 @@ const areas = [
   { id: "soho", name: "Soho", left: "45%", top: "39%", delay: "0.84s", path: "M500 310 Q475 300 450 235" },
   { id: "covent-garden", name: "Covent Garden", left: "64%", top: "40%", delay: "1.02s", path: "M500 310 Q565 300 640 240" },
   { id: "holborn", name: "Holborn", left: "71%", top: "27%", delay: "1.20s", path: "M500 310 Q630 255 715 160" },
-  { id: "city-of-london", name: "City of London", left: "82%", top: "49%", delay: "1.38s", path: "M500 310 Q700 310 820 295" },
+  { id: "city-of-london", name: "City of London", left: "82%", top: "57%", delay: "1.38s", path: "M500 310 Q700 325 820 342" },
   { id: "south-bank", name: "South Bank", left: "61%", top: "76%", delay: "1.56s", path: "M500 310 Q545 410 610 470" },
 ] as const;
 
