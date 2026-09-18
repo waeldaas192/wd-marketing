@@ -9,7 +9,7 @@ import { site } from "@/data/site";
 import base from "../seo/seo.module.css";
 import styles from "./local-seo.module.css";
 
-const description = "Local SEO services in London focused on Google Maps, Google Business Profile, service-page relevance and qualified enquiries. Founder-led strategy and implementation by WD Marketing.";
+const description = "Local SEO London for Google Maps, Google Business Profile, service pages and qualified enquiries. Founder-led strategy and implementation by WD Marketing.";
 export const metadata = pageMetadata("Local SEO London | Google Maps & Local Search", description, "/services/local-seo-london");
 
 const generatedImages = {
