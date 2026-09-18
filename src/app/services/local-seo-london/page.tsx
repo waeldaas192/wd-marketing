@@ -6,6 +6,7 @@ import { ArrowIcon } from "@/components/ui/Icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import Link from "next/link";
 import Image from "next/image";
+import { HeroCentralLondonMap } from "@/components/seo/HeroCentralLondonMap";
 import { site } from "@/data/site";
 import styles from "../seo/seo.module.css";
 import local from "./local-seo.module.css";
@@ -14,7 +15,6 @@ const description = "Local SEO services in London focused on Google Maps visibil
 export const metadata = pageMetadata("Local SEO London | Google Maps & Local Search", description, "/services/local-seo-london");
 
 const images = {
-  hero: "/images/local-seo-london/local-seo-london-hero.webp",
   maps: "/images/local-seo-london/google-maps-local-seo-london.webp",
   businesses: "/images/local-seo-london/local-business-search-london.webp",
 } as const;
@@ -104,7 +104,7 @@ export default function LocalSeoLondonPage() {
               <p className={styles.heroNote}>Founder-led. London focused. Search, website and conversion connected.</p>
             </div>
             <div className={styles.heroVisual}>
-              <GeneratedImage src={images.hero} alt="Conceptual three-dimensional map of London with connected local search visibility points" priority />
+              <HeroCentralLondonMap />
               <div className={styles.heroCaption}><span>Local visibility</span><p>Right service.<br />Right area. Right next step.</p></div>
             </div>
           </div>
