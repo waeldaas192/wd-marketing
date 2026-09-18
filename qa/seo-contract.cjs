@@ -99,6 +99,13 @@ for (const phrase of [
 }
 assert.ok(sitemap.includes('/services/local-seo-london'), 'Local SEO London page must be in sitemap');
 assert.ok(read('src/app/services/seo/page.tsx').includes('/services/local-seo-london'), 'SEO pillar page must link to Local SEO London');
+for (const blankProofAsset of [
+  '/images/projects/sma-marble/sma-marble-london-case-study.webp',
+  '/images/projects/roofing/mb-legacy-roofing-london-case-study.webp',
+  '/images/seo-london/london-marble-stone-website-seo.webp',
+]) {
+  assert.ok(!localSeoPage.includes(blankProofAsset), `Local SEO proof section must not reuse visually blank asset: ${blankProofAsset}`);
+}
 const localSeoCss = read('src/app/services/local-seo-london/local-seo.module.css');
 assert.ok(!localSeoCss.includes('\\n.'), 'Local SEO CSS must not contain literal escaped newlines between rules');
 
