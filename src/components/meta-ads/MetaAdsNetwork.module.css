@@ -244,11 +244,18 @@
 }
 
 @media (prefers-reduced-motion:no-preference){
-  :global(html[data-motion="running"]) .innerOrbit{animation:orbitClockwise 28s linear infinite}
-  :global(html[data-motion="running"]) .innerOrbit .counterSpin{animation:counterClockwise 28s linear infinite}
-  :global(html[data-motion="running"]) .outerOrbit{animation:orbitCounter 38s linear infinite}
-  :global(html[data-motion="running"]) .outerOrbit .counterSpin{animation:counterForward 38s linear infinite}
-  :global(html[data-motion="running"]) .centerGlow{animation:centerPulse 4.8s ease-in-out infinite}
+  .innerOrbit{animation:orbitClockwise 18s linear infinite}
+  .innerOrbit .counterSpin{animation:counterClockwise 18s linear infinite}
+  .outerOrbit{animation:orbitCounter 26s linear infinite}
+  .outerOrbit .counterSpin{animation:counterForward 26s linear infinite}
+  .decorRingOne{animation:ringDrift 34s linear infinite}
+  .decorRingTwo{animation:ringDriftReverse 44s linear infinite}
+  .centerGlow{animation:centerPulse 4.8s ease-in-out infinite}
+  .logoCard{animation:logoFloat 3.8s ease-in-out infinite}
+  .outerOrbit .orbitItem:nth-child(2) .logoCard,
+  .innerOrbit .orbitItem:nth-child(2) .logoCard{animation-delay:-1.2s}
+  .outerOrbit .orbitItem:nth-child(3) .logoCard,
+  .innerOrbit .orbitItem:nth-child(3) .logoCard{animation-delay:-2.4s}
 }
 @keyframes orbitClockwise{
   from{transform:translate(-50%,-50%) rotate(0deg)}
@@ -265,6 +272,18 @@
 @keyframes counterForward{
   from{transform:rotate(0deg)}
   to{transform:rotate(360deg)}
+}
+@keyframes ringDrift{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes ringDriftReverse{
+  from{transform:translate(-50%,-50%) rotate(360deg)}
+  to{transform:translate(-50%,-50%) rotate(0deg)}
+}
+@keyframes logoFloat{
+  0%,100%{translate:0 0}
+  50%{translate:0 -3px}
 }
 @keyframes centerPulse{
   0%,100%{opacity:.6;transform:scale(.96)}
@@ -331,6 +350,8 @@
 }
 :global(html[data-motion="paused"]) .orbit,
 :global(html[data-motion="paused"]) .counterSpin,
-:global(html[data-motion="paused"]) .centerGlow{
+:global(html[data-motion="paused"]) .decorRing,
+:global(html[data-motion="paused"]) .centerGlow,
+:global(html[data-motion="paused"]) .logoCard{
   animation-play-state:paused!important;
 }
