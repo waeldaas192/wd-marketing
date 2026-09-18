@@ -74,4 +74,4 @@
   to { opacity: 1; clip-path: circle(150vmax at calc(100% - 48px) calc(max(20px,env(safe-area-inset-top)) + 28px)); transform: none; }
 }
 @keyframes linkRise { from { opacity: 0; transform: translateY(12px) scale(.99); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .cta:hover,.cta:active,.serviceCard:hover { transform: none; } .menuGlyph i { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .link:hover,.link:active,.cta:hover,.cta:active,.motion:hover,.motion:active,.menu:hover,.menu:active,.serviceCard:hover,.serviceCard:active { transform: none; } .menuGlyph i { transition: none; } }\n:global(html[data-motion="paused"]) .link,:global(html[data-motion="paused"]) .cta,:global(html[data-motion="paused"]) .motion,:global(html[data-motion="paused"]) .menu,:global(html[data-motion="paused"]) .serviceCard,:global(html[data-motion="paused"]) .menuGlyph i { transition: none; }
