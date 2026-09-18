@@ -5,6 +5,7 @@ import { serviceSchema } from "@/lib/structured-data";
 import { ArrowIcon } from "@/components/ui/Icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import Link from "next/link";
+import Image from "next/image";
 import { site } from "@/data/site";
 import styles from "../seo/seo.module.css";
 import local from "./local-seo.module.css";
@@ -13,9 +14,9 @@ const description = "Local SEO services in London focused on Google Maps visibil
 export const metadata = pageMetadata("Local SEO London | Google Maps & Local Search", description, "/services/local-seo-london");
 
 const images = {
-  hero: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20260918_213208_662e9c9b-5a6a-45af-a024-1fd5cb6228dc.png",
-  maps: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20260918_213208_c796330b-f334-4e5e-8471-35b97ae7a2f0.png",
-  businesses: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20260918_213208_97915f53-67eb-48ae-8ec3-d4c4ec2b5158.png",
+  hero: "/images/local-seo-london/local-seo-london-hero.webp",
+  maps: "/images/local-seo-london/google-maps-local-seo-london.webp",
+  businesses: "/images/local-seo-london/local-business-search-london.webp",
 } as const;
 
 const deliverables = [
@@ -66,7 +67,20 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 }
 
 function GeneratedImage({ src, alt, priority = false }: { src: string; alt: string; priority?: boolean }) {
-  return <div className={styles.imageSlot}><img className={styles.image} src={src} alt={alt} width="1344" height="752" loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} /></div>;
+  return (
+    <div className={styles.imageSlot} style={{ aspectRatio: "1344 / 752" }}>
+      <Image
+        className={styles.image}
+        src={src}
+        alt={alt}
+        width={1344}
+        height={752}
+        sizes="(max-width: 760px) calc(100vw - 28px), (max-width: 1024px) calc(100vw - 40px), 640px"
+        priority={priority}
+        style={{ objectFit: "cover" }}
+      />
+    </div>
+  );
 }
 
 export default function LocalSeoLondonPage() {
