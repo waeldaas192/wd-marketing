@@ -1,0 +1,237 @@
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid #d8d0e6;
+  border-radius: var(--radius);
+  background: #090b14;
+  box-shadow: 0 24px 70px rgba(18, 20, 34, .18);
+}
+.mapImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.025);
+  animation: mapDrift 10s var(--ease) infinite alternate;
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(91, 78, 210, .08), transparent 32%),
+    linear-gradient(180deg, rgba(7, 9, 17, .04), rgba(7, 9, 17, .22));
+}
+.routes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.hubAura {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hubIn .9s var(--ease-out) .15s forwards, auraPulse 3.4s ease-in-out 1.2s infinite;
+}
+.routeBase,
+.routeFlow {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.routeBase {
+  stroke: rgba(132, 146, 255, .92);
+  stroke-width: 2.25;
+  filter: url(#wd-local-seo-glow);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  animation: drawRoute 1.15s var(--ease-out) forwards;
+}
+.routeFlow {
+  stroke: rgba(255, 255, 255, .92);
+  stroke-width: 1.2;
+  filter: url(#wd-local-seo-glow);
+  stroke-dasharray: .045 .09;
+  stroke-dashoffset: .8;
+  opacity: 0;
+  animation:
+    revealFlow .24s linear forwards,
+    flowDash 1.75s linear infinite;
+}
+.hubPin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hubPulse 2.6s ease-in-out infinite;
+}
+.hubRing {
+  fill: rgba(102, 117, 246, .18);
+  stroke: #aab4ff;
+  stroke-width: 3;
+  filter: url(#wd-local-seo-glow);
+}
+.hubCore {
+  fill: #fff;
+  filter: url(#wd-local-seo-glow);
+}
+.labels {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.pin {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: revealPin .62s var(--ease-out) forwards;
+}
+.centerPin { animation-delay: .12s !important; }
+.dot {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #a8b3ff;
+  box-shadow:
+    0 0 0 5px rgba(109, 125, 255, .12),
+    0 0 14px rgba(109, 125, 255, .86),
+    0 0 30px rgba(109, 125, 255, .48);
+  animation: dotPulse 2.35s ease-in-out infinite;
+}
+.centerPin .dot {
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  box-shadow:
+    0 0 0 8px rgba(109, 125, 255, .16),
+    0 0 20px rgba(109, 125, 255, .98),
+    0 0 42px rgba(109, 125, 255, .62);
+}
+.label {
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 999px;
+  background: rgba(12, 15, 27, .76);
+  box-shadow: 0 9px 24px rgba(0, 0, 0, .22);
+  color: #f5f6ff;
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  backdrop-filter: blur(9px);
+}
+.centerPin .label {
+  background: rgba(72, 64, 166, .84);
+  border-color: rgba(192, 197, 255, .34);
+}
+.scan {
+  position: absolute;
+  z-index: 2;
+  top: -30%;
+  left: -20%;
+  width: 140%;
+  height: 34%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(129, 143, 255, .08), transparent);
+  transform: rotate(-7deg);
+  animation: scanPass 6.5s ease-in-out 2s infinite;
+}
+@keyframes drawRoute {
+  0% { opacity: 0; stroke-dashoffset: 1; }
+  10% { opacity: 1; }
+  100% { opacity: 1; stroke-dashoffset: 0; }
+}
+@keyframes revealFlow {
+  to { opacity: .92; }
+}
+@keyframes flowDash {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes hubIn {
+  from { opacity: 0; transform: scale(.55); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes auraPulse {
+  0%, 100% { opacity: .76; transform: scale(.92); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+@keyframes hubPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+@keyframes revealPin {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 10px)) scale(.92); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+@keyframes mapDrift {
+  from { transform: scale(1.025) translate3d(0, 0, 0); }
+  to { transform: scale(1.055) translate3d(-.45%, -.35%, 0); }
+}
+@keyframes scanPass {
+  0%, 18% { transform: translateY(-80%) rotate(-7deg); opacity: 0; }
+  30% { opacity: 1; }
+  68% { opacity: .8; }
+  82%, 100% { transform: translateY(470%) rotate(-7deg); opacity: 0; }
+}
+@media (hover: hover) {
+  .card:hover .mapImage { transform: scale(1.045); }
+  .card:hover .routeFlow { stroke-width: 1.55; }
+}
+@media (max-width: 760px) {
+  .card { aspect-ratio: 4 / 5; }
+  .pin { flex-direction: column; gap: 5px; }
+  .label { padding: 5px 7px; font-size: .64rem; }
+  .dot { width: 9px; height: 9px; }
+  .centerPin .dot { width: 13px; height: 13px; }
+  .routeBase { stroke-width: 1.8; }
+  .routeFlow { stroke-width: 1; }
+  .pin[data-area="marylebone"] { left: 27% !important; top: 15% !important; }
+  .pin[data-area="mayfair"] { left: 58% !important; top: 20% !important; }
+  .pin[data-area="westminster"] { left: 18% !important; top: 38% !important; }
+  .pin[data-area="soho"] { left: 42% !important; top: 34% !important; }
+  .pin[data-area="covent-garden"] { left: 67% !important; top: 39% !important; }
+  .pin[data-area="holborn"] { left: 78% !important; top: 24% !important; }
+  .pin[data-area="city-of-london"] { left: 81% !important; top: 58% !important; }
+  .pin[data-area="south-bank"] { left: 57% !important; top: 78% !important; }
+  .centerPin { left: 49% !important; top: 52% !important; }
+}
+@media (max-width: 420px) {
+  .label { font-size: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mapImage,
+  .hubAura,
+  .routeBase,
+  .routeFlow,
+  .hubPin,
+  .pin,
+  .dot,
+  .scan {
+    animation: none !important;
+  }
+  .hubAura,
+  .routeBase,
+  .routeFlow,
+  .pin {
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
