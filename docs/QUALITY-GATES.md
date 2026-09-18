@@ -92,9 +92,10 @@ For public endpoints, authentication, uploads or data-handling changes, review s
 Production deployment must continue to require:
 
 - a green `verify` job;
-- `main` branch;
-- the existing `CLOUDFLARE_DEPLOY_ENABLED == 'true'` condition;
+- the `main` branch;
 - the verified build artifact, not a fresh untested rebuild.
+
+A verified push to `main` deploys automatically to Cloudflare. There is no additional repository variable gate that can silently skip production deployment.
 
 A successful deploy job is followed by Production verification of critical routes and conversion behaviour when deployment is in scope.
 
