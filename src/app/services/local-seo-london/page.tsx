@@ -180,7 +180,7 @@ export default function LocalSeoLondonPage() {
       <section className={styles.businessSection} aria-labelledby="business-title">
         <div className={`container ${styles.splitReverse}`}>
           <div>
-            <p className={base.eyebrow}>Built for local demand</p>
+            <p className={`${base.eyebrow} ${styles.darkEyebrow}`}>Built for local demand</p>
             <h2 id="business-title">Local SEO for businesses that need<br /><span>customers, not traffic reports.</span></h2>
             <p>This approach is especially relevant where location and service intent influence the buying decision: trades, specialist cleaning, property services, construction, stone and surfaces, security, professional services, hospitality, automotive services and other location-led businesses.</p>
             <p className={styles.callout}>Before content production begins, we ask: Which services matter commercially? Which locations can you genuinely serve? What proof does a customer need before contacting you?</p>
@@ -197,17 +197,17 @@ export default function LocalSeoLondonPage() {
           <div className={styles.proofGrid}>
             <article>
               <img src="/images/projects/sma-marble/sma-marble-london-case-study.webp" alt="SMA Marble London worktop website case study" width="1800" height="1125" loading="lazy" decoding="async" />
-              <p className={base.projectMeta}>London · Stone &amp; worktops</p><h3>SMA Marble</h3><p>Website strategy, responsive UX, service architecture, Local SEO foundations and a focused quote journey for a London stone worktop specialist.</p>
+              <p className={`${base.projectMeta} ${styles.proofMeta}`}>London · Stone &amp; worktops</p><h3>SMA Marble</h3><p>Website strategy, responsive UX, service architecture, Local SEO foundations and a focused quote journey for a London stone worktop specialist.</p>
               <Link className={base.textLink} href="/work/sma-marble">View case study <Arrow diagonal /></Link>
             </article>
             <article>
               <img src="/images/projects/roofing/mb-legacy-roofing-london-case-study.webp" alt="MB Legacy Roofing London SEO and lead generation case study" width="1800" height="1200" loading="lazy" decoding="async" />
-              <p className={base.projectMeta}>London · Roofing</p><h3>MB Legacy Roofing</h3><p>A legacy WordPress presence rebuilt into a faster, structured platform with service and London-area routes, clear enquiry paths and preserved useful URLs.</p>
+              <p className={`${base.projectMeta} ${styles.proofMeta}`}>London · Roofing</p><h3>MB Legacy Roofing</h3><p>A legacy WordPress presence rebuilt into a faster, structured platform with service and London-area routes, clear enquiry paths and preserved useful URLs.</p>
               <Link className={base.textLink} href="/work/mb-legacy-roofing">View case study <Arrow diagonal /></Link>
             </article>
             <article>
               <img src="/images/seo-london/london-marble-stone-website-seo.webp" alt="London Marble Stone website with marble restoration services and quote options" width="1600" height="1000" loading="lazy" decoding="async" />
-              <p className={base.projectMeta}>London · Stone restoration</p><h3>London Marble Stone</h3><p>Website development and SEO for a London marble restoration and polishing business, connecting specific service intent with clear contact and quote options.</p>
+              <p className={`${base.projectMeta} ${styles.proofMeta}`}>London · Stone restoration</p><h3>London Marble Stone</h3><p>Website development and SEO for a London marble restoration and polishing business, connecting specific service intent with clear contact and quote options.</p>
               <a className={base.textLink} href="https://londonmarblestone.co.uk/" target="_blank" rel="noopener noreferrer">Visit website <Arrow diagonal /></a>
             </article>
           </div>
