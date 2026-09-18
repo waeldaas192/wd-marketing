@@ -190,6 +190,18 @@ async function axe(page,label) {
       check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${route}: mobile overflow`);
     }
 
+    for (const [width,label] of [[390,'local-seo-mobile'],[1440,'local-seo-desktop']]) {
+      await page.setViewportSize({width,height:width===390?844:1000});
+      await ready(page,'/services/local-seo-london');
+      await imagesReady(page,label);
+      check(await page.locator('main h1').count()===1,`${label}: expected one H1`);
+      check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${label}: horizontal overflow`);
+      await axe(page,label);
+      await page.screenshot({path:path.join(out,`${label}.png`),fullPage:true});
+      report.interactions.push(`${label}: Local SEO route, images loaded, accessible structure, no horizontal overflow`);
+    }
+
+
     for (const [width,label] of [[390,'meta-ads-mobile'],[1440,'meta-ads-desktop']]) {
       await page.setViewportSize({width,height:width===390?844:1000});
       await ready(page,'/services/meta-ads');
