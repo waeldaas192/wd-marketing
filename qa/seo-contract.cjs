@@ -85,6 +85,21 @@ const croNavIndex = header.indexOf('href: "/services/conversion-rate-optimisatio
 const seoNavIndex = header.indexOf('href: "/services/seo"');
 assert.ok(webNavIndex !== -1 && croNavIndex > webNavIndex && seoNavIndex > croNavIndex, 'CRO service must appear between Web & Conversion and SEO in the Services navigation');
 
+const localSeoPagePath = 'src/app/services/local-seo-london/page.tsx';
+assert.ok(fs.existsSync(localSeoPagePath), 'Local SEO London service page must exist');
+const localSeoPage = read(localSeoPagePath);
+for (const phrase of [
+  'Local SEO London',
+  'Google Business Profile',
+  'Google Maps',
+  'qualified enquiries',
+  'serviceSchema',
+]) {
+  assert.ok(localSeoPage.includes(phrase), `Local SEO page missing required strategy or SEO element: ${phrase}`);
+}
+assert.ok(sitemap.includes('/services/local-seo-london'), 'Local SEO London page must be in sitemap');
+assert.ok(read('src/app/services/seo/page.tsx').includes('/services/local-seo-london'), 'SEO pillar page must link to Local SEO London');
+
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 console.log('WD SEO contract passed');
