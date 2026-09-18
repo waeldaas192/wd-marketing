@@ -26,7 +26,7 @@ for (const command of [
   'npm run test:deployment',
 ]) assert.ok(gates.includes(command), `QUALITY-GATES missing: ${command}`);
 
-for (const phrase of ['qa-results/report.json', 'CLOUDFLARE_DEPLOY_ENABLED', 'main']) {
+for (const phrase of ['qa-results/report.json', 'main', 'verified build artifact']) {
   assert.ok(gates.includes(phrase), `QUALITY-GATES missing: ${phrase}`);
 }
 
