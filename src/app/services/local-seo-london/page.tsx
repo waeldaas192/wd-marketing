@@ -23,11 +23,6 @@ const generatedImages = {
     alt: "Conceptual smartphone map interface showing local business discovery points",
     label: "Google Maps and Business Profile",
   },
-  businesses: {
-    src: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20260918_215914_610f2c6c-85a5-41e7-9fdf-b7685658b495.png",
-    alt: "London streetscape representing local service businesses being discovered through search",
-    label: "Local businesses discovered through search",
-  },
 } as const;
 
 const journey = [
@@ -185,7 +180,19 @@ export default function LocalSeoLondonPage() {
             <p className={styles.darkBody}>This approach is especially relevant where location and service intent influence the buying decision: trades, specialist cleaning, property services, construction, stone and surfaces, security, professional services, hospitality, automotive services and other location-led businesses.</p>
             <p className={styles.callout}>Before content production begins, we ask: Which services matter commercially? Which locations can you genuinely serve? What proof does a customer need before contacting you?</p>
           </div>
-          <GeneratedImage asset={generatedImages.businesses} />
+          <div className={styles.localDemandVisual} role="img" aria-label="Local search strategy connecting a valuable service, a genuine service area, customer intent and a qualified enquiry">
+            <div className={styles.demandHeader}><span>LOCAL DEMAND SYSTEM</span><i>London</i></div>
+            <div className={styles.demandFlow} aria-hidden="true">
+              <div><small>01</small><strong>Service</strong><span>Work worth winning</span></div>
+              <i>→</i>
+              <div><small>02</small><strong>Area</strong><span>Places you serve</span></div>
+              <i>→</i>
+              <div><small>03</small><strong>Intent</strong><span>Search with purpose</span></div>
+              <i>→</i>
+              <div><small>04</small><strong>Enquiry</strong><span>Useful next step</span></div>
+            </div>
+            <p>Build around commercial relevance — then expand when the evidence supports it.</p>
+          </div>
         </div>
       </section>
 
