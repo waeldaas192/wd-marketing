@@ -21,7 +21,7 @@ const links = [
   { label: "Work", href: "/work" }, { label: "Process", href: "/#process" },
   { label: "About", href: "/about" }, { label: "Insights", href: "/insights" },
 ];
-const MOBILE_MENU_REVEAL_DELAY = 220;
+const MOBILE_MENU_REVEAL_DELAY = 0;
 
 export function Header() {
   const pathname = usePathname();
