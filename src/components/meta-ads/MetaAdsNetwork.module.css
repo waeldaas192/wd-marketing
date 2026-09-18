@@ -1,5 +1,328 @@
-.shell{position:relative;min-height:590px;padding:18px;overflow:hidden;border:1px solid #ded7ef;border-radius:30px;background:radial-gradient(circle at 72% 12%,#efeaff 0,transparent 28%),linear-gradient(145deg,#fff 0%,#f7f3ff 100%);box-shadow:0 34px 86px -62px #4e2f93}.shell::after{content:"";position:absolute;right:-120px;top:-110px;width:320px;height:320px;border-radius:50%;background:#7651df;filter:blur(90px);opacity:.1;pointer-events:none}.topline{position:relative;z-index:3;display:flex;align-items:center;min-height:38px;padding:0 4px 12px;border-bottom:1px solid #ddd4ef}.topline span{margin-right:auto;color:#6b39d4;font-size:.72rem;font-weight:760;letter-spacing:.105em}.topline i{width:7px;height:7px;margin-left:7px;border-radius:50%;background:#d3c8ef}.network{position:relative;z-index:2;min-height:490px;margin-top:8px}.connections{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.paths path{fill:none;stroke:#8e79c8;stroke-width:1.15;stroke-dasharray:4 7;opacity:.38}.pulses circle{fill:#6b39d4;filter:drop-shadow(0 0 7px #6b39d477)}.center,.node{position:absolute;z-index:3;border:1px solid #ded8ec;background:#fffffff2;box-shadow:0 20px 42px -34px #261e4f88;backdrop-filter:blur(10px)}.center{left:50%;top:50%;display:flex;width:180px;height:180px;transform:translate(-50%,-50%);flex-direction:column;align-items:center;justify-content:center;border-radius:40px;background:linear-gradient(145deg,#1d1830,#2a1b45);color:#fff;border-color:#ffffff18;box-shadow:0 36px 64px -34px #241342}.logoWrap{display:grid;place-items:center;width:64px;height:64px;margin-bottom:12px;border-radius:20px;background:#ffffff0d;border:1px solid #ffffff26}.wdMark{width:48px;height:48px;fill:#fff}.center strong{font-size:1.02rem;font-weight:700;letter-spacing:-.025em}.center small{margin-top:5px;color:#d7c9f5;font-size:.75rem;letter-spacing:.045em;text-transform:uppercase}.node{display:flex;align-items:center;gap:12px;width:168px;min-height:70px;padding:11px 13px;border-radius:18px;transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}.node:hover{transform:translateY(-3px);border-color:#bba9e8;box-shadow:0 28px 48px -34px #261e4fbb}.mark{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:13px;background:#f2edff;color:#5b34bc}.brandSvg,.systemSvg{display:block;width:22px;height:22px}.meta .brandSvg{fill:#0866ff}.facebook .brandSvg{fill:#1877f2}.instagram .brandSvg{width:23px;height:23px}.highLevel .mark{width:48px;background:#f7fbff}.highLevelSvg{width:36px;height:28px}.systemSvg{color:#5b34bc}.node strong,.node small{display:block}.node strong{color:#242032;font-size:.8rem;font-weight:700;letter-spacing:-.012em}.node small{margin-top:4px;color:#716a7b;font-size:.75rem;line-height:1.3}.meta{left:2%;top:4%}.facebook{left:31%;top:0}.instagram{right:2%;top:4%}.highLevel{right:0;top:39%}.leads{right:2%;bottom:6%}.growth{left:40%;bottom:0}.pipeline{left:10%;bottom:5%}.messages{left:0;top:58%}.calls{left:2%;top:31%}.caption{position:relative;z-index:3;margin:-3px 10px 3px;color:#6e6679;font-size:.75rem;line-height:1.5;text-align:center}
-@media (prefers-reduced-motion:reduce){.pulses{display:none}.node{transition:none}}
-@media (max-width:1100px){.shell{min-height:570px}.node{width:154px}.meta{left:0}.instagram{right:0}.calls{left:0}.messages{left:0}.highLevel{right:0}.leads{right:0}}
-@media (max-width:760px){.shell{min-height:0;padding:14px;border-radius:24px}.topline{padding:0 2px 10px}.topline span{font-size:.68rem}.network{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;min-height:0;padding:16px 0 6px}.network::before{content:"";position:absolute;left:50%;top:20px;bottom:20px;width:1px;transform:translateX(-50%);background:linear-gradient(180deg,#d8cfee,#8f76ce,#d8cfee);opacity:.32}.connections{display:none}.center,.node{position:relative;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none}.node{width:100%;min-height:70px;margin:0;padding:11px;background:#fffffffa}.meta,.facebook,.instagram{min-height:88px;flex-direction:column;justify-content:center;gap:7px;text-align:center}.meta{grid-column:1/3}.facebook{grid-column:3/5}.instagram{grid-column:5/7}.meta .mark,.facebook .mark,.instagram .mark{width:38px;height:38px}.meta small,.facebook small,.instagram small{display:none}.center{grid-column:1/-1;width:100%;height:auto;min-height:116px;margin:2px 0;padding:18px;border-radius:26px}.logoWrap{width:54px;height:54px;margin-bottom:8px;border-radius:17px}.wdMark{width:41px;height:41px}.center strong{font-size:1rem}.center small{font-size:.75rem}.highLevel{grid-column:1/-1;min-height:74px}.highLevel .mark{width:58px;height:42px;border-radius:12px}.highLevelSvg{width:44px;height:31px}.leads{grid-column:1/4}.calls{grid-column:4/7}.messages{grid-column:1/4}.pipeline{grid-column:4/7}.growth{grid-column:1/-1}.mark{width:38px;height:38px;border-radius:12px}.brandSvg,.systemSvg{width:21px;height:21px}.node strong{font-size:.8rem}.node small{font-size:.75rem}.caption{margin:8px 4px 2px;font-size:.75rem}}
-@media (max-width:430px){.shell{padding:12px}.network{gap:8px}.meta,.facebook,.instagram{min-height:82px;padding:9px 6px}.node{min-height:66px;padding:9px 10px;gap:9px}.node strong{font-size:.78rem}.node small{font-size:.75rem}.leads,.messages{grid-column:1/4}.calls,.pipeline{grid-column:4/7}.growth{grid-column:1/-1}.center{min-height:108px}.caption{font-size:.75rem}}
+.shell{
+  position:relative;
+  min-height:590px;
+  padding:18px;
+  overflow:hidden;
+  border:1px solid #ded7ef;
+  border-radius:30px;
+  background:
+    radial-gradient(circle at 50% 48%,#eee7ff 0,transparent 31%),
+    radial-gradient(circle at 78% 12%,#efeaff 0,transparent 24%),
+    linear-gradient(145deg,#fff 0%,#f8f5ff 100%);
+  box-shadow:0 34px 86px -62px #4e2f93;
+}
+.shell::after{
+  content:"";
+  position:absolute;
+  right:-120px;
+  top:-110px;
+  width:320px;
+  height:320px;
+  border-radius:50%;
+  background:#7651df;
+  filter:blur(90px);
+  opacity:.1;
+  pointer-events:none;
+}
+.topline{
+  position:relative;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  min-height:38px;
+  padding:0 4px 12px;
+  border-bottom:1px solid #ddd4ef;
+}
+.topline span{
+  margin-right:auto;
+  color:#6b39d4;
+  font-size:.72rem;
+  font-weight:760;
+  letter-spacing:.105em;
+}
+.topline i{
+  width:7px;
+  height:7px;
+  margin-left:7px;
+  border-radius:50%;
+  background:#d3c8ef;
+}
+.stage{
+  position:relative;
+  z-index:2;
+  display:grid;
+  place-items:center;
+  min-height:500px;
+  isolation:isolate;
+}
+.stage::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:70%;
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle,#6b39d40c 0 1px,transparent 1px 100%);
+  background-size:18px 18px;
+  mask-image:radial-gradient(circle,#000 0 52%,transparent 74%);
+  opacity:.55;
+}
+.decorRing,.orbit{
+  position:absolute;
+  left:50%;
+  top:50%;
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  pointer-events:none;
+}
+.decorRing{
+  border:1px dashed #8571ba6b;
+  box-shadow:0 0 0 1px #ffffff8f inset;
+}
+.decorRingOne{width:316px}
+.decorRingTwo{width:470px;border-color:#a090c65c}
+.decorRingTwo::before,.decorRingTwo::after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#8f78cc;
+  box-shadow:0 0 0 5px #f6f1ff,0 0 20px #7d62c866;
+}
+.decorRingTwo::before{left:50%;top:-4px}
+.decorRingTwo::after{left:50%;bottom:-4px}
+.axisHorizontal,.axisVertical{
+  position:absolute;
+  left:50%;
+  top:50%;
+  z-index:-1;
+  background:linear-gradient(90deg,transparent,#8e79c831,transparent);
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.axisHorizontal{width:84%;height:1px}
+.axisVertical{width:1px;height:84%;background:linear-gradient(180deg,transparent,#8e79c82b,transparent)}
+.orbit{
+  border:1px dashed transparent;
+  will-change:transform;
+}
+.innerOrbit{
+  --ring-size:316px;
+  width:var(--ring-size);
+}
+.outerOrbit{
+  --ring-size:470px;
+  width:var(--ring-size);
+}
+.orbitItem{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:78px;
+  height:78px;
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--angle))
+    translateY(calc(var(--ring-size) / -2));
+  transform-origin:center;
+}
+.angleReset{
+  display:block;
+  width:100%;
+  height:100%;
+  transform:rotate(var(--angle-reset));
+}
+.counterSpin{
+  display:block;
+  width:100%;
+  height:100%;
+  will-change:transform;
+}
+.logoCard{
+  display:grid;
+  place-items:center;
+  width:100%;
+  height:100%;
+  padding:18px;
+  border:1px solid #ddd5ed;
+  border-radius:24px;
+  background:#fffffff4;
+  box-shadow:
+    0 18px 44px -28px #2a1a516e,
+    inset 0 1px 0 #fff;
+  backdrop-filter:blur(12px);
+  transition:
+    transform var(--motion-medium) var(--ease-spring),
+    border-color var(--motion-medium) var(--ease-out),
+    box-shadow var(--motion-medium) var(--ease-out);
+}
+.logoCard:hover{
+  transform:scale(1.08);
+  border-color:#bdaae9;
+  box-shadow:0 24px 46px -26px #2a1a5191,inset 0 1px 0 #fff;
+}
+.brandSvg{display:block;width:33px;height:33px}
+.meta .brandSvg{fill:#0866ff;width:38px;height:38px}
+.facebook .brandSvg{fill:#1877f2;width:34px;height:34px}
+.instagram .brandSvg{width:34px;height:34px}
+.whatsapp .brandSvg{width:36px;height:36px}
+.messenger .brandSvg{width:36px;height:36px}
+.highLevel{padding:14px}
+.highLevelSvg{width:48px;height:32px}
+.center{
+  position:relative;
+  z-index:6;
+  display:flex;
+  width:190px;
+  height:190px;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #ffffff20;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 35% 22%,#ffffff17,transparent 32%),
+    linear-gradient(145deg,#201931,#2b1a49);
+  color:#fff;
+  box-shadow:
+    0 38px 74px -36px #241342,
+    0 0 0 10px #f6f1ff,
+    0 0 0 11px #d8cbed;
+}
+.centerGlow{
+  position:absolute;
+  inset:-28px;
+  z-index:-1;
+  border-radius:50%;
+  background:radial-gradient(circle,#7450df2c 0,transparent 68%);
+  filter:blur(4px);
+}
+.logoWrap{
+  display:grid;
+  place-items:center;
+  width:78px;
+  height:78px;
+  margin-bottom:12px;
+  overflow:hidden;
+  border:1px solid #ffffff24;
+  border-radius:25px;
+  background:#fff;
+  box-shadow:0 14px 28px -18px #0009;
+}
+.wdLogo{
+  width:64px;
+  height:64px;
+  object-fit:contain;
+}
+.center strong{
+  font-size:1.02rem;
+  font-weight:720;
+  letter-spacing:-.025em;
+}
+.center small{
+  margin-top:5px;
+  color:#d7c9f5;
+  font-size:.69rem;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+.caption{
+  position:relative;
+  z-index:4;
+  margin:-2px 10px 3px;
+  color:#6e6679;
+  font-size:.75rem;
+  line-height:1.5;
+  text-align:center;
+  letter-spacing:.01em;
+}
+
+@media (prefers-reduced-motion:no-preference){
+  :global(html[data-motion="running"]) .innerOrbit{animation:orbitClockwise 28s linear infinite}
+  :global(html[data-motion="running"]) .innerOrbit .counterSpin{animation:counterClockwise 28s linear infinite}
+  :global(html[data-motion="running"]) .outerOrbit{animation:orbitCounter 38s linear infinite}
+  :global(html[data-motion="running"]) .outerOrbit .counterSpin{animation:counterForward 38s linear infinite}
+  :global(html[data-motion="running"]) .centerGlow{animation:centerPulse 4.8s ease-in-out infinite}
+}
+@keyframes orbitClockwise{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes counterClockwise{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(-360deg)}
+}
+@keyframes orbitCounter{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(-360deg)}
+}
+@keyframes counterForward{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+@keyframes centerPulse{
+  0%,100%{opacity:.6;transform:scale(.96)}
+  50%{opacity:1;transform:scale(1.07)}
+}
+
+@media (max-width:1100px){
+  .shell{min-height:560px}
+  .stage{min-height:470px}
+  .decorRingOne,.innerOrbit{--ring-size:292px;width:292px}
+  .decorRingTwo,.outerOrbit{--ring-size:430px;width:430px}
+  .center{width:178px;height:178px}
+  .orbitItem{width:72px;height:72px}
+}
+@media (max-width:760px){
+  .shell{min-height:0;padding:14px;border-radius:24px}
+  .topline{padding:0 2px 10px}
+  .topline span{font-size:.66rem}
+  .stage{min-height:420px}
+  .decorRingOne,.innerOrbit{--ring-size:232px;width:232px}
+  .decorRingTwo,.outerOrbit{--ring-size:344px;width:344px}
+  .orbitItem{width:60px;height:60px}
+  .logoCard{padding:13px;border-radius:19px}
+  .brandSvg{width:27px;height:27px}
+  .meta .brandSvg{width:30px;height:30px}
+  .facebook .brandSvg,.instagram .brandSvg{width:28px;height:28px}
+  .whatsapp .brandSvg,.messenger .brandSvg{width:29px;height:29px}
+  .highLevel{padding:10px}
+  .highLevelSvg{width:39px;height:27px}
+  .center{width:148px;height:148px;box-shadow:0 30px 60px -36px #241342,0 0 0 8px #f6f1ff,0 0 0 9px #d8cbed}
+  .logoWrap{width:62px;height:62px;margin-bottom:8px;border-radius:20px}
+  .wdLogo{width:52px;height:52px}
+  .center strong{font-size:.92rem}
+  .center small{font-size:.58rem}
+  .caption{margin:3px 4px 2px;font-size:.7rem}
+}
+@media (max-width:430px){
+  .shell{padding:12px}
+  .stage{min-height:370px}
+  .decorRingOne,.innerOrbit{--ring-size:204px;width:204px}
+  .decorRingTwo,.outerOrbit{--ring-size:300px;width:300px}
+  .orbitItem{width:54px;height:54px}
+  .logoCard{padding:11px;border-radius:17px}
+  .brandSvg{width:24px;height:24px}
+  .meta .brandSvg{width:27px;height:27px}
+  .facebook .brandSvg,.instagram .brandSvg{width:25px;height:25px}
+  .whatsapp .brandSvg,.messenger .brandSvg{width:26px;height:26px}
+  .highLevelSvg{width:34px;height:23px}
+  .center{width:132px;height:132px}
+  .logoWrap{width:55px;height:55px;border-radius:18px}
+  .wdLogo{width:46px;height:46px}
+  .center strong{font-size:.86rem}
+  .center small{font-size:.52rem;letter-spacing:.055em}
+}
+@media (prefers-reduced-motion:reduce){
+  .orbit,.counterSpin,.centerGlow{animation:none!important}
+  .logoCard{transition:none}
+}
+:global(html[data-motion="paused"]) .orbit,
+:global(html[data-motion="paused"]) .counterSpin,
+:global(html[data-motion="paused"]) .centerGlow{
+  animation-play-state:paused!important;
+}
