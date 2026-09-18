@@ -106,6 +106,7 @@ for (const blankProofAsset of [
 ]) {
   assert.ok(!localSeoPage.includes(blankProofAsset), `Local SEO proof section must not reuse visually blank asset: ${blankProofAsset}`);
 }
+assert.ok(!localSeoPage.includes('hf_20260918_215914_610f2c6c-85a5-41e7-9fdf-b7685658b495.png'), 'Local SEO page must not use the visually blank local-business image');
 const localSeoCss = read('src/app/services/local-seo-london/local-seo.module.css');
 assert.ok(!localSeoCss.includes('\\n.'), 'Local SEO CSS must not contain literal escaped newlines between rules');
 
