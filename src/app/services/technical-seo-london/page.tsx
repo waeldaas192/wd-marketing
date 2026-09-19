@@ -233,8 +233,9 @@ export default function TechnicalSeoLondonPage() {
             ))}
           </div>
           <div className={styles.checklistCta}>
-            <span>Want to run the first pass yourself?</span>
+            <span>Need a practical starting point?</span>
             <Link className={base.textLink} href="/insights/technical-seo-audit-checklist-london">Use the Technical SEO audit checklist <Arrow diagonal /></Link>
+            <Link className={base.textLink} href="/insights/why-google-is-not-indexing-my-website">Diagnose why Google is not indexing a page <Arrow diagonal /></Link>
           </div>
         </div>
       </section>
