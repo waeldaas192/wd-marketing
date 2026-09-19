@@ -9,7 +9,7 @@ import { RoofingSystem } from "@/components/ui/RoofingSystem";
 import { RoofingApproach } from "@/components/ui/RoofingApproach";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 export function generateStaticParams(){return projects.map(({slug})=>({slug}));}
-export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const project=getProject(slug);return project?pageMetadata(project.name,project.headline,`/work/${slug}`):{};}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const project=getProject(slug);if(!project)return {};const description=project.headline.length<90?`${project.headline} See the strategy, deliverables and project context.`:project.headline;return pageMetadata(`${project.name} Case Study`,description,`/work/${slug}`);}
 export default async function CaseStudyPage({params}:{params:Promise<{slug:string}>}){
   const {slug}=await params;const project=getProject(slug);if(!project)notFound();
   const next=projects[(projects.findIndex(item=>item.slug===slug)+1)%projects.length];
