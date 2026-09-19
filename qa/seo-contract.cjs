@@ -210,4 +210,7 @@ assert.ok(workPageTemplate.includes('`${project.name} Case Study`'), 'Case studi
 assert.ok(read('src/app/work/page.tsx').includes('"Web Design & SEO Case Studies"'), 'Work index title must describe the content');
 assert.ok(read('src/app/insights/page.tsx').includes('"SEO & Digital Marketing Insights"'), 'Insights index title must describe the content');
 assert.ok(insightPageSource.includes('item.seoTitle || item.title'), 'Insight metadata must support concise SEO titles');
+assert.ok(read('src/app/privacy/page.tsx').includes('"Privacy Policy & Data Use"'), 'Privacy metadata title must be descriptive');
+assert.ok(read('src/app/terms/page.tsx').includes('"Website Terms & Conditions"'), 'Terms metadata title must be descriptive');
+assert.ok(read('src/app/cookies/page.tsx').includes('"Cookie Policy & Analytics"'), 'Cookie metadata title must be descriptive');
 console.log('WD SEO contract passed');
