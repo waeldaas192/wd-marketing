@@ -176,6 +176,27 @@ assert.ok(insightContentData.includes('/services/web-conversion'), 'Technical SE
 assert.ok(technicalSeoPage.includes('/insights/technical-seo-audit-checklist-london'), 'Technical SEO service must link back to its audit checklist');
 assert.ok(read('src/lib/measurement.ts').includes('/insights/technical-seo-audit-checklist-london'), 'Technical SEO checklist route must be allowed in measurement');
 
+const indexingGuideSlug = 'why-google-is-not-indexing-my-website';
+assert.ok(insightsData.includes(indexingGuideSlug), 'Google indexing diagnostic insight must exist');
+assert.ok(insightContentData.includes(indexingGuideSlug), 'Google indexing diagnostic content must exist');
+for (const phrase of [
+  'Why Is Google Not Indexing My Website?',
+  'Crawled - currently not indexed',
+  'Discovered - currently not indexed',
+  'noindex',
+  'robots.txt',
+  'Google chose different canonical',
+  'soft 404',
+  'URL Inspection',
+]) {
+  assert.ok((insightsData + insightContentData).toLowerCase().includes(phrase.toLowerCase()), `Google indexing guide missing required topic: ${phrase}`);
+}
+for (const href of ['/services/technical-seo-london','/services/seo','/insights/technical-seo-audit-checklist-london']) {
+  assert.ok(insightContentData.includes(href), `Google indexing guide must link to cluster resource: ${href}`);
+}
+assert.ok(technicalSeoPage.includes('/insights/why-google-is-not-indexing-my-website'), 'Technical SEO service must link to Google indexing guide');
+assert.ok(read('src/lib/measurement.ts').includes('/insights/why-google-is-not-indexing-my-website'), 'Google indexing guide route must be allowed in measurement');
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
