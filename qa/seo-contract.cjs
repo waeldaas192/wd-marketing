@@ -151,6 +151,29 @@ for (const href of ['/services/seo','/services/local-seo-london','/services/web-
 }
 assert.ok(!technicalSeoPage.includes('FAQPage'), 'Technical SEO page must not introduce FAQPage markup');
 
+const technicalChecklistSlug = 'technical-seo-audit-checklist-london';
+const insightsData = read('src/data/insights.ts');
+const insightContentData = read('src/data/insight-content.ts');
+assert.ok(insightsData.includes(technicalChecklistSlug), 'Technical SEO audit checklist insight must exist');
+assert.ok(insightContentData.includes(technicalChecklistSlug), 'Technical SEO audit checklist content must exist');
+for (const phrase of [
+  'Technical SEO Audit Checklist for London Businesses',
+  'robots.txt',
+  'XML sitemap',
+  'canonical',
+  'Core Web Vitals',
+  'structured data',
+  'redirects',
+]) {
+  assert.ok((insightsData + insightContentData).toLowerCase().includes(phrase.toLowerCase()), `Technical SEO checklist missing required topic: ${phrase}`);
+}
+const insightPageSource = read('src/app/insights/[slug]/page.tsx');
+assert.ok(insightPageSource.includes('article-checklist'), 'Insight template must render checklist bullets');
+assert.ok(insightPageSource.includes('section.links'), 'Insight template must render contextual resource links');
+assert.ok(insightContentData.includes('/services/technical-seo-london'), 'Technical SEO checklist must link to Technical SEO London');
+assert.ok(insightContentData.includes('/services/seo'), 'Technical SEO checklist must link to SEO service');
+assert.ok(insightContentData.includes('/services/web-conversion'), 'Technical SEO checklist must link to Web & Conversion');
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
