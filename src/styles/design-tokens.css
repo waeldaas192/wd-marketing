@@ -37,3 +37,19 @@
   --motion-slow: 560ms;
 }
 @media (max-width: 640px) { :root { --header-height: 80px; } }
+
+
+/* Explicit theme tokens. JavaScript resolves "device default" before first paint. */
+html[data-color-scheme="dark"] {
+  --bg: #0b0e14;
+  --surface: #121722;
+  --surface-2: #181e2a;
+  --text: #f4f6fb;
+  --muted: #b4bdca;
+  --subtle: #929dac;
+  --line: #2b3444;
+  --accent: #a99cff;
+  --accent-2: #f4f6fb;
+  color-scheme: dark;
+}
+html[data-color-scheme="light"] { color-scheme: light; }
