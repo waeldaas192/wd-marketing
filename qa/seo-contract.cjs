@@ -114,6 +114,20 @@ const localSeoCss = read('src/app/services/local-seo-london/local-seo.module.css
 assert.ok(!localSeoCss.includes('\\n.'), 'Local SEO CSS must not contain literal escaped newlines between rules');
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
+const highValueLegacyRedirects = [
+  ['/HOME', '/'],
+  ['/2026/03/02/affordable-web-design-london', '/services/web-conversion'],
+  ['/2026/03/02/best-web-design-company-london', '/services/web-conversion'],
+  ['/2026/03/02/facebook-ads-agency-london', '/services/meta-ads'],
+  ['/2026/03/02/google-ads-agency-london', '/services/paid-acquisition'],
+  ['/2026/03/02/seo-services-london', '/services/seo'],
+  ['/conversion-rate-optimization', '/services/conversion-rate-optimisation'],
+];
+for (const [from, to] of highValueLegacyRedirects) {
+  assert.ok(redirects.includes(`${from} ${to} 301`), `high-value legacy URL must redirect directly: ${from}`);
+  assert.ok(redirects.includes(`${from}/ ${to} 301`), `trailing-slash legacy URL must redirect directly: ${from}/`);
+}
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
