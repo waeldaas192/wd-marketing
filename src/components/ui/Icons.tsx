@@ -10,8 +10,9 @@ export function Icon({ name, ...props }: Props) {
   </svg>;
 }
 
-export function ArrowIcon({ direction = "right" }: { direction?: "right" | "left" }) {
-  return <span className={`wd-arrow${direction === "left" ? " wd-arrow-left" : ""}`} aria-hidden="true">{[0,1].map(index => <svg key={index} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" focusable="false"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>)}</span>;
+export function ArrowIcon({ direction = "right", size = 20 }: { direction?: "right" | "left" | "up-right"; size?: number }) {
+  const directionClass = direction === "left" ? " wd-arrow-left" : direction === "up-right" ? " wd-arrow-up-right" : "";
+  return <span className={`wd-arrow${directionClass}`} style={{ width: size, height: size, flexBasis: size }} aria-hidden="true">{[0,1].map(index => <svg key={index} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" focusable="false"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>)}</span>;
 }
 
 export function CheckIcon({ size = 18 }: { size?: number }) {
