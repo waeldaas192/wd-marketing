@@ -1,6 +1,188 @@
 export type InsightLink={label:string;href:string};
 export type InsightSection={id:string;title:string;paragraphs:string[];bullets?:string[];links?:InsightLink[]};
 export const insightContent:Record<string,InsightSection[]>={
+  "core-web-vitals-website-speed-seo":[
+    {
+      id:"what-matters",
+      title:"1. Start with what Core Web Vitals actually measure",
+      paragraphs:[
+        "Core Web Vitals are real-user experience metrics focused on three parts of a page experience: loading, responsiveness and visual stability. The current set is Largest Contentful Paint, Interaction to Next Paint and Cumulative Layout Shift.",
+        "Google recommends good Core Web Vitals for Search and user experience, but also makes clear that there is no single page-experience signal and that perfect performance scores do not guarantee top rankings. Treat speed as one part of a useful, technically sound page rather than the entire SEO strategy."
+      ],
+      bullets:[
+        "LCP measures how quickly the main visible content finishes loading.",
+        "INP measures how responsive the page feels when people interact with it.",
+        "CLS measures unexpected visual movement during the page lifecycle.",
+        "Use the metrics to diagnose user experience, not as isolated vanity numbers.",
+        "Keep relevance, content quality, crawlability and conversion context in the same decision."
+      ],
+      links:[
+        {label:"Google: Core Web Vitals and Search",href:"https://developers.google.com/search/docs/appearance/core-web-vitals"},
+        {label:"Technical SEO London",href:"/services/technical-seo-london"}
+      ]
+    },
+    {
+      id:"thresholds",
+      title:"2. Know the current LCP, INP and CLS thresholds",
+      paragraphs:[
+        "The recommended good thresholds are LCP within 2.5 seconds, INP at 200 milliseconds or less, and CLS at 0.1 or less. These are evaluated at the 75th percentile so the target reflects the experience of most users rather than only the fastest devices and networks.",
+        "Do not optimise to the exact threshold with no margin. Performance varies by device, connection, cache state and interaction, so a page sitting just inside a boundary can still move between categories as real-user data changes."
+      ],
+      bullets:[
+        "Target LCP of 2.5 seconds or faster.",
+        "Target INP of 200 milliseconds or less.",
+        "Target CLS of 0.1 or less.",
+        "Evaluate the 75th percentile rather than an average.",
+        "Review mobile and desktop separately because their user conditions differ."
+      ],
+      links:[
+        {label:"web.dev: Web Vitals",href:"https://web.dev/articles/vitals"}
+      ]
+    },
+    {
+      id:"field-vs-lab",
+      title:"3. Separate field data from lab data",
+      paragraphs:[
+        "PageSpeed Insights can show both real-world field data and simulated lab diagnostics. The field data comes from the Chrome User Experience Report and reflects a rolling 28-day window of real users where sufficient data exists. Lab data is generated with Lighthouse under controlled conditions and is useful for debugging.",
+        "The two can disagree without either being wrong. Field data captures different devices, networks and interactions over time; lab data is one simulated test under fixed conditions. Use field data to understand real experience and lab diagnostics to investigate why a page may be slow."
+      ],
+      bullets:[
+        "Use CrUX field data to understand real-user Core Web Vitals.",
+        "Use Lighthouse lab data to reproduce and debug likely bottlenecks.",
+        "Do not expect a single Lighthouse run to match the 28-day field dataset.",
+        "Check whether PageSpeed is showing URL-level data or falling back to origin-level data.",
+        "Record repeated tests rather than treating one run as a permanent score."
+      ],
+      links:[
+        {label:"Google: About PageSpeed Insights",href:"https://developers.google.com/speed/docs/insights/v5/about"},
+        {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"}
+      ]
+    },
+    {
+      id:"lcp",
+      title:"4. Diagnose Largest Contentful Paint before compressing everything",
+      paragraphs:[
+        "LCP problems often come from the element that becomes the largest visible content block: a hero image, large heading container, background image or prominent media element. The useful diagnosis is to identify the actual LCP element and then break its delay into server response, resource discovery, download and rendering.",
+        "Compressing every asset can help, but it is not a substitute for understanding why the LCP resource starts late. A correctly sized image that is discovered too late can still produce a poor result."
+      ],
+      bullets:[
+        "Identify the actual LCP element on the affected template.",
+        "Check server response and Time to First Byte as supporting diagnostics.",
+        "Make important hero media discoverable early in the document.",
+        "Avoid lazy-loading the above-the-fold LCP image.",
+        "Use appropriately sized modern image formats and remove unnecessary render-blocking work."
+      ]
+    },
+    {
+      id:"inp",
+      title:"5. Improve INP by reducing main-thread work",
+      paragraphs:[
+        "INP measures responsiveness across user interactions, so it is influenced by what the browser must do after a click, tap or keyboard action. Heavy JavaScript, long tasks, large hydration work and expensive event handlers can delay the next visual update.",
+        "Lighthouse cannot directly measure real INP because its simulated load does not contain real user interactions. Total Blocking Time can still help identify main-thread pressure in the lab, but field data is the stronger source for the actual INP experience."
+      ],
+      bullets:[
+        "Find long main-thread tasks and large JavaScript bundles.",
+        "Reduce unnecessary client-side JavaScript and hydration work.",
+        "Break expensive work into smaller tasks when appropriate.",
+        "Keep interaction handlers focused on the immediate user response.",
+        "Use field monitoring to confirm whether changes improve real INP."
+      ],
+      links:[
+        {label:"web.dev: Optimize INP",href:"https://web.dev/articles/optimize-inp"}
+      ]
+    },
+    {
+      id:"cls",
+      title:"6. Fix CLS by reserving space before content arrives",
+      paragraphs:[
+        "CLS measures unexpected layout movement. Common causes include images without dimensions, banners inserted above existing content, late-loading fonts, embeds that resize and interface components that change size after data arrives.",
+        "The goal is not to freeze a dynamic site. Expected movement after a deliberate user action is different from content unexpectedly shifting while somebody is trying to read or interact."
+      ],
+      bullets:[
+        "Set width, height or aspect-ratio for images and video.",
+        "Reserve stable space for embeds, banners and dynamic modules.",
+        "Avoid inserting new content above existing content without user intent.",
+        "Review font loading and fallback metrics where text reflow causes shifts.",
+        "Test templates with real content lengths, not only ideal demo data."
+      ],
+      links:[
+        {label:"web.dev: Optimize CLS",href:"https://web.dev/articles/optimize-cls"}
+      ]
+    },
+    {
+      id:"page-speed-score",
+      title:"7. Do not confuse a Lighthouse score with SEO success",
+      paragraphs:[
+        "A Lighthouse performance score is a useful lab summary, not a ranking position and not the same thing as passing Core Web Vitals in the field. Google explicitly says that good Core Web Vitals can contribute to Search success but do not guarantee top rankings.",
+        "A page can score well in a lab and still deliver weak real-user performance, poor content or a confusing conversion journey. Conversely, an otherwise useful page should not be stripped of essential functionality simply to chase a perfect score."
+      ],
+      bullets:[
+        "Use the Lighthouse score as a diagnostic summary, not a business KPI.",
+        "Prioritise repeated template problems over tiny one-off score gains.",
+        "Protect useful content, functionality and conversion elements during optimisation.",
+        "Compare field data before and after meaningful changes.",
+        "Avoid selling a 100/100 score as a ranking guarantee."
+      ],
+      links:[
+        {label:"Google: Understanding page experience",href:"https://developers.google.com/search/docs/appearance/page-experience"},
+        {label:"Web & Conversion",href:"/services/web-conversion"}
+      ]
+    },
+    {
+      id:"images-fonts-js",
+      title:"8. Fix the assets that repeatedly slow important templates",
+      paragraphs:[
+        "Performance work scales when it targets shared causes. Oversized images, too many font files, third-party scripts and large client bundles can affect dozens or hundreds of pages because they live in common templates.",
+        "Audit the assets loaded before meaningful content becomes usable. Remove work that does not support the page, delay non-critical work and make the important resource path shorter."
+      ],
+      bullets:[
+        "Serve images close to their rendered dimensions.",
+        "Prefer modern compressed formats where browser support and workflow allow.",
+        "Limit font families, weights and unnecessary character sets.",
+        "Defer or remove third-party scripts that do not need to block the initial experience.",
+        "Track shared JavaScript growth so regressions are caught before every page becomes heavier."
+      ]
+    },
+    {
+      id:"template-monitoring",
+      title:"9. Measure by template and user journey",
+      paragraphs:[
+        "A homepage test does not describe an entire website. Service pages, product pages, articles, checkout flows and logged-in interfaces can have completely different performance characteristics.",
+        "Choose representative URLs for each important template and test both mobile and desktop. When enough traffic exists, use field data or your own real-user monitoring to understand how actual visitors experience those journeys."
+      ],
+      bullets:[
+        "Choose representative URLs for every important page template.",
+        "Compare mobile and desktop separately.",
+        "Watch for route-specific scripts and media that only affect certain templates.",
+        "Use Search Console's Core Web Vitals report to identify groups of similar affected URLs.",
+        "Consider real-user monitoring when you need faster or more detailed diagnostics than aggregate CrUX data."
+      ],
+      links:[
+        {label:"Why Google may not be indexing your website",href:"/insights/why-google-is-not-indexing-my-website"}
+      ]
+    },
+    {
+      id:"validate",
+      title:"10. Validate performance changes without promising rankings",
+      paragraphs:[
+        "After implementation, re-run lab diagnostics to confirm the technical bottleneck changed, but remember that field Core Web Vitals represent a rolling real-user dataset and will not update like a one-off test. Record the release date and watch the relevant page or template over time.",
+        "The objective is a faster, more stable and more responsive website for users. That supports technical quality and page experience, but it should sit alongside clear content, clean indexing signals and a useful path from search to enquiry."
+      ],
+      bullets:[
+        "Re-test the same representative URLs after deployment.",
+        "Check that fixes did not create layout, accessibility or conversion regressions.",
+        "Monitor field data as new real-user samples enter the rolling period.",
+        "Keep the release date with your measurement notes.",
+        "Continue only when the next performance change is commercially or technically justified."
+      ],
+      links:[
+        {label:"Technical SEO London",href:"/services/technical-seo-london"},
+        {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"},
+        {label:"Why Google may not be indexing your page",href:"/insights/why-google-is-not-indexing-my-website"},
+        {label:"Canonical tags & duplicate URLs",href:"/insights/canonical-tags-duplicate-urls"}
+      ]
+    }
+  ],
   "canonical-tags-duplicate-urls":[
     {
       id:"canonical-basics",
