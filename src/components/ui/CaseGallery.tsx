@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { MediaAsset } from "@/lib/media";
 import { MediaFrame } from "./MediaFrame";
+import { ArrowIcon } from "./Icons";
 import styles from "./CaseGallery.module.css";
 export function CaseGallery({ images, project }: { images: MediaAsset[]; project: string }) {
   const available = images.filter(image => image.ready);
@@ -34,13 +35,13 @@ export function CaseGallery({ images, project }: { images: MediaAsset[]; project
   }
   return <>
     <div className={styles.grid} data-case-gallery>{images.map((image,index) => <figure key={image.originalSrc} className={styles.item}>
-      {image.ready ? <button type="button" className={styles.preview} aria-label={`Enlarge image ${index+1}: ${image.alt}`} onClick={event => { opener.current = event.currentTarget; setActive(available.findIndex(item => item.src === image.src)); }}><MediaFrame asset={image} label={project}/><span className={styles.enlarge} aria-hidden="true">Enlarge ↗</span></button> : <MediaFrame asset={image} label={`${project} / ${String(index+1).padStart(2,"0")}`}/>}
+      {image.ready ? <button type="button" className={styles.preview} aria-label={`Enlarge image ${index+1}: ${image.alt}`} onClick={event => { opener.current = event.currentTarget; setActive(available.findIndex(item => item.src === image.src)); }}><MediaFrame asset={image} label={project}/><span className={styles.enlarge} aria-hidden="true">Enlarge<ArrowIcon direction="up-right" size={16}/></span></button> : <MediaFrame asset={image} label={`${project} / ${String(index+1).padStart(2,"0")}`}/>}
       <figcaption>{image.alt}</figcaption>
     </figure>)}</div>
     <dialog ref={dialogRef} className={styles.dialog} aria-label={`${project} image gallery`} onKeyDown={keyboard} onCancel={event => { event.preventDefault(); close(); }} onClose={() => { close(); opener.current?.focus(); }}>
       <div className={styles.toolbar}><span role="status">{active === null ? "" : `${active+1} / ${available.length}`}</span><div><button type="button" onClick={() => setZoom(value => !value)} aria-pressed={zoom}>{zoom ? "Fit image" : "Zoom image"}</button><button type="button" onClick={close}>Close gallery</button></div></div>
       <div className={styles.viewport}>{current && <div className={`${styles.canvas} ${zoom ? styles.zoom : ""}`}><MediaFrame key={current.src} asset={current} label={project} sizes="100vw" contain/></div>}</div>
-      <div className={styles.controls}><button type="button" onClick={() => move(-1)} disabled={available.length < 2} aria-label="Previous image">← Previous</button><p>{current?.alt}</p><button type="button" onClick={() => move(1)} disabled={available.length < 2} aria-label="Next image">Next →</button></div>
+      <div className={styles.controls}><button type="button" onClick={() => move(-1)} disabled={available.length < 2} aria-label="Previous image"><ArrowIcon direction="left" size={16}/>Previous</button><p>{current?.alt}</p><button type="button" onClick={() => move(1)} disabled={available.length < 2} aria-label="Next image">Next<ArrowIcon size={16}/></button></div>
     </dialog>
   </>;
 }
