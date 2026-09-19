@@ -21,6 +21,8 @@
 # Legacy WordPress pages
 /home / 301
 /home/ / 301
+/HOME / 301
+/HOME/ / 301
 /about-us /about 301
 /about-us/ /about 301
 /portfolio /work 301
