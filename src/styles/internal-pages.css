@@ -58,7 +58,7 @@
 .article-checklist li { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 10px; align-items: start; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--text); font-size: var(--type-small); line-height: 1.65; }
 .article-checklist li > span:first-child { color: var(--accent); font-weight: 700; }
 .article-resources { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 22px 0 30px; }
-.article-resources a { color: var(--accent); font-size: var(--type-small); font-weight: 550; text-decoration: underline; text-underline-offset: 4px; }
+.article-resources a { display: inline-flex; align-items: center; gap: 7px; color: var(--accent); font-size: var(--type-small); font-weight: 550; text-decoration: underline; text-underline-offset: 4px; }
 .article-resources a:hover { color: var(--text); }
 .article-note { margin-block: 24px; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--muted); font-size: var(--type-small); line-height: 1.7; }
 .legal-page { padding-bottom: var(--section-space); }
@@ -99,3 +99,5 @@
 .roofing-approach-links { margin-top: 40px; }
 .roofing-approach-links a { color: #4847df; text-decoration: underline; text-underline-offset: 4px; }
 @media(max-width:700px) { .roofing-approach-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+.related-navigation a { display: inline-flex; align-items: center; gap: 9px; }
