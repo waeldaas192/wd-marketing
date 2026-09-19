@@ -13,6 +13,8 @@ const services = [
   { label: "Web & Conversion", href: "/services/web-conversion", copy: "Websites and landing pages built around customer intent." },
   { label: "Conversion Optimisation", href: "/services/conversion-rate-optimisation", copy: "CRO for landing pages, forms and lead journeys built around qualified enquiries." },
   { label: "SEO & Organic Growth", href: "/services/seo", copy: "Search strategy, technical SEO and demand-led content." },
+  { label: "Local SEO London", href: "/services/local-seo-london", copy: "Google Maps, local search and service-area visibility." },
+  { label: "Technical SEO", href: "/services/technical-seo-london", copy: "Crawling, indexation, canonicals, migrations and performance." },
   { label: "Paid Acquisition", href: "/services/paid-acquisition", copy: "Google Ads connected to landing pages, tracking and lead quality." },
   { label: "Meta Ads & Social", href: "/services/meta-ads", copy: "Facebook and Instagram lead generation connected to CRM follow-up." },
   { label: "Growth Infrastructure", href: "/services/growth-infrastructure", copy: "Analytics, CRM and automation that connect the journey." },
