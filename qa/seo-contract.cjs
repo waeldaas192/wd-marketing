@@ -197,6 +197,27 @@ for (const href of ['/services/technical-seo-london','/services/seo','/insights/
 assert.ok(technicalSeoPage.includes('/insights/why-google-is-not-indexing-my-website'), 'Technical SEO service must link to Google indexing guide');
 assert.ok(read('src/lib/measurement.ts').includes('/insights/why-google-is-not-indexing-my-website'), 'Google indexing guide route must be allowed in measurement');
 
+const canonicalGuideSlug = 'canonical-tags-duplicate-urls';
+assert.ok(insightsData.includes(canonicalGuideSlug), 'Canonical tags and duplicate URLs insight must exist');
+assert.ok(insightContentData.includes(canonicalGuideSlug), 'Canonical tags and duplicate URLs content must exist');
+for (const phrase of [
+  'Canonical Tags & Duplicate URLs',
+  'self-referencing canonical',
+  'Google chose different canonical',
+  'HTTP and HTTPS',
+  'www and non-www',
+  'parameters',
+  'redirect',
+  'XML sitemap',
+]) {
+  assert.ok((insightsData + insightContentData).toLowerCase().includes(phrase.toLowerCase()), `Canonical guide missing required topic: ${phrase}`);
+}
+for (const href of ['/services/technical-seo-london','/insights/technical-seo-audit-checklist-london','/insights/why-google-is-not-indexing-my-website']) {
+  assert.ok(insightContentData.includes(href), `Canonical guide must link to cluster resource: ${href}`);
+}
+assert.ok(technicalSeoPage.includes('/insights/canonical-tags-duplicate-urls'), 'Technical SEO service must link to canonical guide');
+assert.ok(read('src/lib/measurement.ts').includes('/insights/canonical-tags-duplicate-urls'), 'Canonical guide route must be allowed in measurement');
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
