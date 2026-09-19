@@ -350,6 +350,7 @@ export const insightContent:Record<string,InsightSection[]>={
       ],
       links:[
         {label:"Technical SEO London",href:"/services/technical-seo-london"},
+        {label:"Why Google may not be indexing your page",href:"/insights/why-google-is-not-indexing-my-website"},
         {label:"SEO & Organic Growth",href:"/services/seo"},
         {label:"Web & Conversion",href:"/services/web-conversion"}
       ]
