@@ -10,10 +10,10 @@ import { site } from "@/data/site";
 import base from "../seo/seo.module.css";
 import styles from "./technical-seo.module.css";
 
-const description = "Technical SEO London for crawling, indexation, canonicals, Core Web Vitals, structured data and migrations. Founder-led audits, implementation and validation by WD Marketing.";
+const description = "Technical SEO London for crawling, indexation, canonicals, Core Web Vitals, structured data and migrations. Audits, fixes and validation by WD Marketing.";
 
 export const metadata = pageMetadata(
-  "Technical SEO London | Audits & Implementation",
+  "Technical SEO London | Audits & Fixes",
   description,
   "/services/technical-seo-london",
 );
