@@ -8,6 +8,7 @@ import { CaseGallery } from "@/components/ui/CaseGallery";
 import { RoofingSystem } from "@/components/ui/RoofingSystem";
 import { RoofingApproach } from "@/components/ui/RoofingApproach";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { ArrowIcon } from "@/components/ui/Icons";
 export function generateStaticParams(){return projects.map(({slug})=>({slug}));}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const project=getProject(slug);if(!project)return {};const description=project.headline.length<90?`${project.headline} See the strategy, deliverables and project context.`:project.headline;return pageMetadata(`${project.name} Case Study`,description,`/work/${slug}`);}
 export default async function CaseStudyPage({params}:{params:Promise<{slug:string}>}){
@@ -23,6 +24,6 @@ export default async function CaseStudyPage({params}:{params:Promise<{slug:strin
     <section className="section" data-reveal><div className="container case-columns"><div><h2 className="eyebrow">Strategy</h2>{project.strategy.map((item,index)=><div className="case-line" key={item}><span>0{index+1}</span><p>{item}</p></div>)}</div><div><h2 className="eyebrow">Deliverables</h2>{project.deliverables.map((item,index)=><div className="case-line" key={item}><span>0{index+1}</span><p>{item}</p></div>)}</div></div></section>
     <section className="section"><div className="container"><h2 className="h2 gallery-title">The experience</h2>{slug === "mb-legacy-roofing" && <RoofingSystem/>}<CaseGallery images={project.gallery.map(resolveMedia)} project={project.name}/></div></section>
     {slug === "mb-legacy-roofing" && <RoofingApproach/>}
-    <section className="section"><div className="container"><div className="evidence-card"><p className="eyebrow">Measurement</p><h2>Evidence before claims.</h2><p>{project.evidence}</p></div><div className="related-navigation"><Link href="/contact" className="button button-primary">Discuss a similar project ↗</Link>{project.website&&<a href={project.website} target="_blank" rel="noreferrer">Visit live website ↗</a>}<Link href={`/work/${next.slug}`}>Next project: {next.name} →</Link></div></div></section>
+    <section className="section"><div className="container"><div className="evidence-card"><p className="eyebrow">Measurement</p><h2>Evidence before claims.</h2><p>{project.evidence}</p></div><div className="related-navigation"><Link href="/contact" className="button button-primary">Discuss a similar project<ArrowIcon direction="up-right" size={18}/></Link>{project.website&&<a href={project.website} target="_blank" rel="noreferrer">Visit live website<ArrowIcon direction="up-right" size={18}/></a>}<Link href={`/work/${next.slug}`}>Next project: {next.name}<ArrowIcon size={18}/></Link></div></div></section>
   </>;
 }
