@@ -68,6 +68,9 @@ for (const phrase of [
   assert.ok(croPage.includes(phrase), `CRO page missing required strategy or SEO element: ${phrase}`);
 }
 assert.ok(sitemap.includes('/services/conversion-rate-optimisation'), 'CRO page must be in sitemap');
+for (const path of ['/conversion-rate-optimization','/conversion-rate-optimization/','/conversion-rate-optimisation','/conversion-rate-optimisation/']) {
+  assert.ok(redirects.includes(`${path} /services/conversion-rate-optimisation 301`), `legacy CRO URL must redirect to CRO service: ${path}`);
+}
 for (const file of [
   'src/app/services/web-conversion/page.tsx',
   'src/app/services/paid-acquisition/page.tsx',
