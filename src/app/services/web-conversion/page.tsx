@@ -7,7 +7,7 @@ import { serviceSchema } from "@/lib/structured-data";
 
 const description = "Founder-led web design and development in London, connecting responsive UX, landing pages, technical SEO and conversion tracking.";
 export const metadata = pageMetadata(
-  "Web Design Agency London | Conversion-Focused Websites",
+  "Web Design Agency London | Conversion Websites",
   description,
   "/services/web-conversion",
 );
