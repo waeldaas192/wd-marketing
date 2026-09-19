@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { assets } from "@/data/assets";
 import { Icon, ArrowIcon } from "@/components/ui/Icons";
+import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
 import { initialiseMotionPreference, toggleMotionPreference, useMotionPreference } from "@/lib/motion-preferences";
 import styles from "./Header.module.css";
 
@@ -125,7 +126,7 @@ export function Header() {
           </div>
           {links.slice(1).map(item => <Link key={item.href} href={item.href} onClick={closeForNavigation} aria-current={active(item.href) ? "page" : undefined} className={`${styles.link} ${active(item.href) ? styles.active : ""}`}>{item.label}</Link>)}
         </nav>
-        <div className={styles.actions}><button type="button" className={styles.motion} aria-label={paused?"Resume motion":"Pause motion"} aria-pressed={paused} title={reduced?"Reduced motion follows your device settings":paused?"Resume motion":"Pause motion"} onClick={toggleMotionPreference}><Icon name={paused?"play":"pause"}/></button><Link href="/contact" className={`${styles.cta} liquid-cta`} onClick={closeForNavigation}>Start a project <ArrowIcon/></Link><button ref={mobileTrigger} type="button" className={`${styles.menu} ${mobileOpen ? styles.menuOpen : ""}`} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={mobileOpen} onClick={() => { restoreMobileFocus.current = true; setMegaOpen(false); setMobileOpen(value => !value); }}><span className={styles.menuGlyph} aria-hidden="true"><i/><i/></span></button></div>
+        <div className={styles.actions}><ThemeSwitcher/><button type="button" className={styles.motion} aria-label={paused?"Resume motion":"Pause motion"} aria-pressed={paused} title={reduced?"Reduced motion follows your device settings":paused?"Resume motion":"Pause motion"} onClick={toggleMotionPreference}><Icon name={paused?"play":"pause"}/></button><Link href="/contact" className={`${styles.cta} liquid-cta`} onClick={closeForNavigation}>Start a project <ArrowIcon/></Link><button ref={mobileTrigger} type="button" className={`${styles.menu} ${mobileOpen ? styles.menuOpen : ""}`} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={mobileOpen} onClick={() => { restoreMobileFocus.current = true; setMegaOpen(false); setMobileOpen(value => !value); }}><span className={styles.menuGlyph} aria-hidden="true"><i/><i/></span></button></div>
       </div>
     </header>
     <dialog ref={dialogRef} id="mobile-navigation" aria-label="Mobile navigation" className={styles.dialog} onKeyDown={event => {
