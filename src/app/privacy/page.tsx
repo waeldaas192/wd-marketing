@@ -2,7 +2,7 @@ import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
 import { legal } from "@/data/legal";
 import { LegalPage } from "@/components/privacy/LegalPage";
-export const metadata = pageMetadata("Privacy Policy", "How WD Marketing uses enquiry information, operates website analytics and respects your privacy choices.", "/privacy");
+export const metadata = pageMetadata("Privacy Policy & Data Use", "How WD Marketing uses enquiry information, operates website analytics and respects your privacy choices.", "/privacy");
 export default function Privacy() {
   return <LegalPage title="Privacy policy" intro="This policy explains how we handle personal information when you visit wdmarketing.co.uk, send a project enquiry or contact us about our services.">
     <h2>1. Who is responsible for your information?</h2>
