@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import styles from "./TechnicalSeoSystem.module.css";
 
 const stages = [
@@ -21,7 +22,7 @@ export function TechnicalSeoSystem() {
       <div className={styles.pipeline}>
         <span className={styles.signal} aria-hidden="true" />
         {stages.map((stage, index) => (
-          <div className={styles.stage} key={stage.id} style={{ "--delay": `${index * 180}ms` } as React.CSSProperties}>
+          <div className={styles.stage} key={stage.id} style={{ "--delay": `${index * 180}ms` } as CSSProperties}>
             <span className={styles.node} aria-hidden="true"><i /></span>
             <div>
               <small>0{index + 1}</small>
