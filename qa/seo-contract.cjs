@@ -218,6 +218,27 @@ for (const href of ['/services/technical-seo-london','/insights/technical-seo-au
 assert.ok(technicalSeoPage.includes('/insights/canonical-tags-duplicate-urls'), 'Technical SEO service must link to canonical guide');
 assert.ok(read('src/lib/measurement.ts').includes('/insights/canonical-tags-duplicate-urls'), 'Canonical guide route must be allowed in measurement');
 
+const webVitalsGuideSlug = 'core-web-vitals-website-speed-seo';
+assert.ok(insightsData.includes(webVitalsGuideSlug), 'Core Web Vitals and website speed insight must exist');
+assert.ok(insightContentData.includes(webVitalsGuideSlug), 'Core Web Vitals and website speed content must exist');
+for (const phrase of [
+  'Core Web Vitals & Website Speed for SEO',
+  'Largest Contentful Paint',
+  'Interaction to Next Paint',
+  'Cumulative Layout Shift',
+  '75th percentile',
+  'field data',
+  'lab data',
+  'PageSpeed Insights',
+]) {
+  assert.ok((insightsData + insightContentData).toLowerCase().includes(phrase.toLowerCase()), `Core Web Vitals guide missing required topic: ${phrase}`);
+}
+for (const href of ['/services/technical-seo-london','/insights/technical-seo-audit-checklist-london','/insights/why-google-is-not-indexing-my-website','/insights/canonical-tags-duplicate-urls']) {
+  assert.ok(insightContentData.includes(href), `Core Web Vitals guide must link to cluster resource: ${href}`);
+}
+assert.ok(technicalSeoPage.includes('/insights/core-web-vitals-website-speed-seo'), 'Technical SEO service must link to Core Web Vitals guide');
+assert.ok(read('src/lib/measurement.ts').includes('/insights/core-web-vitals-website-speed-seo'), 'Core Web Vitals guide route must be allowed in measurement');
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
