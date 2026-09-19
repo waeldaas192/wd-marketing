@@ -25,4 +25,31 @@ for (const phrase of [
   '@axe-core/playwright@4.13.0',
 ]) assert.ok(workflow.includes(phrase), `browser QA dependency is not pinned in CI: ${phrase}`);
 
+const interactiveArrowFiles = [
+  'src/app/insights/[slug]/page.tsx',
+  'src/app/about/page.tsx',
+  'src/app/work/[slug]/page.tsx',
+  'src/app/services/paid-acquisition/page.tsx',
+  'src/components/ui/CaseGallery.tsx',
+];
+for (const file of interactiveArrowFiles) {
+  const source = fs.readFileSync(file, 'utf8');
+  for (const glyph of ['↗','➡']) {
+    assert.ok(!source.includes(glyph), `${file} must not use emoji-prone arrow glyph: ${glyph}`);
+  }
+}
+const insightPage = fs.readFileSync('src/app/insights/[slug]/page.tsx', 'utf8');
+assert.ok(!insightPage.includes('← All insights'), 'Insight back link must use SVG arrow');
+assert.ok(!insightPage.includes('Discuss your project ↗'), 'Insight CTA must use SVG arrow');
+const workPage = fs.readFileSync('src/app/work/[slug]/page.tsx', 'utf8');
+assert.ok(!workPage.includes('Next project: {next.name} →'), 'Case study next-project link must use SVG arrow');
+const gallery = fs.readFileSync('src/components/ui/CaseGallery.tsx', 'utf8');
+for (const phrase of ['Enlarge ↗','← Previous','Next →']) {
+  assert.ok(!gallery.includes(phrase), `Case gallery must use SVG arrows instead of: ${phrase}`);
+}
+const icons = fs.readFileSync('src/components/ui/Icons.tsx', 'utf8');
+assert.ok(icons.includes('"up-right"'), 'Shared ArrowIcon must support an up-right direction');
+const globalCss = fs.readFileSync('src/app/globals.css', 'utf8');
+assert.ok(globalCss.includes('.wd-arrow-up-right'), 'Global arrow CSS must style the up-right SVG direction');
+
 console.log('WD browser audit contract passed');
