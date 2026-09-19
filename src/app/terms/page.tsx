@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/metadata";
 import { legal } from "@/data/legal";
 import { LegalPage } from "@/components/privacy/LegalPage";
-export const metadata = pageMetadata("Website Terms", "Terms for using the WD Marketing website, its content and project enquiry service.", "/terms");
+export const metadata = pageMetadata("Website Terms & Conditions", "Terms for using the WD Marketing website, its content and project enquiry service.", "/terms");
 export default function Terms() {
   return <LegalPage title="Website terms" intro="These terms explain the basis on which you may use the WD Marketing website. Paid work is governed by the separate agreement for that project.">
     <p>{legal.tradingIdentity} operates this website as a sole trader. Our contact details appear below.</p>
