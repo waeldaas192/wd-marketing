@@ -666,6 +666,9 @@ export const insightContent:Record<string,InsightSection[]>={
         "Identify the heaviest shared scripts, fonts and media assets.",
         "Reserve dimensions for images, video and dynamic interface elements.",
         "Re-test the affected template after the change instead of checking only the homepage."
+      ],
+      links:[
+        {label:"Core Web Vitals & website speed",href:"/insights/core-web-vitals-website-speed-seo"}
       ]
     },
     {
