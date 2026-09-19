@@ -128,6 +128,29 @@ for (const [from, to] of highValueLegacyRedirects) {
   assert.ok(redirects.includes(`${from}/ ${to} 301`), `trailing-slash legacy URL must redirect directly: ${from}/`);
 }
 
+const technicalSeoPagePath = 'src/app/services/technical-seo-london/page.tsx';
+assert.ok(fs.existsSync(technicalSeoPagePath), 'Technical SEO London service page must exist');
+const technicalSeoPage = read(technicalSeoPagePath);
+for (const phrase of [
+  'Technical SEO London',
+  'crawl',
+  'index',
+  'canonical',
+  'structured data',
+  'Core Web Vitals',
+  'serviceSchema',
+]) {
+  assert.ok(technicalSeoPage.toLowerCase().includes(phrase.toLowerCase()), `Technical SEO page missing required strategy or SEO element: ${phrase}`);
+}
+assert.ok(sitemap.includes('/services/technical-seo-london'), 'Technical SEO London page must be in sitemap');
+assert.ok(read('src/app/services/seo/page.tsx').includes('/services/technical-seo-london'), 'SEO pillar page must link to Technical SEO London');
+assert.ok(localSeoPage.includes('/services/technical-seo-london'), 'Local SEO page must link to Technical SEO London');
+assert.ok(read('src/lib/measurement.ts').includes('/services/technical-seo-london'), 'Technical SEO route must be allowed in measurement');
+for (const href of ['/services/seo','/services/local-seo-london','/services/web-conversion']) {
+  assert.ok(technicalSeoPage.includes(href), `Technical SEO page must link to connected service: ${href}`);
+}
+assert.ok(!technicalSeoPage.includes('FAQPage'), 'Technical SEO page must not introduce FAQPage markup');
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
