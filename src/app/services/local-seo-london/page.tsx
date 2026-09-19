@@ -242,7 +242,7 @@ export default function LocalSeoLondonPage() {
             <p>A common problem with SEO projects is the handover: an audit identifies changes, then somebody else must redesign the page, modify the code, configure analytics and repair the conversion journey.</p>
             <p>WD Marketing brings search strategy, web development, conversion thinking and measurement into the same conversation — so we can move from “this page should improve” to a practical implementation plan.</p>
             <div className={styles.principles}><span>Strategy before volume.</span><span>Implementation connected.</span><span>Evidence before expansion.</span><span>Founder-led.</span></div>
-            <div className={styles.connectedLinks}><Link href="/services/web-conversion">Web &amp; Conversion <Arrow diagonal /></Link><Link href="/services/growth-infrastructure">Growth Infrastructure <Arrow diagonal /></Link><Link href="/work">Selected Work <Arrow diagonal /></Link></div>
+            <div className={styles.connectedLinks}><Link href="/services/web-conversion">Web &amp; Conversion <Arrow diagonal /></Link><Link href="/services/technical-seo-london">Technical SEO London <Arrow diagonal /></Link><Link href="/services/growth-infrastructure">Growth Infrastructure <Arrow diagonal /></Link><Link href="/work">Selected Work <Arrow diagonal /></Link></div>
           </div>
         </div>
       </section>
