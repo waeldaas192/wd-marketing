@@ -10,3 +10,21 @@
 .link span { transition: transform .18s ease; }
 .card:hover .link span { transform: translateX(3px); }
 @media (max-width: 680px) { .grid { grid-template-columns: minmax(0,1fr); } }
+
+.specialists { display: grid; grid-template-columns: minmax(180px,.55fr) minmax(0,1.45fr); gap: clamp(28px,5vw,64px); padding-top: clamp(34px,5vw,54px); }
+.specialistIntro > span { color: var(--accent); font-size: var(--type-label); font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.specialistIntro p { margin: 10px 0 0; color: var(--muted); font-size: var(--type-small); line-height: 1.65; }
+.specialistLinks { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); border-top: 1px solid var(--line); }
+.specialistLinks > a { min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.specialistLinks > a:nth-child(odd) { padding-right: 22px; }
+.specialistLinks > a:nth-child(even) { padding-left: 22px; border-left: 1px solid var(--line); }
+.specialistLinks > a > span { min-width: 0; display: grid; gap: 4px; }
+.specialistLinks strong { font-size: .9375rem; font-weight: 600; line-height: 1.4; }
+.specialistLinks small { color: var(--muted); font-size: .78rem; line-height: 1.55; }
+.specialistLinks > a > span + span { flex: 0 0 auto; }
+.specialistLinks > a:hover strong { color: var(--accent); }
+@media (max-width: 760px) {
+  .specialists { grid-template-columns: 1fr; gap: 20px; }
+  .specialistLinks { grid-template-columns: 1fr; }
+  .specialistLinks > a:nth-child(odd), .specialistLinks > a:nth-child(even) { padding: 16px 0; border-left: 0; }
+}
