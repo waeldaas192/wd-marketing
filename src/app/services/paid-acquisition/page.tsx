@@ -6,6 +6,7 @@ import { servicePages } from "@/data/servicePages";
 import { pageMetadata } from "@/lib/metadata";
 import { serviceSchema } from "@/lib/structured-data";
 import styles from "./paid-acquisition.module.css";
+import { ArrowIcon } from "@/components/ui/Icons";
 
 const description="Google Ads and paid-media management for London businesses, connecting search intent, landing pages, conversion tracking and lead quality.";
 export const metadata=pageMetadata("Google Ads Agency London | PPC Management",description,"/services/paid-acquisition");
@@ -22,4 +23,4 @@ const paidPageData = {
   },
 } satisfies ServicePageData;
 
-export default function Page(){return <><JsonLd data={serviceSchema({name:"Paid Acquisition",description,pathname:"/services/paid-acquisition",serviceType:"Paid Acquisition"})}/><Breadcrumbs items={[{label:"Services",href:"/services"},{label:"Paid Acquisition",href:"/services/paid-acquisition"}]}/><aside className={styles.metaBridge}><div className="container"><div><span>Facebook &amp; Instagram specialist service</span><strong>Need a dedicated Meta lead-generation system?</strong></div><Link href="/services/meta-ads">Explore Meta Ads →</Link></div></aside><ServicePage data={paidPageData}/></>;}
+export default function Page(){return <><JsonLd data={serviceSchema({name:"Paid Acquisition",description,pathname:"/services/paid-acquisition",serviceType:"Paid Acquisition"})}/><Breadcrumbs items={[{label:"Services",href:"/services"},{label:"Paid Acquisition",href:"/services/paid-acquisition"}]}/><aside className={styles.metaBridge}><div className="container"><div><span>Facebook &amp; Instagram specialist service</span><strong>Need a dedicated Meta lead-generation system?</strong></div><Link href="/services/meta-ads">Explore Meta Ads<ArrowIcon size={16}/></Link></div></aside><ServicePage data={paidPageData}/></>;}
