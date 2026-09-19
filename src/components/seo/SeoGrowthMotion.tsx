@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { ArrowIcon } from "@/components/ui/Icons";
 import { useMotionPreference } from "@/lib/motion-preferences";
 import { chartPath, clickSeries, impressionSeries, SEO_CHART, SEO_MOTION_DURATION, seoMotionFrame } from "@/lib/seo-motion";
 import styles from "./SeoGrowthMotion.module.css";
@@ -183,7 +184,7 @@ export function SeoGrowthMotion() {
             </div>
             <div className={styles.rankBadge}><span>Search position</span><strong><small>#</small><span data-search-rank>01</span></strong><span className={styles.rankFootnote}>Illustrative target</span></div>
           </div>
-          <div className={styles.searchCaption}><span className={styles.captionMark}>↗</span><p data-rank-caption>A place to be discovered.</p></div>
+          <div className={styles.searchCaption}><span className={styles.captionMark}><ArrowIcon direction="up-right" size={16}/></span><p data-rank-caption>A place to be discovered.</p></div>
           <p className={styles.srOnly}>A mobile search illustration shows an anonymous highlighted result moving from fifth to first position. All result titles and descriptions are represented by lines, not real websites.</p>
         </figure>
       </div>
