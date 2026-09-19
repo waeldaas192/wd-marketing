@@ -36,6 +36,7 @@ const primaryPaths = new Set(["/", "/about", "/contact", "/work", "/insights", "
   "/work/naranj-glasgow",
   "/work/london-marble-stone",
   "/work/floor-care-london",
+  "/insights/technical-seo-audit-checklist-london",
   "/insights/seo-that-generates-leads",
   "/insights/landing-page-before-more-ad-spend",
   "/insights/growth-stack-for-local-services"]);
