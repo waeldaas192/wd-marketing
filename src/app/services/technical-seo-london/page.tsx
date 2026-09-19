@@ -232,6 +232,10 @@ export default function TechnicalSeoLondonPage() {
               </article>
             ))}
           </div>
+          <div className={styles.checklistCta}>
+            <span>Want to run the first pass yourself?</span>
+            <Link className={base.textLink} href="/insights/technical-seo-audit-checklist-london">Use the Technical SEO audit checklist <Arrow diagonal /></Link>
+          </div>
         </div>
       </section>
 
