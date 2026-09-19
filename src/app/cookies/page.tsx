@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/metadata";
 import { LegalPage } from "@/components/privacy/LegalPage";
 import styles from "@/components/privacy/LegalPage.module.css";
-export const metadata = pageMetadata("Cookie Policy", "Cookie and browser storage information, optional Google Analytics and how to change your WD Marketing cookie preferences.", "/cookies");
+export const metadata = pageMetadata("Cookie Policy & Analytics", "Cookie and browser storage information, optional Google Analytics and how to change your WD Marketing cookie preferences.", "/cookies");
 export default function Cookies() {
   return <LegalPage title="Cookie policy" intro="You can browse the site and send an enquiry without accepting analytics. Use Cookie settings to choose whether optional measurement can run.">
     <h2>1. Cookies and similar technologies</h2><p>Cookies are small values stored by your browser. Local storage is another way a website remembers information on your device. Our controls cover optional analytics technologies as well as cookies.</p>
