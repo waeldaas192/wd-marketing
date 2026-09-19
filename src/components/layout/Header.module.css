@@ -75,3 +75,58 @@
 }
 @keyframes linkRise { from { opacity: 0; transform: translateY(12px) scale(.99); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .link:hover,.link:active,.cta:hover,.cta:active,.motion:hover,.motion:active,.menu:hover,.menu:active,.serviceCard:hover,.serviceCard:active { transform: none; } .menuGlyph i { transition: none; } }\n:global(html[data-motion="paused"]) .link,:global(html[data-motion="paused"]) .cta,:global(html[data-motion="paused"]) .motion,:global(html[data-motion="paused"]) .menu,:global(html[data-motion="paused"]) .serviceCard,:global(html[data-motion="paused"]) .menuGlyph i { transition: none; }
+
+
+/* Dark colour-scheme layer for the shared navigation. */
+:global(html[data-color-scheme="dark"]) .header {
+  background: #0f131de8;
+  color: #f4f6fb;
+  box-shadow: 0 1px 0 #30394a99;
+}
+:global(html[data-color-scheme="dark"]) .brand { color: #f5f6fb; }
+:global(html[data-color-scheme="dark"]) .brandName strong { color: #c8a9ff; }
+:global(html[data-color-scheme="dark"]) .link { color: #b3bdcc; }
+:global(html[data-color-scheme="dark"]) .link::after { background: #aa9cff; }
+:global(html[data-color-scheme="dark"]) .link:hover,
+:global(html[data-color-scheme="dark"]) .active { color: #fff; }
+:global(html[data-color-scheme="dark"]) .motion,
+:global(html[data-color-scheme="dark"]) .menu { color: #c5cddd; }
+:global(html[data-color-scheme="dark"]) .motion:hover,
+:global(html[data-color-scheme="dark"]) .menu:hover { background: #202735; }
+:global(html[data-color-scheme="dark"]) .cta {
+  color: #fff;
+  background: linear-gradient(145deg,#725fe0,#5431a6 78%);
+  box-shadow: inset 0 1px 0 #d7cbff66,0 10px 24px -12px #000a;
+}
+:global(html[data-color-scheme="dark"]) .mega {
+  background: #131823f2;
+  border-color: #2d3748;
+  box-shadow: 0 28px 90px -24px #000c,0 1px 0 #ffffff0d inset;
+}
+:global(html[data-color-scheme="dark"]) .megaIntro p,
+:global(html[data-color-scheme="dark"]) .serviceCard p { color: #aeb8c8; }
+:global(html[data-color-scheme="dark"]) .megaIntro .megaTitle,
+:global(html[data-color-scheme="dark"]) .serviceCard strong { color: #f4f6fb; }
+:global(html[data-color-scheme="dark"]) .serviceCard > span { color: #8f9aaa; }
+:global(html[data-color-scheme="dark"]) .serviceCard::before {
+  background: radial-gradient(circle at 18% 20%,#9d8cff22,transparent 62%);
+}
+:global(html[data-color-scheme="dark"]) .serviceCard:hover,
+:global(html[data-color-scheme="dark"]) .serviceCard[aria-current="page"] { background: #1b2230; }
+:global(html[data-color-scheme="dark"]) .megaAside { border-top-color: #313b4d; }
+:global(html[data-color-scheme="dark"]) .dialog {
+  background: #0f131d;
+  color: #f4f6fb;
+}
+:global(html[data-color-scheme="dark"]) .dialogBar { border-bottom-color: #354054; }
+:global(html[data-color-scheme="dark"]) .dialogBar .dialogClose {
+  background: #1b2230;
+  color: #f4f6fb;
+}
+:global(html[data-color-scheme="dark"]) .mobileLinks > a,
+:global(html[data-color-scheme="dark"]) .mobileLinks summary {
+  border-bottom-color: #303a4c;
+  color: #f2f4f9;
+}
+:global(html[data-color-scheme="dark"]) .mobileLinks details a { color: #b3bdcc; }
+:global(html[data-color-scheme="dark"]) .mobileLinks a[aria-current="page"] { color: #b6a9ff; }
