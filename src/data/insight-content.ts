@@ -347,6 +347,7 @@ export const insightContent:Record<string,InsightSection[]>={
       ],
       links:[
         {label:"Technical SEO London",href:"/services/technical-seo-london"},
+        {label:"Canonical tags & duplicate URLs",href:"/insights/canonical-tags-duplicate-urls"},
         {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"},
         {label:"SEO & Organic Growth",href:"/services/seo"}
       ]
