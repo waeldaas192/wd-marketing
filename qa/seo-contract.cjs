@@ -196,4 +196,18 @@ assert.ok(localHeroCss.includes('@keyframes drawRoute'), 'Local SEO hero must an
 assert.ok(localHeroCss.includes('@keyframes flowDash'), 'Local SEO hero must animate route flow');
 assert.ok(localHeroCss.includes('prefers-reduced-motion'), 'Local SEO hero must respect reduced motion');
 assert.ok(localSeoPage.includes('HeroCentralLondonMap'), 'Local SEO page must use the animated Central London hero');
+const footer = read('src/components/layout/Footer.tsx');
+for (const href of ['/services/local-seo-london','/services/technical-seo-london']) {
+  assert.ok(header.includes(`href: "${href}"`), `Primary Services navigation must expose ${href}`);
+  assert.ok(footer.includes(href), `Footer services must expose ${href}`);
+}
+const webConversionPage = read('src/app/services/web-conversion/page.tsx');
+assert.ok(webConversionPage.includes('"Web Design Agency London | Conversion Websites"'), 'Web & Conversion title must stay concise');
+assert.ok(metaPage.includes('"Meta Ads Agency London | Facebook Ads"'), 'Meta Ads title must stay concise');
+assert.ok(technicalSeoPage.includes('"Technical SEO London | Audits & Fixes"'), 'Technical SEO title must stay concise');
+const workPageTemplate = read('src/app/work/[slug]/page.tsx');
+assert.ok(workPageTemplate.includes('`${project.name} Case Study`'), 'Case studies must use descriptive SEO titles');
+assert.ok(read('src/app/work/page.tsx').includes('"Web Design & SEO Case Studies"'), 'Work index title must describe the content');
+assert.ok(read('src/app/insights/page.tsx').includes('"SEO & Digital Marketing Insights"'), 'Insights index title must describe the content');
+assert.ok(insightPageSource.includes('item.seoTitle || item.title'), 'Insight metadata must support concise SEO titles');
 console.log('WD SEO contract passed');
