@@ -5,6 +5,7 @@ import { serviceSchema } from "@/lib/structured-data";
 import { ArrowIcon } from "@/components/ui/Icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import Link from "next/link";
+import { HeroCentralLondonMap } from "@/components/seo/HeroCentralLondonMap";
 import { site } from "@/data/site";
 import base from "../seo/seo.module.css";
 import styles from "./local-seo.module.css";
@@ -13,11 +14,6 @@ const description = "Local SEO London for Google Maps, Google Business Profile, 
 export const metadata = pageMetadata("Local SEO London | Google Maps & Local Search", description, "/services/local-seo-london");
 
 const generatedImages = {
-  hero: {
-    src: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20260918_213208_662e9c9b-5a6a-45af-a024-1fd5cb6228dc.png",
-    alt: "Conceptual relief map of London with connected local search visibility points",
-    label: "London local search visibility",
-  },
   maps: {
     src: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20260918_213208_c796330b-f334-4e5e-8471-35b97ae7a2f0.png",
     alt: "Conceptual smartphone map interface showing local business discovery points",
@@ -99,7 +95,7 @@ export default function LocalSeoLondonPage() {
               <p className={base.heroNote}>Founder-led. London focused. Search, website and conversion connected.</p>
             </div>
             <div className={base.heroVisual}>
-              <GeneratedImage asset={generatedImages.hero} priority />
+              <HeroCentralLondonMap />
               <div className={base.heroCaption}><span>Local visibility</span><p>Prioritise the services and areas that matter commercially.</p></div>
             </div>
           </div>
