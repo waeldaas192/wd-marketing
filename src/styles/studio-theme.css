@@ -180,6 +180,109 @@ footer[data-studio-footer] :focus-visible { outline-color: #d5c3ff; }
   .library-icon-frame { transition: none; }
 }
 html[data-motion="paused"] .library-icon-frame { transition: none; }
+/* Dark variant keeps the same art direction while lowering luminance and preserving contrast. */
+html[data-color-scheme="dark"] [data-studio-page] {
+  --studio-ink: #f4f1fb;
+  --studio-muted: #c3bbd1;
+  --studio-accent: #bca5ff;
+  --studio-glass: linear-gradient(135deg, #1d1a27ed, #15131fe8);
+  --studio-edge: inset 0 1px 0 #ffffff14, inset 0 0 0 1px #ffffff0d;
+  --studio-shadow: 0 20px 52px -28px #000c;
+  background: #0f0d16;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section] {
+  --subtle: #a99fb8;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="standard"],
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="services"],
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="founder"],
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="faq"] {
+  background: radial-gradient(ellipse at 90% 15%, #5f49974a, transparent 54%), radial-gradient(ellipse at 6% 75%, #215c6445, transparent 52%), #13111d;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="standard"] {
+  background: linear-gradient(#15131f, #100e18);
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="work"],
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="process"],
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="insights"] {
+  --muted: #ddd6eb;
+  --subtle: #c7bfd7;
+  --line: #ffffff2c;
+  background: radial-gradient(ellipse at 6% 10%, #1b71874d, transparent 48%), radial-gradient(ellipse at 98% 90%, #8b445947, transparent 46%), linear-gradient(125deg, #1d2c56, #3d2866 55%, #41224f);
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="process"] {
+  background: radial-gradient(ellipse at 0% 90%, #4e3da288, transparent 50%), radial-gradient(ellipse at 100% 0%, #2c7c8966, transparent 55%), #241c42;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="insights"] {
+  background: radial-gradient(ellipse at 100% 0%, #28798655, transparent 45%), linear-gradient(130deg, #1d294d, #41275f);
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-card] {
+  --subtle: #aaa1b8;
+  --line: #393345;
+  background: var(--studio-glass);
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-number] {
+  background: #302642;
+  color: #d8c6ff;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="services"] [data-studio-card]:is(:hover,:focus-visible) {
+  background: linear-gradient(135deg, #24202f, #1c1728ed);
+  box-shadow: var(--studio-edge), 0 24px 50px -28px #000d;
+}
+html[data-color-scheme="dark"] [data-service-index] { color: #aaa0b8; }
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="services"] li::before { background: #b69ae5; }
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="services"] a > span:last-child { color: #cfb8ff; }
+html[data-color-scheme="dark"] .library-icon-frame {
+  background: #282331;
+  color: #cdb8f5;
+}
+html[data-color-scheme="dark"] [data-studio-card]:is(:hover,:focus-visible) .library-icon-frame {
+  background: #332b42;
+  color: #e2d3ff;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="process"] [data-step][data-active="true"] {
+  background: #1c1926;
+  box-shadow: var(--studio-edge), 0 18px 42px -24px #000d;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="process"] [data-step][data-active="true"] [data-studio-number] {
+  background: #8063c9;
+  color: #fff;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="founder"] [data-studio-founder-frame] {
+  background: #18151fdb;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-identity] {
+  background: radial-gradient(ellipse at 98% 0, #347b913b, transparent 55%), linear-gradient(135deg, #30366f, #4c245f);
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-placeholder] {
+  background: radial-gradient(ellipse at 96% 8%, #376d78b3, transparent 58%), radial-gradient(ellipse at 6% 95%, #6e3b4280, transparent 52%), linear-gradient(140deg,#2e2840,#282842);
+  color: #d0b7ff;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-placeholder] i {
+  background: linear-gradient(135deg,#2e2a39e6,#40355699);
+  box-shadow: inset 0 1px 0 #ffffff14,0 8px 18px -12px #000c;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-placeholder] strong { color: #f0eafa; }
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-placeholder] div > span { color: #c1b7cf; }
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="faq"] details {
+  background: #1b1824e8;
+  box-shadow: var(--studio-edge),0 10px 26px -24px #000d;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="faq"] summary::after { color: #c9adff; }
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="faq"] details[open] { background: #211d2b; }
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-section="contact"] { background: #12101a; }
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-cta-panel] {
+  background: radial-gradient(ellipse at 14% 8%,#287b8eb3,transparent 52%),radial-gradient(ellipse at 50% 106%,#8f6336b3,transparent 40%),linear-gradient(135deg,#35458f,#58358a 52%,#293b76);
+  box-shadow: 0 24px 64px -32px #000d,inset 0 1px 0 #ffffff29;
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-cta-copy] {
+  background: linear-gradient(140deg,#211c2bed,#18141fe8);
+}
+html[data-color-scheme="dark"] [data-studio-page] [data-studio-cta-copy] a:last-child {
+  color: #efe8fa;
+  background: #2a2435e8;
+}
+
 @media (forced-colors: active) {
   [data-studio-page] [data-studio-section],[data-studio-page] [data-studio-card],footer[data-studio-footer] { --text: CanvasText; --muted: CanvasText; --accent: LinkText; --subtle: CanvasText; color: CanvasText; background: Canvas; }
   [data-studio-page] [data-studio-card], [data-studio-page] details { border: 1px solid CanvasText; }
