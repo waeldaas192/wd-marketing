@@ -117,3 +117,17 @@ html[data-motion="paused"] .liquid-cta::before,html[data-motion="paused"] .liqui
   from { transform: translateX(-50%); }
   to { transform: translateX(0); }
 }
+
+
+/* Theme-specific polish for shared controls. */
+html[data-color-scheme="dark"] ::selection { background: #514987; color: #fff; }
+html[data-color-scheme="dark"] .button-primary {
+  background: linear-gradient(150deg,#f6f7fb,#dce2ec);
+  color: #10131a;
+  border-color: #e4e9f0;
+  box-shadow: inset 0 1px 0 #ffffff, 0 10px 28px #00000038;
+}
+html[data-color-scheme="dark"] .button-ghost { background: var(--surface); }
+html[data-ui-ready="true"] body { transition: background-color 180ms ease, color 180ms ease; }
+@media (prefers-reduced-motion: reduce) { html[data-ui-ready="true"] body { transition: none; } }
+html[data-motion="paused"] body { transition: none; }
