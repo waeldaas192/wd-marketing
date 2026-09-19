@@ -1,6 +1,175 @@
 export type InsightLink={label:string;href:string};
 export type InsightSection={id:string;title:string;paragraphs:string[];bullets?:string[];links?:InsightLink[]};
 export const insightContent:Record<string,InsightSection[]>={
+  "canonical-tags-duplicate-urls":[
+    {
+      id:"canonical-basics",
+      title:"1. Understand what a canonical actually does",
+      paragraphs:[
+        "Canonicalisation is the process of selecting one representative URL from a set of duplicate or very similar URLs. Google can cluster similar pages and choose a canonical even when you declare a preferred URL yourself.",
+        "A rel=canonical element is therefore a strong hint, not an absolute command. The cleanest implementation is one where the canonical tag agrees with the other signals Google can observe."
+      ],
+      bullets:[
+        "Use one preferred URL for each genuinely duplicate content set.",
+        "Add a self-referencing canonical on important indexable pages where appropriate.",
+        "Avoid canonicals that point to redirects, errors or unrelated content.",
+        "Check the Google-selected canonical in URL Inspection when behaviour looks unexpected.",
+        "Treat canonicalisation as a system of signals, not a single HTML tag."
+      ],
+      links:[
+        {label:"Google: Canonicalisation",href:"https://developers.google.com/search/docs/crawling-indexing/canonicalization"},
+        {label:"Technical SEO London",href:"/services/technical-seo-london"}
+      ]
+    },
+    {
+      id:"duplicate-patterns",
+      title:"2. Find the duplicate URL patterns before fixing them",
+      paragraphs:[
+        "Duplicate content is not automatically a spam violation, and many duplicate patterns are normal. Problems start when the site creates several crawlable URLs for the same main content while sending inconsistent signals about which version should represent the set.",
+        "Common sources include protocol and hostname variants, tracking parameters, sorting and filtering URLs, print or preview routes, mixed trailing-slash rules, duplicate product paths and CMS-generated archives."
+      ],
+      bullets:[
+        "Compare HTTP and HTTPS versions.",
+        "Compare www and non-www hostnames.",
+        "Check uppercase, lowercase and trailing-slash variants.",
+        "Review parameters used for sorting, filtering, tracking or session state.",
+        "Look for duplicate CMS routes, archives, previews and legacy URLs."
+      ]
+    },
+    {
+      id:"self-canonical",
+      title:"3. Use a self-referencing canonical on the preferred page",
+      paragraphs:[
+        "A self-referencing canonical makes the page's own preferred URL explicit. It is especially useful when the same content can be reached through extra parameters or minor URL variations.",
+        "The canonical should be absolute, resolve successfully and match the production URL you actually want indexed. Avoid generating different canonical values in server HTML and client-side JavaScript."
+      ],
+      bullets:[
+        "Point the preferred page to itself with rel=canonical.",
+        "Use the final HTTPS production URL.",
+        "Keep canonical generation stable across server and rendered HTML.",
+        "Do not canonicalise important unique pages to a broader category simply because they share a template.",
+        "Test the live page source and rendered DOM after deployment."
+      ]
+    },
+    {
+      id:"redirect-or-canonical",
+      title:"4. Know when to redirect and when to canonicalise",
+      paragraphs:[
+        "Use a redirect when an old or duplicate URL no longer needs to remain independently accessible and has a clear permanent replacement. Use canonicalisation when duplicate or near-duplicate URLs still need to exist for users or site functionality.",
+        "Do not use both mechanisms carelessly. A page that canonicals to one URL but redirects somewhere else creates unnecessary ambiguity."
+      ],
+      bullets:[
+        "Use a 301 for replaced pages, old slugs and retired legacy URLs with a relevant successor.",
+        "Use canonical tags for live duplicate variants that must remain accessible.",
+        "Avoid redirect chains by pointing legacy URLs directly to the final destination.",
+        "Keep canonical targets on a 200-status preferred page.",
+        "Update internal links so the site links directly to the preferred URL."
+      ],
+      links:[
+        {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"},
+        {label:"Why Google may not be indexing your page",href:"/insights/why-google-is-not-indexing-my-website"}
+      ]
+    },
+    {
+      id:"http-host-variants",
+      title:"5. Consolidate HTTP and HTTPS, www and non-www variants",
+      paragraphs:[
+        "Protocol and hostname variants can create duplicate URL sets when multiple versions resolve independently. Choose one production hostname and protocol, redirect the other versions, and keep canonical, sitemap and internal-link signals aligned with that choice.",
+        "This also makes reporting cleaner because backlinks, analytics and Search Console signals are less likely to be spread across unnecessary variants."
+      ],
+      bullets:[
+        "Choose one HTTPS hostname as the production version.",
+        "Redirect HTTP to HTTPS.",
+        "Redirect the non-preferred www or non-www hostname.",
+        "Keep canonical tags on the preferred hostname.",
+        "Use the same preferred URLs in XML sitemaps and internal links."
+      ]
+    },
+    {
+      id:"parameters-filters",
+      title:"6. Handle parameters, filters and faceted URLs deliberately",
+      paragraphs:[
+        "Parameters can be useful for tracking, sorting and filtering, but they can also create many URLs whose primary content is effectively the same. Large ecommerce and catalogue sites are especially vulnerable to crawlable combinations that add little search value.",
+        "Decide which filtered or parameterised pages deserve independent search visibility and which should consolidate to a cleaner canonical or remain outside the index."
+      ],
+      bullets:[
+        "Inventory common query parameters and what each one changes.",
+        "Separate meaningful landing-page variants from sorting or tracking variants.",
+        "Do not canonicalise genuinely unique search-targeted pages away by accident.",
+        "Avoid linking extensively to low-value parameter combinations.",
+        "Keep only intended canonical URLs in active XML sitemaps."
+      ]
+    },
+    {
+      id:"sitemaps-links",
+      title:"7. Make XML sitemaps and internal links reinforce the canonical",
+      paragraphs:[
+        "A sitemap is another canonicalisation signal, so it should list the URLs you actually want treated as preferred. Internal links should do the same.",
+        "If the sitemap contains one URL while navigation and page canonicals repeatedly point elsewhere, the site is asking Google to resolve a conflict it could have avoided."
+      ],
+      bullets:[
+        "Include preferred 200-status canonical URLs in the XML sitemap.",
+        "Remove redirected, noindex and duplicate variants from active sitemaps.",
+        "Link internally to preferred canonical URLs rather than redirects.",
+        "Fix templates that generate mixed URL formats.",
+        "Re-test the sitemap after migrations or routing changes."
+      ]
+    },
+    {
+      id:"google-chose-different",
+      title:"8. Diagnose 'Google chose different canonical than user'",
+      paragraphs:[
+        "This Search Console state means Google selected another URL as the representative of the duplicate cluster. Sometimes Google's choice is reasonable; sometimes conflicting site signals are pushing the wrong version.",
+        "Start with URL Inspection, compare the user-declared and Google-selected canonical, then inspect redirects, sitemap membership, internal links, content similarity and the technical state of both URLs."
+      ],
+      bullets:[
+        "Inspect both the declared canonical and Google's selected canonical.",
+        "Check whether the preferred URL is internally linked more weakly than the duplicate.",
+        "Check whether the preferred page redirects, errors or is less complete.",
+        "Make two pages substantially different if both genuinely need to rank separately.",
+        "After meaningful fixes, allow time for Google to recrawl and re-evaluate the cluster."
+      ],
+      links:[
+        {label:"Google: Fix canonicalisation issues",href:"https://developers.google.com/search/docs/crawling-indexing/canonicalization-troubleshooting"},
+        {label:"Why Google may not be indexing your website",href:"/insights/why-google-is-not-indexing-my-website"}
+      ]
+    },
+    {
+      id:"javascript",
+      title:"9. Keep JavaScript canonical signals stable",
+      paragraphs:[
+        "On JavaScript-heavy websites, avoid creating one canonical in the original HTML and changing it to a different URL after rendering. Canonicalisation can be evaluated before and after rendering, so inconsistent output makes the preferred URL less clear.",
+        "Where possible, emit the correct canonical in the original HTML. If the framework controls metadata dynamically, test both raw HTML and the rendered DOM on the production deployment."
+      ],
+      bullets:[
+        "Check the canonical in server-generated HTML.",
+        "Check the canonical again after client rendering.",
+        "Avoid multiple canonical elements.",
+        "Do not let route state or query parameters rewrite canonicals unexpectedly.",
+        "Validate canonical output on real production routes after deployment."
+      ]
+    },
+    {
+      id:"validate",
+      title:"10. Validate the canonical system after the fix",
+      paragraphs:[
+        "A canonical cleanup is not finished when the code is merged. Re-crawl the affected URL set, test redirects, inspect canonical output and confirm that sitemaps and internal links now point to the same preferred URLs.",
+        "Then use Search Console to monitor Google-selected canonicals over time. Re-evaluation is not instant, so separate technical validation from later search-performance changes."
+      ],
+      bullets:[
+        "Re-crawl the duplicate URL patterns.",
+        "Confirm preferred URLs return 200 and duplicates resolve as intended.",
+        "Check canonical tags, redirects, sitemaps and internal links together.",
+        "Inspect priority URLs in Search Console after recrawl.",
+        "Record the release date so later canonical and ranking changes have context."
+      ],
+      links:[
+        {label:"Technical SEO London",href:"/services/technical-seo-london"},
+        {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"},
+        {label:"Why Google may not be indexing your page",href:"/insights/why-google-is-not-indexing-my-website"}
+      ]
+    }
+  ],
   "why-google-is-not-indexing-my-website":[
     {
       id:"confirm-the-problem",
