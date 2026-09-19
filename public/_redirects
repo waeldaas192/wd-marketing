@@ -29,8 +29,10 @@
 /projects/ /work 301
 /privacy-policy /privacy 301
 /privacy-policy/ /privacy 301
-/conversion-rate-optimization /services/web-conversion 301
-/conversion-rate-optimization/ /services/web-conversion 301
+/conversion-rate-optimization /services/conversion-rate-optimisation 301
+/conversion-rate-optimization/ /services/conversion-rate-optimisation 301
+/conversion-rate-optimisation /services/conversion-rate-optimisation 301
+/conversion-rate-optimisation/ /services/conversion-rate-optimisation 301
 /product-seo-optimization /services/seo 301
 /product-seo-optimization/ /services/seo 301
 /e-commerce-marketing /services/paid-acquisition 301
