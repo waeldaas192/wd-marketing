@@ -173,6 +173,8 @@ assert.ok(insightPageSource.includes('section.links'), 'Insight template must re
 assert.ok(insightContentData.includes('/services/technical-seo-london'), 'Technical SEO checklist must link to Technical SEO London');
 assert.ok(insightContentData.includes('/services/seo'), 'Technical SEO checklist must link to SEO service');
 assert.ok(insightContentData.includes('/services/web-conversion'), 'Technical SEO checklist must link to Web & Conversion');
+assert.ok(technicalSeoPage.includes('/insights/technical-seo-audit-checklist-london'), 'Technical SEO service must link back to its audit checklist');
+assert.ok(read('src/lib/measurement.ts').includes('/insights/technical-seo-audit-checklist-london'), 'Technical SEO checklist route must be allowed in measurement');
 
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
