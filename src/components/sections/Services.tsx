@@ -12,6 +12,13 @@ const capabilities = [
   { icon: "workflow", href: "/services/growth-infrastructure" },
 ] as const satisfies readonly { icon: LibraryIconName; href: string }[];
 
+const specialistServices = [
+  { label: "Conversion Optimisation", href: "/services/conversion-rate-optimisation", copy: "Landing pages, forms and enquiry journeys." },
+  { label: "Local SEO London", href: "/services/local-seo-london", copy: "Google Maps, local search and service-area visibility." },
+  { label: "Technical SEO London", href: "/services/technical-seo-london", copy: "Crawling, indexation, canonicals, migrations and performance." },
+  { label: "Meta Ads", href: "/services/meta-ads", copy: "Facebook and Instagram lead generation with CRM feedback." },
+] as const;
+
 export function Services() {
   return <section id="services" className={styles.section} data-studio-section="services" aria-labelledby="services-heading">
     <div className="container">
@@ -29,6 +36,15 @@ export function Services() {
           <ul className={styles.items}>{service.items.map(item => <li key={item}>{item}</li>)}</ul>
           <span className={styles.link}>Explore capability <ArrowIcon /></span>
         </Link>)}
+      </div>
+      <div className={styles.specialists} aria-label="Specialist services">
+        <div className={styles.specialistIntro}>
+          <span>Specialist services</span>
+          <p>Go deeper when the bottleneck is specific.</p>
+        </div>
+        <div className={styles.specialistLinks}>
+          {specialistServices.map(item => <Link key={item.href} href={item.href}><span><strong>{item.label}</strong><small>{item.copy}</small></span><ArrowIcon /></Link>)}
+        </div>
       </div>
     </div>
   </section>;
