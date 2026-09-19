@@ -202,7 +202,7 @@ for (const href of ['/services/local-seo-london','/services/technical-seo-london
   assert.ok(footer.includes(href), `Footer services must expose ${href}`);
 }
 const webConversionPage = read('src/app/services/web-conversion/page.tsx');
-assert.ok(webConversionPage.includes('"Web Design Agency London | Conversion Websites"'), 'Web & Conversion title must stay concise');
+assert.ok(webConversionPage.includes('"Web Design Agency London | Enquiry-Focused"'), 'Web & Conversion title must stay concise');
 assert.ok(metaPage.includes('"Meta Ads Agency London | Facebook Ads"'), 'Meta Ads title must stay concise');
 assert.ok(technicalSeoPage.includes('"Technical SEO London | Audits & Fixes"'), 'Technical SEO title must stay concise');
 const workPageTemplate = read('src/app/work/[slug]/page.tsx');
