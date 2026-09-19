@@ -1,6 +1,188 @@
 export type InsightLink={label:string;href:string};
 export type InsightSection={id:string;title:string;paragraphs:string[];bullets?:string[];links?:InsightLink[]};
 export const insightContent:Record<string,InsightSection[]>={
+  "why-google-is-not-indexing-my-website":[
+    {
+      id:"confirm-the-problem",
+      title:"1. Confirm that the page is actually not indexed",
+      paragraphs:[
+        "Start with the specific URL rather than the whole website. Search Console's URL Inspection tool can show whether Google knows the page, whether it was crawled, which canonical Google selected and whether indexing is currently allowed.",
+        "Do not treat the Page indexing report as a target for 100% coverage. A healthy site can have many URLs excluded for valid reasons, including duplicates, redirects, removed pages and filtered variants. The question is whether the pages you genuinely want in search are being indexed."
+      ],
+      bullets:[
+        "Inspect the exact preferred URL in URL Inspection.",
+        "Confirm whether the URL is indexed, not indexed, or represented by another canonical.",
+        "Check the last crawl date and the reported indexing reason.",
+        "Compare the inspected URL with the URL in your sitemap and internal links.",
+        "Prioritise commercially important pages before investigating low-value variants."
+      ],
+      links:[
+        {label:"Google: Page indexing report",href:"https://support.google.com/webmasters/answer/7440203"},
+        {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"}
+      ]
+    },
+    {
+      id:"crawled-not-indexed",
+      title:"2. Crawled - currently not indexed",
+      paragraphs:[
+        "This status means Google crawled the page but did not index it at that time. Google's documentation explicitly says the page may or may not be indexed later and that repeatedly resubmitting the same URL for crawling is not required.",
+        "Because Google has already accessed the page, the diagnosis should move beyond crawl access. Review whether the page is genuinely distinct, useful, internally supported and aligned with the site's preferred URL signals. If many similar pages share the status, look for a pattern rather than treating each URL as an isolated technical error."
+      ],
+      bullets:[
+        "Compare the page with similar pages for substantial overlap or thin differentiation.",
+        "Check whether another URL is a stronger or more consistent version of the same content.",
+        "Review internal links and whether the page is part of a clear site structure.",
+        "Confirm the page returns 200 and does not contain noindex or conflicting canonical signals.",
+        "Improve the page because it serves a real search need, not simply to force an index request."
+      ],
+      links:[
+        {label:"Google: Page indexing reasons",href:"https://support.google.com/webmasters/answer/7440203"},
+        {label:"SEO & Organic Growth",href:"/services/seo"}
+      ]
+    },
+    {
+      id:"discovered-not-indexed",
+      title:"3. Discovered - currently not indexed",
+      paragraphs:[
+        "This status means Google knows the URL exists but has not crawled it yet. Google's Page indexing documentation says crawling may be rescheduled when Google expects crawling the site could create too much load.",
+        "If only a small number of new URLs are affected, time can be part of the answer. If large sections remain discovered for long periods, review how many URLs the site creates, how easily important pages are reached, server reliability and whether the architecture is asking crawlers to spend attention on low-value variants."
+      ],
+      bullets:[
+        "Check whether the page is linked from a relevant crawlable page.",
+        "Confirm the preferred URL appears in the XML sitemap.",
+        "Look for very large numbers of filter, parameter, tag or duplicate URLs.",
+        "Review server stability and response times across important templates.",
+        "Do not create more URLs simply to solve a crawl-demand problem."
+      ],
+      links:[
+        {label:"Technical SEO London",href:"/services/technical-seo-london"}
+      ]
+    },
+    {
+      id:"noindex",
+      title:"4. Excluded by noindex",
+      paragraphs:[
+        "A noindex directive is appropriate when a crawlable page should not appear in search. Problems arise when noindex remains on a template after staging, is added by a CMS setting, appears in an X-Robots-Tag header, or conflicts with the intended purpose of the page.",
+        "Google needs to be able to crawl a page to read a page-level noindex directive. Blocking the same URL in robots.txt can prevent Google from seeing that directive, so robots.txt and noindex should not be treated as interchangeable controls."
+      ],
+      bullets:[
+        "Check the rendered HTML for a robots meta tag.",
+        "Check HTTP headers for X-Robots-Tag.",
+        "Inspect CMS or SEO-plugin visibility settings.",
+        "Remove noindex only when the page is meant to be searchable.",
+        "After changing the directive, verify the live production response before requesting recrawl."
+      ],
+      links:[
+        {label:"Google: Block search indexing with noindex",href:"https://developers.google.com/search/docs/crawling-indexing/block-indexing"}
+      ]
+    },
+    {
+      id:"robots",
+      title:"5. Blocked by robots.txt",
+      paragraphs:[
+        "robots.txt is primarily a crawl-control file. A robots.txt block does not by itself guarantee that a URL can never appear in Google's index, because Google may know the URL from other signals even if it cannot crawl the page content.",
+        "If an important page is blocked accidentally, remove the relevant disallow rule and make sure Google can fetch the page and its critical resources. If the page should stay out of search, use the appropriate indexing or removal method rather than assuming a crawl block is enough."
+      ],
+      bullets:[
+        "Test the exact URL against the live robots.txt rules.",
+        "Check broad folder rules before editing individual URLs.",
+        "Look for blocked CSS or JavaScript resources needed to render important content.",
+        "Do not use robots.txt as a substitute for noindex on crawlable pages.",
+        "Re-test production after any robots.txt change because one rule can affect many URLs."
+      ]
+    },
+    {
+      id:"canonical",
+      title:"6. Duplicate, Google chose different canonical than user",
+      paragraphs:[
+        "When Google sees multiple URLs with the same or very similar primary content, it can cluster them and choose one representative canonical. The selected canonical can differ from the canonical you declare.",
+        "Treat 'Google chose different canonical' as a signal to compare the full cluster. A rel=canonical tag helps, but redirects, internal links, sitemap URLs, HTTPS consistency and content similarity can all contribute to Google's canonical selection."
+      ],
+      bullets:[
+        "Inspect the user-declared canonical and Google-selected canonical.",
+        "Check whether duplicate versions are linked internally.",
+        "Keep only preferred canonical URLs in the XML sitemap.",
+        "Use direct redirects when an old URL has a clear permanent replacement.",
+        "Make pages meaningfully different if both genuinely need to exist and rank separately."
+      ],
+      links:[
+        {label:"Google: Canonicalisation",href:"https://developers.google.com/search/docs/crawling-indexing/canonicalization"},
+        {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"}
+      ]
+    },
+    {
+      id:"redirects-errors",
+      title:"7. Redirect errors, soft 404s and server failures",
+      paragraphs:[
+        "Google can exclude a URL because the response itself prevents reliable indexing. Redirect loops, excessively long redirect chains, 5xx errors and access restrictions can stop Google from reaching a usable final page.",
+        "A soft 404 is different from a normal 404 response: the server may return a success status while the page effectively says the content is missing or provides too little useful content to function as the requested page. Fix the response and destination logic instead of trying to optimise an error state."
+      ],
+      bullets:[
+        "Follow the full redirect path and remove loops or unnecessary hops.",
+        "Confirm the final destination returns 200 when it is a real live page.",
+        "Check 5xx and timeout patterns in server or edge logs where available.",
+        "Return a genuine 404 or 410 for removed content with no replacement.",
+        "Do not redirect every removed URL to the homepage."
+      ],
+      links:[
+        {label:"Web & Conversion",href:"/services/web-conversion"}
+      ]
+    },
+    {
+      id:"discovery-signals",
+      title:"8. Check internal links, sitemaps and orphan pages",
+      paragraphs:[
+        "A page may be technically indexable but weakly connected to the rest of the site. Important pages should be discoverable through normal internal links, not only present in a sitemap or accessible through a form, search box or JavaScript interaction.",
+        "Use internal links to explain the page's role in the site. Supporting articles should link to the service or category they support, and commercial pages should link to useful evidence and deeper guidance where that helps the visitor."
+      ],
+      bullets:[
+        "Find orphan pages with no crawlable internal links.",
+        "Check click depth for priority pages.",
+        "Use descriptive anchor text rather than generic repeated phrases.",
+        "Keep sitemap URLs aligned with canonical live pages.",
+        "Remove obsolete redirected and error URLs from active sitemaps."
+      ],
+      links:[
+        {label:"Technical SEO London",href:"/services/technical-seo-london"},
+        {label:"SEO & Organic Growth",href:"/services/seo"}
+      ]
+    },
+    {
+      id:"rendering",
+      title:"9. Verify rendering and the final HTML Google can process",
+      paragraphs:[
+        "If important content or links depend on JavaScript, verify the rendered result rather than assuming the application framework exposes everything correctly. Rendering issues can also appear after deployment when client-side errors, blocked resources or environment-specific code behave differently from development.",
+        "Check the live page's main content, headings, links, robots directives and canonical. If Google can fetch the URL but the meaningful content is missing or unstable in the rendered result, fixing the application can be more important than submitting another indexing request."
+      ],
+      bullets:[
+        "Compare initial HTML with the rendered page on JavaScript-heavy routes.",
+        "Check that primary content and internal links are present and stable.",
+        "Look for duplicated or client-rewritten canonical and robots tags.",
+        "Review browser console and runtime errors on affected templates.",
+        "Test the production URL, not only localhost or staging."
+      ]
+    },
+    {
+      id:"request-and-monitor",
+      title:"10. Request indexing only after the page is ready",
+      paragraphs:[
+        "URL Inspection includes a Request Indexing option, but it is not a substitute for correcting the reason a page is weak, duplicated, blocked or technically inconsistent. Use it selectively after meaningful fixes to important URLs.",
+        "After the change, allow time for Google to recrawl and reprocess the page. Record the release date and monitor indexing state, canonical selection, impressions and clicks separately. A technically indexable page is eligible to compete; it is not guaranteed to rank."
+      ],
+      bullets:[
+        "Validate the live page before requesting indexing.",
+        "Use Request Indexing for important corrected URLs, not every page on the site.",
+        "Monitor the Page indexing report for broader patterns.",
+        "Track the selected canonical in URL Inspection.",
+        "Review search performance only after Google has had time to recrawl and process the change."
+      ],
+      links:[
+        {label:"Technical SEO London",href:"/services/technical-seo-london"},
+        {label:"Technical SEO audit checklist",href:"/insights/technical-seo-audit-checklist-london"},
+        {label:"SEO & Organic Growth",href:"/services/seo"}
+      ]
+    }
+  ],
   "technical-seo-audit-checklist-london":[
     {
       id:"priority-urls",
