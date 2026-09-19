@@ -7,8 +7,8 @@ import { pageMetadata } from "@/lib/metadata";
 import { serviceSchema } from "@/lib/structured-data";
 import styles from "./meta-ads.module.css";
 
-const description = "Meta Ads management for London businesses, connecting Facebook and Instagram campaigns with creative testing, landing pages, HighLevel CRM, tracking and lead follow-up.";
-export const metadata = pageMetadata("Meta Ads Agency London | Facebook & Instagram Ads", description, "/services/meta-ads");
+const description = "Meta Ads management for London businesses across Facebook and Instagram, with creative testing, landing pages, CRM follow-up and conversion tracking.";
+export const metadata = pageMetadata("Meta Ads Agency London | Facebook Ads", description, "/services/meta-ads");
 
 const problems = [
   { title: "Leads arrive, but nobody follows up quickly", copy: "A useful cost per lead loses value when enquiries sit in an inbox, spreadsheet or platform notification without clear ownership." },
