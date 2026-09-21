@@ -274,6 +274,32 @@ for (const href of ['/services/technical-seo-london','/insights/technical-seo-au
 assert.ok(technicalSeoPage.includes('/insights/core-web-vitals-website-speed-seo'), 'Technical SEO service must link to Core Web Vitals guide');
 assert.ok(read('src/lib/measurement.ts').includes('/insights/core-web-vitals-website-speed-seo'), 'Core Web Vitals guide route must be allowed in measurement');
 
+const coreIndexableRoutes = [
+  '/services/web-conversion',
+  '/services/seo',
+  '/services/local-seo-london',
+  '/services/technical-seo-london',
+  '/services/paid-acquisition',
+  '/services/meta-ads',
+  '/services/conversion-rate-optimisation',
+  '/services/growth-infrastructure',
+];
+for (const route of coreIndexableRoutes) {
+  assert.ok(sitemap.includes(`"${route}"`), `core indexable route missing from sitemap source: ${route}`);
+}
+
+const webConversionLinks = read('src/app/services/web-conversion/page.tsx');
+for (const href of ['/services/seo','/services/paid-acquisition','/services/conversion-rate-optimisation']) {
+  assert.ok(webConversionLinks.includes(href), `Web & Conversion page must contextually link to ${href}`);
+}
+for (const href of ['/services/web-conversion','/services/growth-infrastructure','/services/conversion-rate-optimisation']) {
+  assert.ok(paidPage.includes(href), `Paid Acquisition page must contextually link to ${href}`);
+}
+const growthInfrastructurePage = read('src/app/services/growth-infrastructure/page.tsx');
+for (const href of ['/services/web-conversion','/services/seo','/services/paid-acquisition','/services/conversion-rate-optimisation']) {
+  assert.ok(growthInfrastructurePage.includes(href), `Growth Infrastructure page must contextually link to ${href}`);
+}
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
