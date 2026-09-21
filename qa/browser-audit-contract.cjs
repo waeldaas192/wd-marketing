@@ -17,10 +17,9 @@ for (const phrase of [
   'meta-ads-mobile',
   'meta-ads-desktop',
   'data-meta-brand-icon',
-  'work-authority-mobile',
-  'work-authority-desktop',
-  'floor-case-mobile',
-  'floor-case-desktop',
+  'work-authority',
+  'floor-case',
+  '/work/floor-care-london',
   'case-service-links',
 ]) assert.ok(audit.includes(phrase), `browser audit missing expected coverage: ${phrase}`);
 
