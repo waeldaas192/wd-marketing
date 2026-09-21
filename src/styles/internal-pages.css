@@ -30,6 +30,10 @@
 .case-grid aside { display: flex; flex-direction: column; gap: 12px; }
 .case-grid aside span { color: var(--muted); font-size: var(--type-label); text-transform: uppercase; margin-top: 16px; }
 .case-grid aside strong { font-size: var(--type-body); font-weight: 550; }
+.case-service-links { display:grid; margin-top:2px; border-top:1px solid var(--line); }
+.case-service-links a { display:grid; grid-template-columns:minmax(0,1fr) 18px; gap:12px; align-items:center; min-height:44px; padding:10px 0; border-bottom:1px solid var(--line); color:var(--text); font-size:var(--type-small); font-weight:550; line-height:1.45; }
+.case-service-links a:hover { color:var(--accent); }
+.case-service-links .wd-arrow { width:16px; height:16px; }
 .case-columns { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--section-gap); }
 .case-proof-section { background: var(--surface-2); border-block: 1px solid var(--line); }
 .case-proof-grid { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(260px,.65fr); gap: var(--section-gap); align-items: start; }
