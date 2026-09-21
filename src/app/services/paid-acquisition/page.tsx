@@ -18,8 +18,6 @@ const paidPageData = {
     title: "Paid acquisition and conversion optimisation should share the same landing-page evidence.",
     links: [
       { label: "Conversion Rate Optimisation Agency London", href: "/services/conversion-rate-optimisation" },
-      { label: "Web Design & Landing Pages", href: "/services/web-conversion" },
-      { label: "GA4, GTM, CRM & Automation", href: "/services/growth-infrastructure" },
       { label: "Fix the landing page before buying more clicks", href: "/insights/landing-page-before-more-ad-spend" },
     ],
   },
