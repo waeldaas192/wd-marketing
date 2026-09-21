@@ -274,6 +274,32 @@ for (const href of ['/services/technical-seo-london','/insights/technical-seo-au
 assert.ok(technicalSeoPage.includes('/insights/core-web-vitals-website-speed-seo'), 'Technical SEO service must link to Core Web Vitals guide');
 assert.ok(read('src/lib/measurement.ts').includes('/insights/core-web-vitals-website-speed-seo'), 'Core Web Vitals guide route must be allowed in measurement');
 
+const coreIndexableRoutes = [
+  '/services/web-conversion',
+  '/services/seo',
+  '/services/local-seo-london',
+  '/services/technical-seo-london',
+  '/services/paid-acquisition',
+  '/services/meta-ads',
+  '/services/conversion-rate-optimisation',
+  '/services/growth-infrastructure',
+];
+for (const route of coreIndexableRoutes) {
+  assert.ok(sitemap.includes(`"${route}"`), `core indexable route missing from sitemap source: ${route}`);
+}
+
+const servicePageTemplate = read('src/components/ui/ServicePage.tsx');
+const footerDiscovery = read('src/components/layout/Footer.tsx');
+const servicesDiscovery = read('src/components/sections/Services.tsx');
+for (const route of coreIndexableRoutes) {
+  assert.ok(header.includes(route), `core indexable route missing from primary navigation: ${route}`);
+  assert.ok(footerDiscovery.includes(route), `core indexable route missing from footer navigation: ${route}`);
+  assert.ok(servicesDiscovery.includes(route), `core indexable route missing from services discovery surface: ${route}`);
+}
+for (const href of ['/services/web-conversion','/services/seo','/services/paid-acquisition','/services/growth-infrastructure']) {
+  assert.ok(servicePageTemplate.includes(href), `shared service template must preserve connected capability link: ${href}`);
+}
+
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
 
 const localHeroPath = 'src/components/seo/HeroCentralLondonMap.tsx';
