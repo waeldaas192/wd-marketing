@@ -15,9 +15,6 @@ const infrastructurePageData = {
     title: "Tracking becomes more valuable when it explains where the conversion journey can improve.",
     links: [
       { label: "Conversion Rate Optimisation Agency London", href: "/services/conversion-rate-optimisation" },
-      { label: "Web Design & Conversion", href: "/services/web-conversion" },
-      { label: "SEO & Organic Growth", href: "/services/seo" },
-      { label: "Google Ads & Paid Acquisition", href: "/services/paid-acquisition" },
       { label: "The growth stack for a local service business", href: "/insights/growth-stack-for-local-services" },
     ],
   },
