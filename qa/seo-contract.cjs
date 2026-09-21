@@ -346,6 +346,7 @@ assert.ok(projectServiceLinks.indexOf('"stone-pro-worktops"') < projectServiceLi
 const workPageTemplate = read('src/app/work/[slug]/page.tsx');
 assert.ok(workPageTemplate.includes('`${project.name} Case Study`'), 'Case studies must use descriptive SEO titles');
 assert.ok(workPageTemplate.includes('getProjectServiceLinks(slug)'), 'Case studies must expose connected service links');
+assert.ok(workPageTemplate.includes('orderProjectsForAuthority(projects)'), 'Case-study next navigation must follow the authority project order');
 assert.ok(workPageTemplate.includes('case-service-links'), 'Case-study service links must render in the template');
 assert.ok(read('src/app/work/page.tsx').includes('"Web Design & SEO Case Studies"'), 'Work index title must describe the content');
 assert.ok(read('src/app/insights/page.tsx').includes('"SEO & Digital Marketing Insights"'), 'Insights index title must describe the content');
