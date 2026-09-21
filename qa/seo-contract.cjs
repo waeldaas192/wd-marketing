@@ -114,18 +114,53 @@ const localSeoCss = read('src/app/services/local-seo-london/local-seo.module.css
 assert.ok(!localSeoCss.includes('\\n.'), 'Local SEO CSS must not contain literal escaped newlines between rules');
 
 assert.ok(!read('src/app/services/seo/page.tsx').includes('FAQPage'), 'FAQPage markup must not be introduced');
-const highValueLegacyRedirects = [
+const gscObservedLegacyRedirects = [
   ['/HOME', '/'],
+  ['/about-us', '/about'],
+  ['/ai-seo-organic-growth', '/services/seo'],
+  ['/category/business', '/insights'],
+  ['/conversion-rate-optimization', '/services/conversion-rate-optimisation'],
+  ['/e-commerce-marketing', '/services/paid-acquisition'],
+  ['/e-commerce-website-development', '/services/web-conversion'],
+  ['/google-ads-ppc', '/services/paid-acquisition'],
+  ['/graphic-design-branding', '/services'],
+  ['/portfolio', '/work'],
+  ['/product-seo-optimization', '/services/seo'],
+  ['/social-media-advertising', '/services/meta-ads'],
+  ['/web-design-development', '/services/web-conversion'],
   ['/2026/03/02/affordable-web-design-london', '/services/web-conversion'],
   ['/2026/03/02/best-web-design-company-london', '/services/web-conversion'],
   ['/2026/03/02/facebook-ads-agency-london', '/services/meta-ads'],
   ['/2026/03/02/google-ads-agency-london', '/services/paid-acquisition'],
+  ['/2026/03/02/professional-web-design-london', '/services/web-conversion'],
   ['/2026/03/02/seo-services-london', '/services/seo'],
-  ['/conversion-rate-optimization', '/services/conversion-rate-optimisation'],
 ];
-for (const [from, to] of highValueLegacyRedirects) {
-  assert.ok(redirects.includes(`${from} ${to} 301`), `high-value legacy URL must redirect directly: ${from}`);
+for (const [from, to] of gscObservedLegacyRedirects) {
+  assert.ok(redirects.includes(`${from} ${to} 301`), `GSC-observed legacy URL must redirect directly: ${from}`);
   assert.ok(redirects.includes(`${from}/ ${to} 301`), `trailing-slash legacy URL must redirect directly: ${from}/`);
+}
+
+const canonicalSlashRedirects = [
+  ['/cookies/', '/cookies'],
+  ['/services/conversion-rate-optimisation/', '/services/conversion-rate-optimisation'],
+  ['/services/local-seo-london/', '/services/local-seo-london'],
+  ['/services/technical-seo-london/', '/services/technical-seo-london'],
+  ['/insights/canonical-tags-duplicate-urls/', '/insights/canonical-tags-duplicate-urls'],
+  ['/insights/core-web-vitals-website-speed-seo/', '/insights/core-web-vitals-website-speed-seo'],
+  ['/insights/technical-seo-audit-checklist-london/', '/insights/technical-seo-audit-checklist-london'],
+  ['/insights/why-google-is-not-indexing-my-website/', '/insights/why-google-is-not-indexing-my-website'],
+  ['/work/amici-executive-assistants/', '/work/amici-executive-assistants'],
+  ['/work/floor-care-london/', '/work/floor-care-london'],
+  ['/work/km-capital-roofing/', '/work/km-capital-roofing'],
+  ['/work/london-marble-stone/', '/work/london-marble-stone'],
+  ['/work/marble-stone-polishing/', '/work/marble-stone-polishing'],
+  ['/work/naranj-glasgow/', '/work/naranj-glasgow'],
+  ['/work/prestige-painters/', '/work/prestige-painters'],
+  ['/work/sma-marble/', '/work/sma-marble'],
+  ['/work/tim-paints-tiles/', '/work/tim-paints-tiles'],
+];
+for (const [from, to] of canonicalSlashRedirects) {
+  assert.ok(redirects.includes(`${from} ${to} 301`), `canonical trailing-slash redirect missing: ${from}`);
 }
 
 const technicalSeoPagePath = 'src/app/services/technical-seo-london/page.tsx';
