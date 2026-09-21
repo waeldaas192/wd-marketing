@@ -288,16 +288,16 @@ for (const route of coreIndexableRoutes) {
   assert.ok(sitemap.includes(`"${route}"`), `core indexable route missing from sitemap source: ${route}`);
 }
 
-const webConversionLinks = read('src/app/services/web-conversion/page.tsx');
-for (const href of ['/services/seo','/services/paid-acquisition','/services/conversion-rate-optimisation']) {
-  assert.ok(webConversionLinks.includes(href), `Web & Conversion page must contextually link to ${href}`);
+const servicePageTemplate = read('src/components/ui/ServicePage.tsx');
+const footerDiscovery = read('src/components/layout/Footer.tsx');
+const servicesDiscovery = read('src/components/sections/Services.tsx');
+for (const route of coreIndexableRoutes) {
+  assert.ok(header.includes(route), `core indexable route missing from primary navigation: ${route}`);
+  assert.ok(footerDiscovery.includes(route), `core indexable route missing from footer navigation: ${route}`);
+  assert.ok(servicesDiscovery.includes(route), `core indexable route missing from services discovery surface: ${route}`);
 }
-for (const href of ['/services/web-conversion','/services/growth-infrastructure','/services/conversion-rate-optimisation']) {
-  assert.ok(paidPage.includes(href), `Paid Acquisition page must contextually link to ${href}`);
-}
-const growthInfrastructurePage = read('src/app/services/growth-infrastructure/page.tsx');
-for (const href of ['/services/web-conversion','/services/seo','/services/paid-acquisition','/services/conversion-rate-optimisation']) {
-  assert.ok(growthInfrastructurePage.includes(href), `Growth Infrastructure page must contextually link to ${href}`);
+for (const href of ['/services/web-conversion','/services/seo','/services/paid-acquisition','/services/growth-infrastructure']) {
+  assert.ok(servicePageTemplate.includes(href), `shared service template must preserve connected capability link: ${href}`);
 }
 
 assert.ok(!sitemap.includes('/wp-'), 'legacy WordPress URLs must not appear in sitemap');
