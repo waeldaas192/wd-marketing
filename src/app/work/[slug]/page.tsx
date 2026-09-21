@@ -9,14 +9,17 @@ import { RoofingSystem } from "@/components/ui/RoofingSystem";
 import { RoofingApproach } from "@/components/ui/RoofingApproach";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ArrowIcon } from "@/components/ui/Icons";
+import { getProjectServiceLinks, orderProjectsForAuthority } from "@/data/project-service-links";
 export function generateStaticParams(){return projects.map(({slug})=>({slug}));}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const project=getProject(slug);if(!project)return {};const description=project.headline.length<90?`${project.headline} See the strategy, deliverables and project context.`:project.headline;return pageMetadata(`${project.name} Case Study`,description,`/work/${slug}`);}
 export default async function CaseStudyPage({params}:{params:Promise<{slug:string}>}){
   const {slug}=await params;const project=getProject(slug);if(!project)notFound();
-  const next=projects[(projects.findIndex(item=>item.slug===slug)+1)%projects.length];
+  const authorityProjects=orderProjectsForAuthority(projects);
+  const next=authorityProjects[(authorityProjects.findIndex(item=>item.slug===slug)+1)%authorityProjects.length];
+  const serviceLinks=getProjectServiceLinks(slug);
   return <><Breadcrumbs items={[{label:"Work",href:"/work"},{label:project.name,href:`/work/${slug}`} ]}/>
     <section className="case-hero"><div className="container"><div className="case-meta"><span>{project.type}</span><span>{project.location}</span></div><h1>{project.name}</h1><p>{project.headline}</p><div className="case-visual overflow-hidden"><MediaFrame asset={resolveMedia({src:project.image,alt:project.imageAlt,width:1800,height:1200})} label={project.name} priority sizes="(max-width:1280px) 100vw, 1280px"/></div></div></section>
-    <section className="section" data-reveal><div className="container case-grid"><aside><span>Sector</span><strong>{project.sector}</strong><span>Location</span><strong>{project.location}</strong><span>Scope</span><strong>{project.type}</strong></aside><article><p className="eyebrow">The challenge</p><h2>{project.challenge}</h2></article></div></section>
+    <section className="section" data-reveal><div className="container case-grid"><aside><span>Sector</span><strong>{project.sector}</strong><span>Location</span><strong>{project.location}</strong><span>Scope</span><strong>{project.type}</strong>{serviceLinks.length>0&&<><span>Connected services</span><nav className="case-service-links" aria-label={`${project.name} connected services`}>{serviceLinks.map(item=><Link key={item.href} href={item.href}>{item.label}<ArrowIcon size={16}/></Link>)}</nav></>}</aside><article><p className="eyebrow">The challenge</p><h2>{project.challenge}</h2></article></div></section>
     {Boolean(project.metrics?.length||project.technology?.length)&&<section className="section case-proof-section" data-reveal><div className="container case-proof-grid">
       {Boolean(project.metrics?.length)&&<div data-case-metrics="true"><p className="eyebrow">Verified snapshot</p><div className="case-metrics">{project.metrics?.map(metric=><div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>)}</div></div>}
       {Boolean(project.technology?.length)&&<div data-case-technology="true"><p className="eyebrow">Production technology</p><ul className="case-technology">{project.technology?.map(item=><li key={item}>{item}</li>)}</ul></div>}

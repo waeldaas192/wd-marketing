@@ -329,8 +329,25 @@ const webConversionPage = read('src/app/services/web-conversion/page.tsx');
 assert.ok(webConversionPage.includes('"Web Design Agency London | Enquiry-Focused"'), 'Web & Conversion title must stay concise');
 assert.ok(metaPage.includes('"Meta Ads Agency London | Facebook Ads"'), 'Meta Ads title must stay concise');
 assert.ok(technicalSeoPage.includes('"Technical SEO London | Audits & Fixes"'), 'Technical SEO title must stay concise');
+assert.ok(fs.existsSync('src/data/project-service-links.ts'), 'case-study service-link map must exist');
+const projectServiceLinks = read('src/data/project-service-links.ts');
+const selectedWork = read('src/components/sections/SelectedWork.tsx');
+for (const slug of ['floor-care-london','london-marble-stone','stone-pro-worktops','exp-auto-parts']) {
+  assert.ok(projectServiceLinks.includes(`"${slug}"`), `authority-priority case study missing from project service map: ${slug}`);
+}
+for (const href of ['/services/web-conversion','/services/seo','/services/local-seo-london','/services/technical-seo-london','/services/growth-infrastructure']) {
+  assert.ok(projectServiceLinks.includes(href), `project service map missing connected service: ${href}`);
+}
+assert.ok(selectedWork.includes('orderProjectsForAuthority(projects)'), 'Work hub must prioritise authority case studies');
+assert.ok(projectServiceLinks.indexOf('"floor-care-london"') < projectServiceLinks.indexOf('"london-marble-stone"'), 'Floor Care London must lead authority priority');
+assert.ok(projectServiceLinks.indexOf('"london-marble-stone"') < projectServiceLinks.indexOf('"stone-pro-worktops"'), 'London Marble Stone must precede Stone Pro Worktops in authority priority');
+assert.ok(projectServiceLinks.indexOf('"stone-pro-worktops"') < projectServiceLinks.indexOf('"exp-auto-parts"'), 'Stone Pro Worktops must precede EXP Auto Parts in authority priority');
+
 const workPageTemplate = read('src/app/work/[slug]/page.tsx');
 assert.ok(workPageTemplate.includes('`${project.name} Case Study`'), 'Case studies must use descriptive SEO titles');
+assert.ok(workPageTemplate.includes('getProjectServiceLinks(slug)'), 'Case studies must expose connected service links');
+assert.ok(workPageTemplate.includes('orderProjectsForAuthority(projects)'), 'Case-study next navigation must follow the authority project order');
+assert.ok(workPageTemplate.includes('case-service-links'), 'Case-study service links must render in the template');
 assert.ok(read('src/app/work/page.tsx').includes('"Web Design & SEO Case Studies"'), 'Work index title must describe the content');
 assert.ok(read('src/app/insights/page.tsx').includes('"SEO & Digital Marketing Insights"'), 'Insights index title must describe the content');
 assert.ok(insightPageSource.includes('item.seoTitle || item.title'), 'Insight metadata must support concise SEO titles');

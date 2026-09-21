@@ -190,6 +190,24 @@ async function axe(page,label) {
       check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${route}: mobile overflow`);
     }
 
+    for (const [route,stem] of [['/work','work-authority'],['/work/floor-care-london','floor-case']]) {
+      for (const [width,label] of [[390,`${stem}-mobile`],[1440,`${stem}-desktop`]]) {
+        await page.setViewportSize({width,height:width===390?844:1000});
+        await ready(page,route);
+        await imagesReady(page,label);
+        await layout(page,label);
+        if (route==='/work') {
+          const names=await page.locator('[data-studio-card] h3').allTextContents();
+          check(names.slice(0,4).join('|')==='Floor Care London|London Marble Stone|Stone Pro Worktops|EXP Auto Parts', `${label}: authority case-study order is incorrect: ${names.slice(0,4).join('|')}`);
+        } else {
+          const links=page.locator('.case-service-links a');
+          check(await links.count()===3, `${label}: Floor Care London should expose three connected service links`);
+        }
+        await page.screenshot({path:path.join(out,`${label}.png`),fullPage:true});
+        report.interactions.push(`${label}: authority work route verified with images and responsive layout`);
+      }
+    }
+
     for (const [width,label] of [[390,'local-seo-mobile'],[1440,'local-seo-desktop']]) {
       await page.setViewportSize({width,height:width===390?844:1000});
       await ready(page,'/services/local-seo-london');
