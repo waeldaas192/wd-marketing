@@ -73,7 +73,7 @@ export function getProjectServiceLinks(slug: string): readonly ProjectServiceLin
 }
 
 export function orderProjectsForAuthority<T extends { slug: string }>(items: readonly T[]): T[] {
-  const priority = new Map(workAuthorityPriority.map((slug, index) => [slug, index]));
+  const priority = new Map<string, number>(workAuthorityPriority.map((slug, index): [string, number] => [slug, index]));
   return [...items].sort((a, b) => {
     const aRank = priority.get(a.slug) ?? Number.MAX_SAFE_INTEGER;
     const bRank = priority.get(b.slug) ?? Number.MAX_SAFE_INTEGER;
