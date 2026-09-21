@@ -13,10 +13,12 @@ const capabilities = [
 ] as const satisfies readonly { icon: LibraryIconName; href: string }[];
 
 const specialistServices = [
-  { label: "Conversion Optimisation", href: "/services/conversion-rate-optimisation", copy: "Landing pages, forms and enquiry journeys." },
+  { label: "Web Design London", href: "/services/web-conversion", copy: "Conversion-focused websites built around qualified enquiries." },
   { label: "Local SEO London", href: "/services/local-seo-london", copy: "Google Maps, local search and service-area visibility." },
   { label: "Technical SEO London", href: "/services/technical-seo-london", copy: "Crawling, indexation, canonicals, migrations and performance." },
-  { label: "Meta Ads", href: "/services/meta-ads", copy: "Facebook and Instagram lead generation with CRM feedback." },
+  { label: "Google Ads London", href: "/services/paid-acquisition", copy: "High-intent PPC campaigns connected to landing pages and measurement." },
+  { label: "Meta Ads London", href: "/services/meta-ads", copy: "Facebook and Instagram lead generation with CRM feedback." },
+  { label: "Conversion Optimisation", href: "/services/conversion-rate-optimisation", copy: "Landing pages, forms and enquiry journeys." },
 ] as const;
 
 export function Services() {
