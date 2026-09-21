@@ -49,6 +49,7 @@ const webPageData = {
     links: [
       { label: "Conversion Rate Optimisation for existing traffic", href: "/services/conversion-rate-optimisation" },
       { label: "SEO & Organic Growth", href: "/services/seo" },
+      { label: "Google Ads & Paid Acquisition", href: "/services/paid-acquisition" },
       { label: "Fix the landing page before buying more clicks", href: "/insights/landing-page-before-more-ad-spend" },
       { label: "The growth stack for a local service business", href: "/insights/growth-stack-for-local-services" },
     ],
