@@ -70,6 +70,8 @@
 /web-design-development/ /services/web-conversion 301
 
 # Legacy service aliases used by the previous theme
+/services/social-media-ads /services/meta-ads 301
+/services/social-media-ads/ /services/meta-ads 301
 /services/ecommerce /services/web-conversion 301
 /services/ecommerce/ /services/web-conversion 301
 /services/google-ads /services/paid-acquisition 301
