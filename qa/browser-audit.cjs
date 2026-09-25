@@ -190,6 +190,23 @@ async function axe(page,label) {
       check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${route}: mobile overflow`);
     }
 
+    for (const [route,stem] of [
+      ['/insights/seo-that-generates-leads','seo-leads-guide'],
+      ['/insights/landing-page-before-more-ad-spend','landing-page-guide'],
+      ['/insights/growth-stack-for-local-services','local-growth-guide'],
+      ['/services/conversion-rate-optimisation','cro-service'],
+    ]) {
+      for (const [width,label] of [[375,`${stem}-mobile`],[1440,`${stem}-desktop`]]) {
+        await page.setViewportSize({width,height:width===375?844:1000});
+        await ready(page,route);
+        await imagesReady(page,label);
+        check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${label}: horizontal overflow`);
+        await axe(page,label);
+        await page.screenshot({path:path.join(out,`${label}.png`),fullPage:true});
+        report.interactions.push(`${label}: refreshed content, responsive layout and accessibility verified`);
+      }
+    }
+
     for (const [route,stem] of [['/work','work-authority'],['/work/floor-care-london','floor-case']]) {
       for (const [width,label] of [[390,`${stem}-mobile`],[1440,`${stem}-desktop`]]) {
         await page.setViewportSize({width,height:width===390?844:1000});
