@@ -20,7 +20,7 @@
     "test:browser": "node qa/browser-audit.cjs",
     "test:browser-contract": "node qa/browser-audit-contract.cjs",
     "test:ci-workflow": "node qa/ci-workflow-contract.cjs",
-    "test:seo": "node qa/seo-contract.cjs"
+    "test:seo": "node qa/seo-contract.cjs && node qa/article-dates.cjs"
   },
   "dependencies": {
     "clsx": "2.1.1",

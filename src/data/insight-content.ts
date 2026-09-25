@@ -712,22 +712,175 @@ export const insightContent:Record<string,InsightSection[]>={
     }
   ],
   "seo-that-generates-leads":[
-    {id:"commercial-intent",title:"Start with the service you can sell",paragraphs:["Choose one service that the business can deliver profitably in the locations it actually covers. Define the customer problem, likely job value and qualification criteria before building a keyword list. A page with modest traffic can be useful when its visitors have a clear reason to enquire.","Group search phrases by the problem and service behind them. A repair enquiry, a replacement project and a person researching materials should not automatically lead to the same page."]},
-    {id:"page-design",title:"Build a page that answers the buying questions",paragraphs:["Explain the service, who it suits, the area covered and the next step. Use genuine project examples and clear process information. Make the enquiry route easy to find, but do not replace useful answers with repeated calls to action.","Use location detail when it reflects real delivery capability. Avoid creating dozens of nearly identical place-name pages before the core service pages provide a convincing reason to choose the business."]},
-    {id:"lead-quality",title:"Connect search data to lead quality",paragraphs:["Record where an enquiry came from, what the customer requested and whether it was relevant. Compare qualified enquiries, booked appointments and quoted work with the pages and campaigns that contributed to them. Keep enquiries and clicks as different measures.","Agree definitions with the team answering the phone. A form submission does not become a qualified lead simply because an analytics tool counted it."]},
-    {id:"priorities",title:"Choose the next change from evidence",paragraphs:["Review one bottleneck at a time: missing demand coverage, weak relevance, insufficient proof or a difficult contact journey. Write down what you expect a change to improve and how you will judge it.","Treat this as a working framework, not a promise of ranking or revenue. The appropriate priority depends on the business, competition, available evidence and capacity to deliver."]}
+    {
+      id:"commercial-intent",title:"Start with a service and a definition of a qualified lead",
+      paragraphs:[
+        "SEO lead generation connects a customer's search to a service the business can deliver, then measures whether the resulting enquiry is worth pursuing. A higher impression count is useful evidence of visibility; it does not establish that the business is receiving suitable work.",
+        "Choose one priority service, its actual coverage and the jobs you want more of. Agree qualification criteria with the person answering enquiries before choosing keywords. For a floor-restoration business, these might include the floor material, location, approximate area and whether the customer needs restoration rather than a cleaning product."
+      ],
+      bullets:["Service fit: can the team deliver the requested work?","Location fit: is the property within the real service area?","Project fit: does the size, timing and scope suit the business?","Sales stage: is this an enquiry, a qualified opportunity, a quote or a won job?"],
+      links:[{label:"SEO strategy and services in London",href:"/services/seo"}]
+    },
+    {
+      id:"query-map",title:"Map search intent to a useful destination",
+      paragraphs:[
+        "Group phrases by the decision the visitor needs to make. A person looking for a polishing contractor, comparing restoration costs and researching a DIY product has different questions. These are illustrative intent groups, not measured search volumes or a keyword forecast.",
+        "Give the main commercial intent a clear service page. Use supporting guides to answer specific questions and link to the service when professional help is a relevant next step. Several wording variants can belong to one useful page; a new keyword does not automatically justify another URL."
+      ],
+      bullets:["Service plus location: explain the work, coverage, suitability and quote process.","Cost or suitability question: explain the factors, limitations and information needed for an estimate.","How-to research: answer the question honestly and distinguish DIY decisions from specialist work.","Project research: show genuine scope, images and delivery details from relevant completed work."],
+      links:[{label:"Local SEO for London service businesses",href:"/services/local-seo-london"}]
+    },
+    {
+      id:"page-design",title:"Answer the buying questions before asking for the enquiry",
+      paragraphs:[
+        "A useful service page explains what the work includes, who it suits, what affects scope and what happens after contact. Show real examples close to the decision they support. A project image is more useful when its caption explains the material, condition or work involved than when it is simply labelled with a keyword.",
+        "Use local detail where it reflects delivery: access restrictions, the survey process or the areas genuinely covered. Repeating the same copy across place names adds little help for a customer deciding whom to hire. The London Marble Stone project below is an example of WD Marketing's published project presentation, not a promise of equivalent search results."
+      ],
+      links:[{label:"London Marble Stone website project",href:"/work/london-marble-stone"},{label:"Web design built around service enquiries",href:"/services/web-conversion"}]
+    },
+    {
+      id:"discovery",title:"Check that the intended page can be discovered",
+      paragraphs:[
+        "Before rewriting an underperforming page, establish whether Google can access it and which URL Google treats as canonical. Review the live response, indexing directives, internal links and Search Console URL Inspection when access is available. Technical eligibility and actual indexing are separate findings.",
+        "Connect guides, relevant projects and service pages using descriptive links. A link should help the reader understand the next destination. Keep it on the final preferred URL and in a section where it answers a natural follow-up question."
+      ],
+      links:[{label:"Diagnose why Google is not indexing a page",href:"/insights/why-google-is-not-indexing-my-website"},{label:"Google's internal-link guidance",href:"https://developers.google.com/search/docs/crawling-indexing/links-crawlable"}]
+    },
+    {
+      id:"lead-quality",title:"Measure the journey from landing page to qualified opportunity",
+      paragraphs:[
+        "Record the landing page and acquisition source where attribution and consent allow it. In the CRM, record service fit, qualification status, quote outcome and the reason a lead was declined. Keep customer names, contact details and enquiry messages out of analytics event parameters.",
+        "Use consistent definitions: enquiry rate is confirmed enquiries divided by the selected visit measure; qualification rate is qualified enquiries divided by confirmed enquiries. Keep that denominator, date range and channel definition stable. Search Console clicks, analytics sessions and CRM leads measure different parts of the journey and will not match exactly."
+      ],
+      bullets:["Search Console: queries, landing pages, impressions and clicks.","Analytics: consented landing-page sessions and confirmed enquiry events.","CRM: qualified opportunities, quoted work, won jobs and reasons for loss.","Reporting: separate brand searches from demand for a service where the data supports it."],
+      links:[{label:"GA4, GTM and CRM measurement",href:"/services/growth-infrastructure"}]
+    },
+    {
+      id:"priorities",title:"Choose the next fix from the broken step",
+      paragraphs:[
+        "If a relevant page is not indexed, investigate eligibility and content before judging its conversion rate. If it receives relevant visits but few enquiries, inspect the offer, proof and contact journey. If enquiries arrive but rarely qualify, check the promises, coverage and qualification questions. If qualified leads do not become work, include follow-up and quotations in the review.",
+        "Record the release date, the suspected bottleneck and the measure expected to change. Compare equivalent periods and note changes in seasonality, campaigns or capacity. Small samples can be inconclusive; they are a reason to collect more evidence, not to announce a ranking or revenue uplift."
+      ],
+      links:[{label:"Conversion rate optimisation for lead generation",href:"/services/conversion-rate-optimisation"},{label:"Plan the local-service growth stack",href:"/insights/growth-stack-for-local-services"}]
+    }
   ],
   "landing-page-before-more-ad-spend":[
-    {id:"message-match",title:"Check the promise after the click",paragraphs:["Read the ad and landing page together. The service, location, offer and call to action should tell the same story. A visitor who clicked for a specific solution should not have to search a broad homepage to find it.","Before changing the bid strategy, make a list of unanswered buying questions. A confusing scope, missing price context or unclear next step can be more useful to investigate than another headline variation."]},
-    {id:"inspect-friction",title:"Walk through the enquiry yourself",paragraphs:["Open the page on a phone. Read the first screen, open the navigation and complete the form using realistic details. Check validation errors, required fields, submission feedback and what happens when delivery fails.","Ask whether each field is necessary at this stage. Information that is useful during a sales call may not be necessary before a customer can start the conversation."]},
-    {id:"qualified-conversions",title:"Define success beyond the form",paragraphs:["Separate all enquiries from qualified opportunities. Track whether requests match the service area, budget, availability and service offered. Share that feedback with the person managing the campaigns.","Do not label a button click as a completed enquiry or show a successful submission message without confirmation from the receiving system. The measurement should describe what really happened."]},
-    {id:"test-changes",title:"Test the suspected bottleneck",paragraphs:["Choose a specific hypothesis: clearer service coverage, stronger project evidence or a shorter enquiry form. Keep a record of the change, the period and the traffic mix so later results have context.","A landing-page review is not a universal instruction to stop advertising. Sometimes the offer or traffic quality is the main constraint. Use the evidence to decide which part of the journey deserves attention first."]}
+    {
+      id:"message-match",title:"Check the search, ad and first screen together",
+      paragraphs:[
+        "Before increasing Google Ads spend, check whether the landing page gives the intended customer a clear route to a useful enquiry. This checklist helps distinguish page friction from unsuitable traffic, an unclear offer or a measurement problem. It is not an instruction to pause every campaign with a low conversion rate.",
+        "Read an actual search term, its ad and the destination together. The service, location, offer and next step should agree. In an illustrative terrazzo-polishing campaign, a visitor needs to recognise floor restoration immediately rather than search a general cleaning homepage. Do not advertise a price, response time or service area the page and business cannot support."
+      ],
+      bullets:["Does the headline identify the service the visitor requested?","Is the service area clear without implying branches that do not exist?","Is the advertised offer visible and accurate?","Does the primary action explain what happens next?"],
+      links:[{label:"Google's ad and landing-page guidance",href:"https://support.google.com/google-ads/answer/6238826?hl=en"},{label:"Google Ads management and paid acquisition",href:"/services/paid-acquisition"}]
+    },
+    {
+      id:"proof-and-scope",title:"Make scope and proof easy to judge",
+      paragraphs:[
+        "List the buying questions that remain unanswered: what the service includes, what may cost extra, whether the work is suitable, and what information is needed to quote. When a reliable fixed price is not possible, explain the factors that determine it rather than inventing a starting price.",
+        "Put relevant project evidence beside the claim it supports. Show the actual type of work and describe its scope. Reviews and credentials should be genuine and attributable; generic badges do not resolve a specific concern about whether a contractor can handle the customer's project."
+      ],
+      links:[{label:"Website and landing-page design",href:"/services/web-conversion"}]
+    },
+    {
+      id:"inspect-friction",title:"Test the complete mobile enquiry journey",
+      paragraphs:[
+        "Open the page on a phone and complete an authorised test enquiry. Check the first screen, reading order, buttons, keyboard, field errors and confirmation. Verify that the request reaches the receiving system. A successful-looking screen alone cannot prove the sales team received it.",
+        "Ask whether every required field is needed before the first conversation. Keep useful qualification, such as service type or postcode, while postponing details that can be collected later. Test an invalid entry and a controlled failure in a test environment so the visitor can recover without losing their answers."
+      ],
+      bullets:["Use visible labels and understandable error messages.","Check that a phone link dials the intended business number.","Make the next step and any genuine response commitment clear.","Ensure banners and navigation do not cover the form or call button.","Check slow loading and layout movement on the actual landing page."],
+      links:[{label:"Diagnose website speed and Core Web Vitals",href:"/insights/core-web-vitals-website-speed-seo"}]
+    },
+    {
+      id:"qualified-conversions",title:"Separate contact clicks, enquiries and qualified leads",
+      paragraphs:[
+        "A contact-button click shows intent; a confirmed submission shows an enquiry; a qualified lead meets the business's agreed criteria. Report these separately. Counting all three as equivalent outcomes can make the campaign look productive while concealing poor fit or failed delivery.",
+        "Use CRM feedback to explain which requests match the service, area and project requirements. Keep personal details in the appropriate customer system and keep measurement consent-aware. If the source cannot be established reliably, record it as unknown rather than forcing an attribution."
+      ],
+      links:[{label:"Conversion rate optimisation and enquiry audits",href:"/services/conversion-rate-optimisation"},{label:"Analytics and CRM infrastructure",href:"/services/growth-infrastructure"}]
+    },
+    {
+      id:"unit-economics",title:"Compare cost per qualified lead before scaling",
+      paragraphs:[
+        "Use this illustrative calculation, not a WD Marketing client result or benchmark: £1,000 in ad spend produces 50 confirmed enquiries, of which 10 qualify. Cost per enquiry is £20; cost per qualified lead is £100. Reporting only the £20 figure hides the sales team's real workload.",
+        "If a change produces 40 enquiries and 16 qualified leads on the same spend, the two costs become £25 and £62.50. Fewer submissions could therefore be commercially better. That example does not prove a page caused the difference: compare traffic mix, sales follow-up, attribution and enough observations before reaching a conclusion."
+      ],
+      bullets:["Cost per enquiry = ad spend / confirmed enquiries.","Cost per qualified lead = ad spend / qualified leads.","Track won work and gross profit when reliable data is available.","For profitability, include management and implementation costs separately from media spend."]
+    },
+    {
+      id:"test-changes",title:"Fix clear faults, then test the uncertain decisions",
+      paragraphs:[
+        "Repair a broken form, mismatched promise or obscured button directly. For uncertain changes, write one hypothesis: for example, explaining survey requirements beside the form may reduce unsuitable enquiries. Define the primary outcome, guardrails, eligible audience and evaluation method before comparing versions.",
+        "Low-volume sites may not support a useful A/B test in a practical period. Combine user-journey checks, sales feedback and a documented before-and-after review, while acknowledging its limitations. Where volume supports a controlled test, avoid declaring a winner from an early fluctuation."
+      ],
+      links:[{label:"How the WD Marketing CRO process works",href:"/services/conversion-rate-optimisation#cro-process"}]
+    },
+    {
+      id:"scale-decision",title:"Make the next budget decision from the evidence",
+      paragraphs:[
+        "If the page works but search terms attract the wrong jobs, review targeting and exclusions. If suitable visitors abandon the form, investigate the journey. If good enquiries are not contacted, fix the hand-off. Increasing spend magnifies the existing process, so agree who will handle extra demand before scaling.",
+        "Keep a short release log with the page change, campaign changes, dates and lead-quality outcomes. Use it to decide whether to continue, revise or reverse the experiment. A better page can support acquisition, but it cannot guarantee profitable growth independently of the offer and sales process."
+      ],
+      links:[{label:"Build the follow-up system for a local service business",href:"/insights/growth-stack-for-local-services"}]
+    }
   ],
   "growth-stack-for-local-services":[
-    {id:"offer-and-capacity",title:"Define the offer and operating limits",paragraphs:["Start with services, coverage, availability and the types of work the business wants. Make those decisions visible in the website and in the team’s qualification process. Generating demand for work that cannot be delivered creates a different problem rather than solving the original one."]},
-    {id:"capture-demand",title:"Give each demand source a useful destination",paragraphs:["Create a clear page for each priority service and connect it to genuine project evidence. Use organic search and paid campaigns where they fit the commercial objective. Avoid buying a large collection of tools before the customer journey is understood.","Every important page should have a practical next step: call, request a quote or submit a short brief. Choose the action that matches how the business actually sells."]},
-    {id:"follow-up",title:"Make follow-up part of the system",paragraphs:["Decide who receives new enquiries, how they are assigned and how progress is recorded. A simple pipeline can separate new, contacted, qualified, quoted and completed opportunities without pretending every enquiry is a sale.","Use automation for predictable hand-offs, reminders and data entry. Keep judgement, exceptions and customer context with the people responsible for the work."]},
-    {id:"review-the-loop",title:"Review outcomes, not just channel reports",paragraphs:["Bring acquisition spend, enquiry quality and sales outcomes into the same review. Look for recurring problems: irrelevant requests, missed calls, slow follow-up or quotes that do not progress. Then choose the next experiment.","The aim is an understandable operating system. More dashboards do not fix missing definitions, unreliable data or an unclear offer. Start small enough that the team can maintain the process and learn from it."]}
+    {
+      id:"offer-and-capacity",title:"Define the work you want before choosing the tools",
+      paragraphs:[
+        "Lead generation for a local service business needs more than a website and an advertising account. The customer must discover a suitable service, understand the offer, make contact and receive a useful response. This growth stack is a sequence of responsibilities that a small team can operate, not a shopping list of subscriptions.",
+        "Start with services, coverage, availability and the jobs you want. For a London contractor, travel, parking, surveys and crew capacity can affect whether an enquiry is commercially suitable. Make those limits visible where customers make decisions and use the same criteria when qualifying leads."
+      ],
+      bullets:["Choose one priority service and a realistic coverage area.","Name the person responsible for incoming enquiries.","Agree what makes a request qualified and what should be declined.","Set a response commitment only when the team can deliver it."]
+    },
+    {
+      id:"capture-demand",title:"Build the service page and the proof around it",
+      paragraphs:[
+        "Give each distinct priority service a useful page with scope, suitability, process, project evidence and a clear next step. Connect relevant project pages back to the service. A prospective customer should be able to move from an example of the work to a conversation about their own property.",
+        "The MB Legacy Roofing case study is a published example of WD Marketing's approach to a local-service website. Review the structure and delivery details as project evidence; do not treat them as a forecast for another business. Keep unique service pages useful before expanding into location-specific content."
+      ],
+      links:[{label:"MB Legacy Roofing website case study",href:"/work/mb-legacy-roofing"},{label:"Web design for service businesses",href:"/services/web-conversion"}]
+    },
+    {
+      id:"local-discovery",title:"Connect local search to the website",
+      paragraphs:[
+        "Keep an eligible Google Business Profile accurate: business details, categories, services, opening hours and genuine project photographs should reflect the operation. Ask customers for honest feedback through the normal review process. A profile and a website should describe the same business.",
+        "Google describes local results in terms of relevance, distance and prominence. A service-area setting does not guarantee visibility across every named place. Focus the website on services actually delivered and add local detail when there is useful evidence, rather than creating interchangeable pages for every London postcode."
+      ],
+      links:[{label:"Local SEO and Google Business Profile support",href:"/services/local-seo-london"},{label:"Google's local ranking guidance",href:"https://support.google.com/business/answer/7091?hl=en"}]
+    },
+    {
+      id:"paid-demand",title:"Add paid search where the offer and capacity support it",
+      paragraphs:[
+        "Use paid search when the business has a clear service to promote, a suitable destination and the capacity to respond. Review real search terms and lead outcomes together. Product shoppers, job seekers and requests outside the service area may need different treatment from customers seeking a contractor.",
+        "Before expanding the budget, check message match, mobile contact actions, form delivery and qualification. Paid and organic visitors can share a page when their needs align. A campaign-specific page should exist for a genuine difference in audience or offer, not because another URL is assumed to improve performance."
+      ],
+      links:[{label:"Google Ads and paid acquisition",href:"/services/paid-acquisition"},{label:"Google Ads landing-page checklist",href:"/insights/landing-page-before-more-ad-spend"}]
+    },
+    {
+      id:"measurement",title:"Record enough information to make decisions",
+      paragraphs:[
+        "Start with a reliable enquiry record. Capture the requested service, area, received date, assigned owner and status in the customer system. Record source and landing page when reliably available, with an unknown option where they are not. Avoid making reporting look complete by guessing.",
+        "Use analytics for the permitted website events and the CRM for personal details and sales progress. Distinguish a contact click from a confirmed enquiry. Review a sample of records against actual submissions so duplicate events, failed deliveries or duplicate leads do not distort the picture."
+      ],
+      links:[{label:"GA4, GTM, CRM and automation setup",href:"/services/growth-infrastructure"},{label:"SEO measurement focused on qualified leads",href:"/insights/seo-that-generates-leads"}]
+    },
+    {
+      id:"follow-up",title:"Give every enquiry an owner and a next action",
+      paragraphs:[
+        "A simple pipeline can move through new, contacted, qualified, survey or quote, and won or lost. Each active enquiry needs a responsible person and a next action. Record why work is declined or lost so repeated problems can change the marketing message or the operating process.",
+        "Automate predictable hand-offs, task reminders and acknowledgements only after the manual process is clear. An acknowledgement should state that the request was received; it should not imply a booking or an approved quote. Test duplicate submissions, unavailable staff and failed notifications before relying on automation."
+      ],
+      bullets:["New: confirm receipt and assign responsibility.","Contacted: record what was learned and whether another attempt is needed.","Qualified: confirm fit and the agreed survey or quotation step.","Quoted: record the next follow-up and any customer questions.","Won or lost: record the outcome and a useful reason."]
+    },
+    {
+      id:"review-the-loop",title:"Use a weekly review to choose the next improvement",
+      paragraphs:[
+        "Bring traffic, spend, enquiries and sales outcomes into the same review. If demand is low, investigate coverage and discovery. If requests are unsuitable, review intent and promises. If suitable visitors do not enquire, examine the page. If opportunities stall after contact, inspect follow-up and quotes.",
+        "Start with a manageable release sequence: first make the service page and receiving process reliable; then connect measurement and source feedback; then improve one acquisition channel. Record the owner, change and expected signal for each step. The appropriate pace depends on the team's capacity and available evidence."
+      ],
+      links:[{label:"Improve the website's conversion journey",href:"/services/conversion-rate-optimisation"},{label:"Discuss your service-business growth system",href:"/contact"}]
+    }
   ]
 };
 export function readingTime(slug:string){const words=(insightContent[slug]||[]).flatMap(section=>section.paragraphs).join(" ").split(/\s+/).length;return `${Math.max(1,Math.ceil(words/200))} min read`;}

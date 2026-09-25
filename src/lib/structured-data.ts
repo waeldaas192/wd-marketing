@@ -78,6 +78,7 @@ export function articleSchema(input: {
   title: string;
   summary: string;
   date: string;
+  modified?: string;
   image: string;
 }) {
   const url = `${site.url}/insights/${input.slug}`;
@@ -90,7 +91,7 @@ export function articleSchema(input: {
     mainEntityOfPage: url,
     image: [new URL(input.image, site.url).toString()],
     datePublished: input.date,
-    dateModified: input.date,
+    dateModified: input.modified ?? input.date,
     author: { "@id": founderId },
     publisher: { "@id": organizationId },
     inLanguage: "en-GB",
