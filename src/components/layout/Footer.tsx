@@ -5,7 +5,7 @@ import Link from "next/link";
 import { navigation, site } from "@/data/site";
 import { assets } from "@/data/assets";
 import styles from "./Footer.module.css";
-const services = [["Web & Conversion","/services/web-conversion"],["Conversion Optimisation","/services/conversion-rate-optimisation"],["SEO","/services/seo"],["Local SEO London","/services/local-seo-london"],["Technical SEO","/services/technical-seo-london"],["Paid Acquisition","/services/paid-acquisition"],["Meta Ads","/services/meta-ads"],["Growth Infrastructure","/services/growth-infrastructure"]];
+const services = [["Web Design London","/services/web-conversion"],["Conversion Optimisation","/services/conversion-rate-optimisation"],["SEO Agency London","/services/seo"],["Local SEO London","/services/local-seo-london"],["Technical SEO London","/services/technical-seo-london"],["Google Ads London","/services/paid-acquisition"],["Meta Ads London","/services/meta-ads"],["Growth Infrastructure","/services/growth-infrastructure"]];
 
 function SocialIcon({ name }: { name: string }) {
   if (name === "LinkedIn") {

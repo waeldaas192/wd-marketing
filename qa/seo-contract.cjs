@@ -354,8 +354,19 @@ assert.ok(insightPageSource.includes('item.seoTitle || item.title'), 'Insight me
 assert.ok(read('src/app/privacy/page.tsx').includes('"Privacy Policy & Data Use"'), 'Privacy metadata title must be descriptive');
 assert.ok(read('src/app/terms/page.tsx').includes('"Website Terms & Conditions"'), 'Terms metadata title must be descriptive');
 assert.ok(read('src/app/cookies/page.tsx').includes('"Cookie Policy & Analytics"'), 'Cookie metadata title must be descriptive');
+const footerServiceAnchors = read('src/components/layout/Footer.tsx');
+for (const [label, href] of [
+  ['Web Design London', '/services/web-conversion'],
+  ['SEO Agency London', '/services/seo'],
+  ['Local SEO London', '/services/local-seo-london'],
+  ['Technical SEO London', '/services/technical-seo-london'],
+  ['Google Ads London', '/services/paid-acquisition'],
+  ['Meta Ads London', '/services/meta-ads'],
+]) {
+  assert.ok(footerServiceAnchors.includes(`["${label}","${href}"]`), `footer must use descriptive commercial anchor: ${label}`);
+}
 const servicesHub = read('src/components/sections/Services.tsx');
-for (const href of ['/services/conversion-rate-optimisation','/services/local-seo-london','/services/technical-seo-london','/services/meta-ads']) {
+for (const href of ['/services/web-conversion','/services/paid-acquisition','/services/conversion-rate-optimisation','/services/local-seo-london','/services/technical-seo-london','/services/meta-ads']) {
   assert.ok(servicesHub.includes(href), `Services hub must link directly to specialist service: ${href}`);
 }
 console.log('WD SEO contract passed');
