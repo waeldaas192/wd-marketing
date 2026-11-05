@@ -24,7 +24,8 @@ jobs:
            'https://wd-marketing.wdmarketing.workers.dev/',
            'https://wdmarketing.co.uk/api/health',
            'https://wdmarketing.co.uk/_next/static/css/ae42826c3204b68f.css',
-           'https://wdmarketing.co.uk/_next/static/css/2b526d6243b81f6b.css'
+           'https://wdmarketing.co.uk/_next/static/css/2b526d6243b81f6b.css',
+           'https://wdmarketing.co.uk/_next/static/css/516b8c03cb8f3e95.css'
           ];
           const UA='Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1';
           async function inspect(url,ua){
@@ -32,7 +33,7 @@ jobs:
             const bytes=await response.arrayBuffer(),body=Buffer.from(bytes).toString('utf8');
             const links=[...body.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(x=>x[1]);
             const rev=[...body.matchAll(/<link[^>]*href="([^"]+\.css[^"]*)"[^>]*>/g)].map(x=>x[1]);
-            console.log(JSON.stringify({url,response_url:response.url,status:response.status,content_type:response.headers.get('content-type'),length:bytes.byteLength,cache:response.headers.get('cf-cache-status'),robots:response.headers.get('x-robots-tag'),asset_links:[...new Set([...links,...rev])].slice(0,12),snippet:body.slice(0,80).replace(/\s/g,' ')}));
+            console.log(JSON.stringify({url,response_url:response.url,status:response.status,content_type:response.headers.get('content-type'),length:bytes.byteLength,cache:response.headers.get('cf-cache-status'),cache_control:response.headers.get('cache-control'),robots:response.headers.get('x-robots-tag'),asset_links:[...new Set([...links,...rev])].slice(0,12),snippet:body.slice(0,80).replace(/\s/g,' ')}));
             return {response,css:[...new Set([...links,...rev])]};
           }
           (async()=>{
