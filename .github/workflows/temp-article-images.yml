@@ -1,0 +1,35 @@
+name: Temp article image preparation
+on:
+  pull_request:
+    paths: ['.github/workflows/temp-article-images.yml']
+jobs:
+  images:
+    if: ${{ github.head_ref == 'release/wd-marketing-v2-20261105' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install webp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq webp
+      - name: Import concept image 1
+        run: |
+          curl -fsSL 'https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261105_212017_86e0f0b0-cceb-4604-845b-663afee1332c.png' -o /tmp/seo.png
+          cwebp -quiet -q 82 -resize 1600 900 /tmp/seo.png -o public/images/insights/seo-lead-generation-strategy.webp
+      - name: Import concept image 2
+        run: |
+          curl -fsSL 'https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261105_212017_7fb2ef28-b50b-43ec-8b3f-a1cda501a6fb.png' -o /tmp/ads.png
+          cwebp -quiet -q 82 -resize 1600 900 /tmp/ads.png -o public/images/insights/google-ads-landing-page-conversion.webp
+      - name: Import concept image 3
+        run: |
+          curl -fsSL 'https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261105_212016_546513dc-b0d1-42d6-b09e-d57d8ce7c584.png' -o /tmp/local.png
+          cwebp -quiet -q 82 -resize 1600 900 /tmp/local.png -o public/images/insights/local-service-growth-system.webp
+      - name: Commit images
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/images/insights/
+          git commit -m 'visuals: add revised Higgsfield article images'
+          git push origin HEAD:${{ github.head_ref }}
