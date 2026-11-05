@@ -372,4 +372,12 @@ assert.ok(read('src/app/work/page.tsx').includes('/industries/stone-worktops'), 
 assert.ok(read('src/app/work/[slug]/page.tsx').includes('/industries/stone-worktops'), 'Stone case studies must link to the sector hub');
 assert.ok(sitemap.includes('item.modified ?? item.date'), 'Insight sitemap lastmod must use real editorial dates only');
 assert.ok(sitemap.includes('...(lastModified ? { lastModified } : {})'), 'Undated pages must not receive synthetic lastmod timestamps');
+const projectData = read('src/data/projects.ts');
+const caseStudyPage = read('src/app/work/[slug]/page.tsx');
+for (const required of ['VerifiedProjectResult', 'evidenceReference: string;', 'approvalStatus: "approved";', 'source: string;', 'period: string;']) {
+  assert.ok(projectData.includes(required), 'Verified result provenance requirement missing: ' + required);
+}
+assert.ok(caseStudyPage.includes('project.verifiedResults?.length'), 'New result section must render only when documented results are supplied');
+assert.ok(caseStudyPage.includes('Source: {result.source}'), 'Documented results must show source');
+assert.ok(caseStudyPage.includes('Period: {result.period}'), 'Documented results must show period');
 console.log('WD SEO contract passed');
