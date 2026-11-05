@@ -358,4 +358,12 @@ const servicesHub = read('src/components/sections/Services.tsx');
 for (const href of ['/services/conversion-rate-optimisation','/services/local-seo-london','/services/technical-seo-london','/services/meta-ads']) {
   assert.ok(servicesHub.includes(href), `Services hub must link directly to specialist service: ${href}`);
 }
+const projectData = read('src/data/projects.ts');
+const caseStudyPage = read('src/app/work/[slug]/page.tsx');
+for (const required of ['VerifiedProjectResult', 'evidenceReference: string;', 'approvalStatus: "approved";', 'source: string;', 'period: string;']) {
+  assert.ok(projectData.includes(required), 'Verified result provenance requirement missing: ' + required);
+}
+assert.ok(caseStudyPage.includes('project.verifiedResults?.length'), 'New result section must render only when verified results are supplied');
+assert.ok(caseStudyPage.includes('Source: {result.source}'), 'Documented results must show source');
+assert.ok(caseStudyPage.includes('Period: {result.period}'), 'Documented results must show period');
 console.log('WD SEO contract passed');
