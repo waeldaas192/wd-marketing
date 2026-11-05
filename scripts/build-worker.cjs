@@ -7,6 +7,21 @@ async function main() {
   fs.rmSync(target, { recursive: true, force: true });
   fs.mkdirSync(path.join(target, "server"), { recursive: true });
   fs.cpSync(path.join(root, "out"), path.join(target, "client"), { recursive: true });
+  // Preserve the previous release's hashed CSS for Safari tabs still holding
+  // older HTML. Cloudflare asset deployments otherwise remove old hashes,
+  // causing the entire document to render without styles after a release.
+  const compatCssDir = path.join(root, "compat-assets/_next/static/css");
+  if (fs.existsSync(compatCssDir)) {
+    let copied = 0;
+    for (const name of fs.readdirSync(compatCssDir)) {
+      if (!/^[0-9a-f]{16}\.css$/.test(name)) throw new Error("Unexpected legacy CSS asset: " + name);
+      const destination = path.join(target, "client/_next/static/css", name);
+      if (fs.existsSync(destination)) continue; // Current build takes priority.
+      fs.copyFileSync(path.join(compatCssDir, name), destination);
+      copied++;
+    }
+    console.log("Retained " + copied + " older hashed stylesheet(s) for open browser tabs.");
+  }
   await build({ entryPoints: [path.join(root, "worker/index.ts")], outfile: path.join(target, "server/index.js"), bundle: true, format: "esm", platform: "browser", target: "es2022", minify: true });
   const rules = fs.readFileSync(path.join(root, "public/_redirects"), "utf8").split(/\r?\n/)
     .map(line => line.trim()).filter(line => line && !line.startsWith("#")).map(line => {
