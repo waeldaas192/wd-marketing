@@ -34,6 +34,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...legalRoutes,
   ];
 
-  // Do not fabricate lastModified timestamps every time the sitemap is generated.
-  return routes.map(route => ({ url: new URL(route, site.url).toString() }));
+  // Use only editorial dates already recorded for Insights. Never invent a
+  // lastModified date from build time, deployment time or unrelated updates.
+  const insightDates = new Map(insights.map(item => [`/insights/${item.slug}`, item.modified ?? item.date]));
+  return routes.map(route => {
+    const lastModified = insightDates.get(route);
+    return { url: new URL(route, site.url).toString(), ...(lastModified ? { lastModified } : {}) };
+  });
 }
