@@ -34,7 +34,7 @@ async function main() {
     const webDesignResponse = await runtime.dispatchFetch('https://wdmarketing.co.uk/services/web-conversion');
     assert.equal(webDesignResponse.status, 200);
     const webDesignHtml = await webDesignResponse.text();
-    assert.match(webDesignHtml, /Founder-led web design agency in London/i);
+    assert.match(webDesignHtml, /Web design (?:&amp;|&) SEO in London/i);
     assert.match(webDesignHtml, /Website redesign (?:&amp;|&) SEO migration/i);
     assert.match(webDesignHtml, /href="\/work\/stone-pro-worktops"/);
     assert.match(webDesignHtml, /href="\/work\/exp-auto-parts"/);
