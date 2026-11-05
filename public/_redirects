@@ -1,4 +1,5 @@
 # Canonical trailing-slash redirects for the new site
+/industries/stone-worktops/ /industries/stone-worktops 301
 /about/ /about 301
 /contact/ /contact 301
 /insights/ /insights 301

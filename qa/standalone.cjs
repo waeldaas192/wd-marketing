@@ -9,13 +9,23 @@ async function main() {
   const inputs = { CLOUDFLARE_ACCOUNT_ID: 'a'.repeat(32), CLOUDFLARE_D1_DATABASE_ID: '11111111-2222-4333-8444-555555555555' };
   assert.equal(config(inputs).routes, undefined);
   assert.equal(config(inputs).vars.CONTACT_EMAIL_ENABLED, 'false');
+  assert.equal(config(inputs).keep_vars, true, 'Dashboard-defined Turnstile and contact variables must survive deploys');
+  const production = config({ ...inputs, DEPLOY_CUSTOM_DOMAINS: 'true' });
+  assert.equal(production.vars.CONTACT_EMAIL_ENABLED, undefined, 'Unset GitHub CI contact variable must not disable live email');
+  assert.equal(production.vars.TURNSTILE_SITE_KEY, undefined, 'Unset GitHub CI Turnstile variable must not replace dashboard key');
+  assert.equal(config({ ...inputs, DEPLOY_CUSTOM_DOMAINS: 'true', CONTACT_EMAIL_ENABLED: 'true' }).vars.CONTACT_EMAIL_ENABLED, 'true');
   assert.equal(config({ ...inputs, DEPLOY_CUSTOM_DOMAINS: 'true' }).routes.length, 2);
   assert.throws(() => config({ ...inputs, CONTACT_EMAIL_ENABLED: 'yes' }), /true or false/);
   const runtime = createMiniflare({
     modules: true, scriptPath: path.join(root, 'dist/worker/index.js'), compatibilityDate: '2026-07-01',
     assets: { directory: path.join(root, 'dist/client'), binding: 'ASSETS', routerConfig: { has_user_worker: true, invoke_user_worker_ahead_of_assets: true }, assetConfig: { html_handling: 'drop-trailing-slash', not_found_handling: '404-page' } },
-    d1Databases: ['DB'], bindings: { DEPLOYMENT_STAGE: 'production', CONTACT_FORM_SECRET: 'local-only-test-secret-32-characters-long', CONTACT_EMAIL_ENABLED: 'false' },
-    outboundService: () => { throw new Error('Unexpected external provider call'); },
+    d1Databases: ['DB'], bindings: { DEPLOYMENT_STAGE: 'production', CONTACT_FORM_SECRET: 'local-only-test-secret-32-characters-long', CONTACT_EMAIL_ENABLED: 'false', TURNSTILE_SITE_KEY: 'local-public-only', TURNSTILE_SECRET_KEY: 'local-secret-only' },
+    outboundService: request => {
+      if (request.url === 'https://challenges.cloudflare.com/turnstile/v0/siteverify') {
+        return Response.json({ success: true, action: 'project-brief', hostname: 'wdmarketing.co.uk' });
+      }
+      throw new Error('Unexpected external provider call');
+    },
   });
   try {
     assert.equal((await runtime.dispatchFetch('https://wdmarketing.co.uk/api/health')).status, 503);
@@ -34,7 +44,7 @@ async function main() {
     const webDesignResponse = await runtime.dispatchFetch('https://wdmarketing.co.uk/services/web-conversion');
     assert.equal(webDesignResponse.status, 200);
     const webDesignHtml = await webDesignResponse.text();
-    assert.match(webDesignHtml, /Founder-led web design agency in London/i);
+    assert.match(webDesignHtml, /Web design (?:&amp;|&) SEO in London/i);
     assert.match(webDesignHtml, /Website redesign (?:&amp;|&) SEO migration/i);
     assert.match(webDesignHtml, /href="\/work\/stone-pro-worktops"/);
     assert.match(webDesignHtml, /href="\/work\/exp-auto-parts"/);
@@ -60,7 +70,7 @@ async function main() {
     const resources = [...new Set([...home.matchAll(/(?:src|href)="(\/_next\/static\/[^"?#]+)[^"]*"/g)].map(x => x[1]))];
     assert.ok(resources.length > 0);
     for (const resource of resources) assert.equal((await runtime.dispatchFetch('https://wdmarketing.co.uk' + resource)).status, 200, resource);
-    const data = { requestId: '80000000-0000-4000-8000-000000000001', service: 'SEO', budget: 'Not sure', name: 'Migration Test', email: 'client@example.test', message: 'A synthetic local migration verification enquiry.' };
+    const data = { requestId: '80000000-0000-4000-8000-000000000001', service: 'SEO', budget: 'Not sure', name: 'Migration Test', email: 'client@example.test', message: 'A synthetic local migration verification enquiry.', turnstileToken: 'valid-local-test-token' };
     const response = await runtime.dispatchFetch('https://wdmarketing.co.uk/api/contact', { method: 'POST', headers: { origin: 'https://wdmarketing.co.uk', 'content-type': 'application/json', 'cf-connecting-ip': '192.0.2.10' }, body: JSON.stringify(data) });
     assert.equal(response.status, 200); assert.equal((await response.json()).ok, true);
     assert.equal((await db.prepare('SELECT COUNT(*) n FROM contact_enquiries').first()).n, 1);

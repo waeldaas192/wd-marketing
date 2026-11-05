@@ -23,6 +23,7 @@ const leadReceipts = new Set<string>();
 let expiryTimer: ReturnType<typeof setTimeout> | undefined;
 
 const primaryPaths = new Set(["/", "/about", "/contact", "/work", "/insights", "/services", "/privacy", "/terms", "/cookies",
+  "/industries/stone-worktops",
   "/services/web-conversion", "/services/seo", "/services/local-seo-london", "/services/technical-seo-london", "/services/paid-acquisition", "/services/meta-ads", "/services/conversion-rate-optimisation", "/services/growth-infrastructure",
   "/work/sma-marble",
   "/work/stone-pro-worktops",

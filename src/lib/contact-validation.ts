@@ -2,7 +2,7 @@ export const contactServices = ["Website / Conversion", "SEO / Organic Growth", 
 export const contactBudgets = ["£1k–£3k", "£3k–£7.5k", "£7.5k–£15k", "£15k+", "Not sure yet"] as const;
 export type Brief = { service: string; budget: string; name: string; email: string; phone: string; company: string; website: string; message: string; country: string; postcode: string; addressLine1: string; addressLine2: string; city: string; region: string };
 export type BriefErrors = Partial<Record<keyof Brief, string>>;
-export const emptyBrief: Brief = { service: "", budget: "Not sure yet", name: "", email: "", phone: "", company: "", website: "", message: "", country: "United Kingdom", postcode: "", addressLine1: "", addressLine2: "", city: "", region: "" };
+export const emptyBrief: Brief = { service: "", budget: "Not sure yet", name: "", email: "", phone: "", company: "", website: "", message: "", country: "", postcode: "", addressLine1: "", addressLine2: "", city: "", region: "" };
 export const ukPostcodePattern = /^(GIR 0AA|[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2})$/;
 export function normalisePostcode(value: string) {
   const compact = value.trim().toUpperCase().replace(/\s/g, "");
@@ -13,7 +13,8 @@ export function normaliseWebsite(value: string) {
   return clean && !/^[a-z][a-z\d+.-]*:/i.test(clean) ? `https://${clean}` : clean;
 }
 export function formatBrief(data: Brief) {
-  return [`Service: ${data.service}`, `Budget: ${data.budget}`, `Name: ${data.name}`, `Email: ${data.email}`, data.phone && `Phone: ${data.phone}`, data.company && `Company: ${data.company}`, data.website && `Website: ${data.website}`, `Location: ${[data.addressLine1, data.addressLine2, data.city, data.region, data.postcode, data.country].filter(Boolean).join(", ")}`, "", data.message].join("\n");
+  const location = [data.addressLine1, data.addressLine2, data.city, data.region, data.postcode, data.country].filter(Boolean).join(", ");
+  return [`Service: ${data.service}`, `Budget: ${data.budget}`, `Name: ${data.name}`, `Email: ${data.email}`, data.phone && `Phone: ${data.phone}`, data.company && `Company: ${data.company}`, data.website && `Website: ${data.website}`, location ? `Location: ${location}` : null, "", data.message].filter(item => item !== null).join("\n");
 }
 export function validateBrief(input: unknown): { data: Brief; errors: BriefErrors; valid: boolean } {
   const source = input && typeof input === "object" && !Array.isArray(input) ? input as Record<string, unknown> : {};
@@ -38,7 +39,6 @@ export function validateBrief(input: unknown): { data: Brief; errors: BriefError
     const limit = key === "postcode" ? 20 : key.startsWith("address") ? 200 : 100;
     if (data[key].length > limit || /[\r\n\x00]/.test(data[key])) errors[key] = `Use up to ${limit} characters.`;
   }
-  if (!data.country) errors.country = "Enter your country.";
   if (data.country === "United Kingdom" && data.postcode && !ukPostcodePattern.test(data.postcode)) errors.postcode = "Enter a complete UK postcode, for example SW1A 1AA.";
   if (data.website) {
     try { const url = new URL(data.website); if (!["https:", "http:"].includes(url.protocol) || !url.hostname.includes(".") || url.username || url.password || data.website.length > 2000) throw new Error(); }

@@ -5,18 +5,25 @@ import { servicePages } from "@/data/servicePages";
 import { pageMetadata } from "@/lib/metadata";
 import { serviceSchema } from "@/lib/structured-data";
 
-const description = "Founder-led web design and development in London, connecting responsive UX, landing pages, technical SEO and conversion tracking.";
+const description = "Responsive web design and SEO in London, from service-business sites to ecommerce catalogues, with technical SEO foundations, landing pages and conversion tracking.";
 export const metadata = pageMetadata(
-  "Web Design Agency London | Enquiry-Focused",
+  "Web Design & SEO Agency London | Responsive Websites",
   description,
   "/services/web-conversion",
 );
 
 const webPageData = {
   ...servicePages.web,
-  intro: "Founder-led web design agency in London for businesses that need more than a polished interface. WD Marketing designs and develops responsive websites, landing pages and conversion journeys around customer intent, commercial clarity, technical SEO and measurable enquiries.",
+  title: "Web design & SEO in London.",
+  accent: "Responsive. Enquiry-focused.",
+  intro: "WD Marketing designs and develops responsive websites for London service businesses, specialist trades and growing ecommerce brands. We connect page structure, technical SEO, mobile usability, landing-page clarity and conversion tracking so visitors can discover the right service and make a relevant enquiry.",
   capabilities: [
     ...servicePages.web.capabilities,
+    {
+      title: "Ecommerce catalogue & website design",
+      copy: "Build useful category and product journeys around how customers search, compare, filter and choose. The same responsive and technical SEO standards apply whether the next step is a purchase or a quotation.",
+      deliverable: "Ecommerce catalogue, product discovery and enquiry or checkout journey",
+    },
     {
       title: "Website redesign & SEO migration",
       copy: "Rebuild an existing website without treating search visibility as an afterthought. We audit valuable pages, preserve useful URLs where appropriate, map redirects, carry forward technical signals and validate the new journey after launch.",
@@ -48,7 +55,7 @@ const webPageData = {
     title: "A stronger website works with the traffic around it.",
     links: [
       { label: "Conversion Rate Optimisation for existing traffic", href: "/services/conversion-rate-optimisation" },
-      { label: "SEO & Organic Growth", href: "/services/seo" },
+      { label: "SEO & Organic Growth for your website", href: "/services/seo" },
       { label: "Fix the landing page before buying more clicks", href: "/insights/landing-page-before-more-ad-spend" },
       { label: "The growth stack for a local service business", href: "/insights/growth-stack-for-local-services" },
     ],
