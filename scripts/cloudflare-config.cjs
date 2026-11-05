@@ -14,9 +14,20 @@ function config(env = process.env) {
     $schema: "./node_modules/wrangler/config-schema.json",
     name: "wd-marketing", account_id: account, main: "dist/worker/index.js",
     compatibility_date: "2026-07-01", workers_dev: true,
+    // Preserve dashboard-defined runtime vars (including Turnstile and contact email)
+    // when GitHub Actions has not yet been configured with an equivalent variable.
+    keep_vars: true,
     assets: { directory: "dist/client", binding: "ASSETS", run_worker_first: true, html_handling: "drop-trailing-slash", not_found_handling: "404-page" },
     d1_databases: [{ binding: "DB", database_name: "wd-marketing-enquiries", database_id: database, migrations_dir: "drizzle" }],
-    vars: { DEPLOYMENT_STAGE: production ? "production" : "staging", CONTACT_EMAIL_ENABLED: env.CONTACT_EMAIL_ENABLED || "false", ...(env.TURNSTILE_SITE_KEY ? { TURNSTILE_SITE_KEY: env.TURNSTILE_SITE_KEY } : {}) },
+    vars: {
+      DEPLOYMENT_STAGE: production ? "production" : "staging",
+      // In production, omit unset vars so Wrangler preserves the dashboard value.
+      // New/staging Workers default to no contact emails.
+      ...(env.CONTACT_EMAIL_ENABLED
+        ? { CONTACT_EMAIL_ENABLED: env.CONTACT_EMAIL_ENABLED }
+        : production ? {} : { CONTACT_EMAIL_ENABLED: "false" }),
+      ...(env.TURNSTILE_SITE_KEY ? { TURNSTILE_SITE_KEY: env.TURNSTILE_SITE_KEY } : {}),
+    },
     ...(production ? { routes: [{ pattern: "wdmarketing.co.uk", custom_domain: true }, { pattern: "www.wdmarketing.co.uk", custom_domain: true }] } : {}),
   };
 }
