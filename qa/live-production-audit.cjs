@@ -34,8 +34,10 @@ async function checkPage(path) {
     const tag = links.find(tag => /\brel=["']canonical["']/i.test(tag)) || "";
     const canonical = tag.match(/\bhref=["']([^"']+)["']/i)?.[1] || "";
     const desired = origin + path;
+    // The homepage canonical may validly omit its final slash.
+    const canonicalMatches = path === "/" ? (canonical === origin || canonical === origin + "/") : canonical === desired;
     const pass = response.status === 200 && !/noindex/i.test(robotsHeader)
-      && canonical === desired && /<h1\b/i.test(body);
+      && canonicalMatches && /<h1\b/i.test(body);
     report(path, pass ? "PASS" : "FAIL",
       "http=" + response.status + "; canonical=" + (canonical || "none") +
       "; robots=" + (robotsHeader || "none") + "; h1=" + /<h1\b/i.test(body));
