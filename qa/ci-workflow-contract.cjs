@@ -31,5 +31,9 @@ assert.ok(yaml.includes('needs: verify'), 'deploy must remain gated by verify');
 assert.ok(yaml.includes("github.ref == 'refs/heads/main'"), 'production deploy must remain main-only');
 assert.ok(!yaml.includes("vars.CLOUDFLARE_DEPLOY_ENABLED == 'true'"), 'verified main should not be silently blocked by an optional deploy flag');
 assert.ok(yaml.includes('verified-site-${{ github.sha }}'), 'verified deployment artifact must remain present');
+const deployEnv = yaml.split('  deploy:')[1] || '';
+assert.ok(deployEnv.includes("DEPLOY_CUSTOM_DOMAINS: 'true'"), 'verified main deploy must always target production custom domains');
+assert.ok(!deployEnv.includes('CONTACT_EMAIL_ENABLED: ${{ vars.CONTACT_EMAIL_ENABLED }}'), 'do not overwrite Cloudflare dashboard contact email setting');
+assert.ok(!deployEnv.includes('TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}'), 'do not overwrite dashboard Turnstile site key');
 
 console.log('WD CI workflow contract passed');
