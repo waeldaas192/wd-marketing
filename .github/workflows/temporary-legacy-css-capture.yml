@@ -1,0 +1,49 @@
+name: Temporary last-release stylesheet capture (remove before merge)
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths: ['.github/workflows/temporary-legacy-css-capture.yml']
+jobs:
+  capture:
+    if: ${{ github.repository == 'waeldaas192/wd-marketing' && github.head_ref == 'hotfix/legacy-css-compat-20261105' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build the previous published commit in an isolated directory
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_PUBLIC_MEASUREMENT_ENABLED: 'true'
+          NEXT_PUBLIC_GTM_ID: 'GTM-MJL3LG77'
+          NEXT_PUBLIC_GA4_ID: 'G-P2D95M1T98'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin 25901df569bfcf8b0cb446a2342914282f39a54a
+          git worktree add --detach /tmp/wd-prev-release 25901df569bfcf8b0cb446a2342914282f39a54a
+          cd /tmp/wd-prev-release
+          npm ci --no-fund
+          npm run build
+          ls -l out/_next/static/css/*.css
+          test -s out/_next/static/css/516b8c03cb8f3e95.css
+      - name: Retain prior CSS only without shipping vulnerable previous runtime
+        run: |
+          set -euo pipefail
+          mkdir -p compat-assets/_next/static/css
+          cp /tmp/wd-prev-release/out/_next/static/css/*.css compat-assets/_next/static/css/
+          test -s compat-assets/_next/static/css/516b8c03cb8f3e95.css
+          du -h compat-assets/_next/static/css/*
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add compat-assets/_next/static/css
+          if ! git diff --cached --quiet; then
+            git commit -m 'hotfix: preserve last release CSS for stale mobile browser tabs'
+            git push origin HEAD:${{ github.head_ref }}
+          fi
