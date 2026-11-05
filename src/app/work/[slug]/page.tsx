@@ -24,6 +24,14 @@ export default async function CaseStudyPage({params}:{params:Promise<{slug:strin
       {Boolean(project.metrics?.length)&&<div data-case-metrics="true"><p className="eyebrow">Verified snapshot</p><div className="case-metrics">{project.metrics?.map(metric=><div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>)}</div></div>}
       {Boolean(project.technology?.length)&&<div data-case-technology="true"><p className="eyebrow">Production technology</p><ul className="case-technology">{project.technology?.map(item=><li key={item}>{item}</li>)}</ul></div>}
     </div></section>}
+    {Boolean(project.verifiedResults?.length) && <section className="section case-proof-section" data-reveal aria-label="Documented campaign or project results"><div className="container">
+      <p className="eyebrow">Documented results</p>
+      <div className="case-metrics">{project.verifiedResults?.map(result => <div key={result.evidenceReference}>
+        <strong>{result.value}</strong><span>{result.label}</span>
+        <p><small>Source: {result.source} · Period: {result.period}</small></p>
+        {result.context && <p><small>{result.context}</small></p>}
+      </div>)}</div>
+    </div></section>}
     <section className="section" data-reveal><div className="container case-columns"><div><h2 className="eyebrow">Strategy</h2>{project.strategy.map((item,index)=><div className="case-line" key={item}><span>0{index+1}</span><p>{item}</p></div>)}</div><div><h2 className="eyebrow">Deliverables</h2>{project.deliverables.map((item,index)=><div className="case-line" key={item}><span>0{index+1}</span><p>{item}</p></div>)}</div></div></section>
     <section className="section"><div className="container"><h2 className="h2 gallery-title">The experience</h2>{slug === "mb-legacy-roofing" && <RoofingSystem/>}<CaseGallery images={project.gallery.map(resolveMedia)} project={project.name}/></div></section>
     {slug === "mb-legacy-roofing" && <RoofingApproach/>}
