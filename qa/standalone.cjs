@@ -14,8 +14,13 @@ async function main() {
   const runtime = createMiniflare({
     modules: true, scriptPath: path.join(root, 'dist/worker/index.js'), compatibilityDate: '2026-07-01',
     assets: { directory: path.join(root, 'dist/client'), binding: 'ASSETS', routerConfig: { has_user_worker: true, invoke_user_worker_ahead_of_assets: true }, assetConfig: { html_handling: 'drop-trailing-slash', not_found_handling: '404-page' } },
-    d1Databases: ['DB'], bindings: { DEPLOYMENT_STAGE: 'production', CONTACT_FORM_SECRET: 'local-only-test-secret-32-characters-long', CONTACT_EMAIL_ENABLED: 'false' },
-    outboundService: () => { throw new Error('Unexpected external provider call'); },
+    d1Databases: ['DB'], bindings: { DEPLOYMENT_STAGE: 'production', CONTACT_FORM_SECRET: 'local-only-test-secret-32-characters-long', CONTACT_EMAIL_ENABLED: 'false', TURNSTILE_SITE_KEY: 'local-public-only', TURNSTILE_SECRET_KEY: 'local-secret-only' },
+    outboundService: request => {
+      if (request.url === 'https://challenges.cloudflare.com/turnstile/v0/siteverify') {
+        return Response.json({ success: true, action: 'project-brief', hostname: 'wdmarketing.co.uk' });
+      }
+      throw new Error('Unexpected external provider call');
+    },
   });
   try {
     assert.equal((await runtime.dispatchFetch('https://wdmarketing.co.uk/api/health')).status, 503);
@@ -60,7 +65,7 @@ async function main() {
     const resources = [...new Set([...home.matchAll(/(?:src|href)="(\/_next\/static\/[^"?#]+)[^"]*"/g)].map(x => x[1]))];
     assert.ok(resources.length > 0);
     for (const resource of resources) assert.equal((await runtime.dispatchFetch('https://wdmarketing.co.uk' + resource)).status, 200, resource);
-    const data = { requestId: '80000000-0000-4000-8000-000000000001', service: 'SEO', budget: 'Not sure', name: 'Migration Test', email: 'client@example.test', message: 'A synthetic local migration verification enquiry.' };
+    const data = { requestId: '80000000-0000-4000-8000-000000000001', service: 'SEO', budget: 'Not sure', name: 'Migration Test', email: 'client@example.test', message: 'A synthetic local migration verification enquiry.', turnstileToken: 'valid-local-test-token' };
     const response = await runtime.dispatchFetch('https://wdmarketing.co.uk/api/contact', { method: 'POST', headers: { origin: 'https://wdmarketing.co.uk', 'content-type': 'application/json', 'cf-connecting-ip': '192.0.2.10' }, body: JSON.stringify(data) });
     assert.equal(response.status, 200); assert.equal((await response.json()).ok, true);
     assert.equal((await db.prepare('SELECT COUNT(*) n FROM contact_enquiries').first()).n, 1);
