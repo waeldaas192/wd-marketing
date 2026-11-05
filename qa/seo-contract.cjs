@@ -358,4 +358,15 @@ const servicesHub = read('src/components/sections/Services.tsx');
 for (const href of ['/services/conversion-rate-optimisation','/services/local-seo-london','/services/technical-seo-london','/services/meta-ads']) {
   assert.ok(servicesHub.includes(href), `Services hub must link directly to specialist service: ${href}`);
 }
+const sectorPath = 'src/app/industries/stone-worktops/page.tsx';
+assert.ok(fs.existsSync(sectorPath), 'Stone & Worktops industry page must exist');
+const sectorPage = read(sectorPath);
+assert.ok(sectorPage.includes('serviceSchema'), 'Sector page must include truthful Service schema');
+assert.ok(sectorPage.includes('featuredProjects'), 'Sector page must reuse project data');
+assert.ok(sectorPage.includes('asset.ready'), 'Sector page must not show missing project imagery as proof');
+assert.ok(sitemap.includes('"/industries/stone-worktops"'), 'Sector page missing from sitemap');
+assert.ok(redirects.includes('/industries/stone-worktops/ /industries/stone-worktops 301'), 'Sector page must resolve canonical trailing slash');
+assert.ok(llms.includes('/industries/stone-worktops'), 'Sector missing from llms discovery');
+assert.ok(read('src/lib/measurement.ts').includes('"/industries/stone-worktops"'), 'Measurement page path must be mapped');
+assert.ok(read('src/app/work/page.tsx').includes('/industries/stone-worktops'), 'Work page must link to sector page');
 console.log('WD SEO contract passed');
