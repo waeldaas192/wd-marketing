@@ -76,7 +76,7 @@ async function axe(page,label) {
     }
     await page.setViewportSize({width:1440,height:1000}); await ready(page); await imagesReady(page,'desktop-sections');
     await page.screenshot({path:path.join(out,'hero-desktop.png')});
-    for (const id of ['standard','services','process','about']) {
+    for (const id of ['work','services','process','about']) {
       const el = page.locator(`#${id}`); await el.scrollIntoViewIfNeeded();
       await el.screenshot({path:path.join(out,`${id}-1440.png`)});
     }
