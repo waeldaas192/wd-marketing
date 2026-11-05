@@ -17,6 +17,7 @@ const coreRoutes = [
   "/services/conversion-rate-optimisation",
   "/services/growth-infrastructure",
   "/work",
+  "/industries/stone-worktops",
   "/about",
   "/insights",
   "/contact",
