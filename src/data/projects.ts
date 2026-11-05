@@ -12,6 +12,17 @@ export type ProjectMetric = {
   label: string;
 };
 
+/** Publish only when source, timeframe, and client approval are documented. */
+export type VerifiedProjectResult = {
+  label: string;
+  value: string;
+  source: string;
+  period: string;
+  evidenceReference: string;
+  approvalStatus: "approved";
+  context?: string;
+};
+
 export type Project = {
   slug: string;
   name: string;
@@ -27,6 +38,7 @@ export type Project = {
   evidence: string;
   website?: string;
   metrics?: ProjectMetric[];
+  verifiedResults?: VerifiedProjectResult[];
   technology?: string[];
   gallery: ProjectGalleryImage[];
 };
