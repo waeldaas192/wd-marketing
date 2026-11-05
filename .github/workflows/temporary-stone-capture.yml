@@ -1,0 +1,91 @@
+name: Temporary Stone Pro website captures (remove before merge)
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - '.github/workflows/temporary-stone-capture.yml'
+jobs:
+  capture-real-client-pages:
+    if: ${{ github.repository == 'waeldaas192/wd-marketing' && github.head_ref == 'visuals/stone-pro-authentic-20261105' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install capture and image tools
+        run: |
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.63.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq webp python3-pil
+      - name: Capture actual public Stone Pro Worktops pages
+        run: |
+          cat > /tmp/capture-stone.cjs <<'NODE'
+          const { chromium } = require(process.cwd() + '/node_modules/playwright');
+          const targets = [
+            ['https://www.stoneproworktops.co.uk/', '/tmp/stone-home.png', 0, false],
+            ['https://www.stoneproworktops.co.uk/quartz-worktops/', '/tmp/stone-quartz.png', 170, false],
+            ['https://www.stoneproworktops.co.uk/worktop-colours/', '/tmp/stone-colours.png', 440, false],
+            ['https://www.stoneproworktops.co.uk/', '/tmp/stone-mobile.png', 0, true],
+          ];
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            try {
+              for (const [url,out,scroll,mobile] of targets) {
+                const context = await browser.newContext({
+                  viewport: mobile ? {width:390,height:844} : {width:1440,height:900},
+                  deviceScaleFactor: 1,
+                  isMobile: mobile,
+                  hasTouch: mobile,
+                });
+                const page = await context.newPage();
+                const response = await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+                if (!response || !response.ok()) throw Error('Website capture HTTP failure '+url+': '+response?.status());
+                await page.evaluate(() => document.fonts.ready);
+                await page.waitForTimeout(1500);
+                if (scroll) { await page.evaluate(y => window.scrollTo(0,y), scroll); await page.waitForTimeout(800); }
+                const title = await page.title();
+                const visible = await page.locator('body').innerText();
+                if (!/Stone Pro Worktops/i.test(title + ' ' + visible)) throw Error('Unexpected page, potentially a block/interstitial: '+url);
+                await page.screenshot({ path: out, fullPage:false, animations:'disabled' });
+                console.log(out, title, response.status(),mobile?'mobile':'desktop');
+                await context.close();
+              }
+            } finally { await browser.close(); }
+          })().catch(err => { console.error(err); process.exit(1); });
+          NODE
+          node /tmp/capture-stone.cjs
+      - name: Compose phone view from genuine mobile screenshot and encode four WebP assets
+        run: |
+          python3 - <<'PY'
+          from PIL import Image,ImageDraw,ImageFilter
+          source=Image.open('/tmp/stone-mobile.png').convert('RGB')
+          canvas=Image.new('RGB',(1440,900),(246,247,253))
+          draw=ImageDraw.Draw(canvas)
+          draw.rounded_rectangle((430,30,1010,870),radius=42,fill=(33,37,54))
+          im=source.resize((390,844),Image.Resampling.LANCZOS)
+          # Fit the full visible screenshot into a physical device-inspired frame; no invented interface.
+          im.thumbnail((375,790),Image.Resampling.LANCZOS)
+          canvas.paste(im,((1440-im.width)//2,(900-im.height)//2))
+          canvas.save('/tmp/stone-mobile-composed.png')
+          PY
+          cwebp -quiet -q 82 -m 6 -mt /tmp/stone-home.png -o public/images/projects/stone-pro/stone-pro-worktops-london-case-study.webp
+          cwebp -quiet -q 82 -m 6 -mt /tmp/stone-quartz.png -o public/images/projects/stone-pro/stone-pro-worktops-website-desktop.webp
+          cwebp -quiet -q 82 -m 6 -mt /tmp/stone-colours.png -o public/images/projects/stone-pro/stone-pro-worktops-colour-gallery.webp
+          cwebp -quiet -q 82 -m 6 -mt /tmp/stone-mobile-composed.png -o public/images/projects/stone-pro/stone-pro-worktops-mobile-experience.webp
+          du -h public/images/projects/stone-pro/*.webp
+      - name: Commit authentic project screenshot assets only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/images/projects/stone-pro/*.webp
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals: replace Stone Pro placeholders with actual public website captures'
+            git push origin HEAD:${{ github.head_ref }}
+          fi
