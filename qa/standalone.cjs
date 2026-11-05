@@ -70,6 +70,13 @@ async function main() {
     const resources = [...new Set([...home.matchAll(/(?:src|href)="(\/_next\/static\/[^"?#]+)[^"]*"/g)].map(x => x[1]))];
     assert.ok(resources.length > 0);
     for (const resource of resources) assert.equal((await runtime.dispatchFetch('https://wdmarketing.co.uk' + resource)).status, 200, resource);
+    // Real Safari sessions may hold HTML from the preceding deployment.
+    // Historical CSS hashes must remain fetchable after the new Worker deploys.
+    const legacyCss = await runtime.dispatchFetch('https://wdmarketing.co.uk/_next/static/css/516b8c03cb8f3e95.css');
+    assert.equal(legacyCss.status, 200, 'Previous release stylesheet must not become 404');
+    assert.match(legacyCss.headers.get('content-type') || '', /text\/css/i);
+    assert.ok((await legacyCss.text()).length > 1000, 'Previous stylesheet should contain actual CSS');
+
     const data = { requestId: '80000000-0000-4000-8000-000000000001', service: 'SEO', budget: 'Not sure', name: 'Migration Test', email: 'client@example.test', message: 'A synthetic local migration verification enquiry.', turnstileToken: 'valid-local-test-token' };
     const response = await runtime.dispatchFetch('https://wdmarketing.co.uk/api/contact', { method: 'POST', headers: { origin: 'https://wdmarketing.co.uk', 'content-type': 'application/json', 'cf-connecting-ip': '192.0.2.10' }, body: JSON.stringify(data) });
     assert.equal(response.status, 200); assert.equal((await response.json()).ok, true);
