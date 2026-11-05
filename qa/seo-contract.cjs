@@ -380,4 +380,5 @@ for (const required of ['VerifiedProjectResult', 'evidenceReference: string;', '
 assert.ok(caseStudyPage.includes('project.verifiedResults?.length'), 'New result section must render only when documented results are supplied');
 assert.ok(caseStudyPage.includes('Source: {result.source}'), 'Documented results must show source');
 assert.ok(caseStudyPage.includes('Period: {result.period}'), 'Documented results must show period');
+assert.ok(!read('src/app/services/seo/page.tsx').includes('receives daily bookings'), 'Do not publish unsupported booking-volume claims');
 console.log('WD SEO contract passed');
