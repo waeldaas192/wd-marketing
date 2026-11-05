@@ -83,6 +83,13 @@ async function main() {
     const env = environment(); env.DB.prepare = () => { throw new Error("offline"); };
     const response = await send(valid(), env); assert.equal(response.status, 503); assert.equal((await response.json()).ok, false);
   });
+  await test("production refuses missing Turnstile keys even when both are absent", async () => {
+    const env = { ...environment(), DEPLOYMENT_STAGE: "production" };
+    const health = await handleRequest(request("/api/contact/config", null, {}, "GET"), env);
+    assert.equal((await health.json()).accepting, false);
+    assert.equal((await send(valid(), env)).status, 503);
+    assert.equal(env.DB.sql.prepare("SELECT COUNT(*) n FROM contact_enquiries").get().n, 0);
+  });
   await test("missing configuration fails closed", async () => {
     const env = environment(); delete env.CONTACT_FORM_SECRET;
     assert.equal((await send(valid(), env)).status, 503);
