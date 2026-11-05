@@ -56,7 +56,7 @@ assert.ok(icons.includes('"up-right"'), 'Shared ArrowIcon must support an up-rig
 const globalCss = fs.readFileSync('src/app/globals.css', 'utf8');
 assert.ok(globalCss.includes('.wd-arrow-up-right'), 'Global arrow CSS must style the up-right SVG direction');
 
-const enquiryForm = fs.readFileSync(path.join(root, "src/components/ui/ContactForm.tsx"), "utf8");
+const enquiryForm = fs.readFileSync('src/components/ui/ContactForm.tsx', 'utf8');
 assert.ok(enquiryForm.includes("Step {step + 1} of 2"), "Project brief must expose two steps");
 assert.ok(!enquiryForm.includes("<BusinessAddress"), "Short project brief must not include address lookup");
 assert.ok(enquiryForm.includes("config?.turnstileSiteKey && <SecurityCheck"), "Short project brief must preserve Turnstile before submitting");
