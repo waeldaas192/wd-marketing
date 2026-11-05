@@ -1,0 +1,38 @@
+name: Temporary last-V2 stylesheet archive (remove before merge)
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths: ['.github/workflows/temporary-restore-v2-css.yml']
+jobs:
+  recover:
+    if: ${{ github.repository == 'waeldaas192/wd-marketing' && github.head_ref == 'hotfix/keep-live-styles-between-deploys-20261105' && github.event.pull_request.head.repo.full_name == github.repository }}
+    permissions:
+      contents: write
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-site-39542edb3adafd4a01258b3a36d31b86cbb61039
+          run-id: 42114888140
+          github-token: ${{ github.token }}
+          path: /tmp/wd-prior-v2
+      - name: Restore CSS from tested V2 static build artifact
+        run: |
+          set -euo pipefail
+          ls -lh /tmp/wd-prior-v2/client/_next/static/css/
+          test -s /tmp/wd-prior-v2/client/_next/static/css/518dd2ae1a262d6e.css
+          mkdir -p compat-assets/_next/static/css
+          cp /tmp/wd-prior-v2/client/_next/static/css/*.css compat-assets/_next/static/css/
+          test -s compat-assets/_next/static/css/518dd2ae1a262d6e.css
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add compat-assets/_next/static/css/
+          if ! git diff --cached --quiet; then
+            git commit -m 'hotfix: preserve tested V2 stylesheet hashes from release artifact'
+            git push origin HEAD:${{ github.head_ref }}
+          fi
