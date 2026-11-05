@@ -9,6 +9,11 @@ async function main() {
   const inputs = { CLOUDFLARE_ACCOUNT_ID: 'a'.repeat(32), CLOUDFLARE_D1_DATABASE_ID: '11111111-2222-4333-8444-555555555555' };
   assert.equal(config(inputs).routes, undefined);
   assert.equal(config(inputs).vars.CONTACT_EMAIL_ENABLED, 'false');
+  assert.equal(config(inputs).keep_vars, true, 'Dashboard-defined Turnstile and contact variables must survive deploys');
+  const production = config({ ...inputs, DEPLOY_CUSTOM_DOMAINS: 'true' });
+  assert.equal(production.vars.CONTACT_EMAIL_ENABLED, undefined, 'Unset GitHub CI contact variable must not disable live email');
+  assert.equal(production.vars.TURNSTILE_SITE_KEY, undefined, 'Unset GitHub CI Turnstile variable must not replace dashboard key');
+  assert.equal(config({ ...inputs, DEPLOY_CUSTOM_DOMAINS: 'true', CONTACT_EMAIL_ENABLED: 'true' }).vars.CONTACT_EMAIL_ENABLED, 'true');
   assert.equal(config({ ...inputs, DEPLOY_CUSTOM_DOMAINS: 'true' }).routes.length, 2);
   assert.throws(() => config({ ...inputs, CONTACT_EMAIL_ENABLED: 'yes' }), /true or false/);
   const runtime = createMiniflare({
