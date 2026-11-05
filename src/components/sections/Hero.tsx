@@ -16,11 +16,11 @@ export function Hero() {
         <div className={styles.grid}>
           <div className={styles.copy}>
             <h1 className={styles.title}>
-              <span className={styles.line}>ATTENTION.</span>
-              <span className={styles.line}>ACTION.</span>
-              <span className={styles.line}><em className={styles.accent}>GROWTH.</em></span>
+              <span className={styles.line}>WEB DESIGN.</span>
+              <span className={`${styles.line} ${styles.compactLine}`}>SEO &amp; PAID ADS.</span>
+              <span className={styles.line}><em className={styles.accent}>FOR GROWTH.</em></span>
             </h1>
-            <p className={styles.statement}>WD Marketing connects high-performance websites, search and paid acquisition into one measurable system — designed to turn being discovered into being chosen.</p>
+            <p className={styles.statement}>Web design, SEO, Google and Meta Ads, and conversion tracking for London stone and worktop specialists, home-service businesses and growing UK brands — focused on qualified enquiries.</p>
             <div className={styles.actions}>
               <Link href="/contact" className={`${styles.primary} liquid-cta`}>Start a project <ArrowIcon/></Link>
               <Link href="/work" className={styles.secondary}>Explore selected work <ArrowIcon/></Link>
@@ -28,7 +28,7 @@ export function Hero() {
           </div>
           <div className={styles.engine}><GrowthEngine /></div>
         </div>
-        <div className={styles.bottom}><span>SCROLL TO ENTER THE SYSTEM</span><span>WD / 01 — 06</span></div>
+        <div className={styles.bottom}><span>ATTENTION · ACTION · GROWTH</span><span>WD / 01 — 06</span></div>
       </div>
     </section>
   );

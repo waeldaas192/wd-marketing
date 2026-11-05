@@ -5,12 +5,11 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { contactBudgets, contactServices, emptyBrief, formatBrief, normaliseWebsite, validateBrief, type Brief, type BriefErrors } from "@/lib/contact-validation";
 import type { ContactConfig } from "@/lib/address-types";
 import { SecurityCheck } from "./SecurityCheck";
-import { BusinessAddress } from "./BusinessAddress";
 import { ArrowIcon, CheckIcon, SendRocketIcon } from "./Icons";
 import { site } from "@/data/site";
 import styles from "./ContactForm.module.css";
-const labels = ["Your project", "Contact & location", "Review & send"];
-const fieldsByStep: (keyof Brief)[][] = [["service", "budget", "message"], ["name", "email", "phone", "company", "website", "country", "postcode", "addressLine1", "addressLine2", "city", "region"]];
+const labels = ["Your project", "Contact details"];
+const fieldsByStep: (keyof Brief)[][] = [["service", "budget", "message"], ["name", "email", "phone", "company", "website"]];
 const serviceLabels = [["A better website", "Design, performance and enquiries"], ["Get found on Google", "SEO and organic growth"], ["Reach customers with ads", "Google Ads and paid campaigns"], ["Connect my marketing", "Analytics, CRM and automation"], ["Help me choose", "A plan across more than one service"]];
 const MIN_SEND_MOTION_MS = 1050;
 export function ContactForm() {
@@ -39,10 +38,6 @@ export function ContactForm() {
     setBrief(current => ({ ...current, [key]: value })); setErrors(current => ({ ...current, [key]: undefined }));
     setCopied(false); setFeedback(""); if (!busy.current) setState("idle");
   }
-  function replaceAddress(address: Partial<Brief>) {
-    setBrief(current => ({ ...current, ...address }));
-    setErrors(current => Object.fromEntries(Object.entries(current).filter(([key]) => !(key in address))) as BriefErrors);
-  }
   function showErrors(issues: BriefErrors) {
     setErrors(issues); const firstStep = fieldsByStep.findIndex(fields => fields.some(key => issues[key]));
     interacted.current = true; if (firstStep >= 0) setStep(firstStep);
@@ -62,7 +57,7 @@ export function ContactForm() {
   }
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (busy.current || state === "success") return;
-    if (step < 2) { goTo(step + 1); return; }
+    if (step < 1) { goTo(step + 1); return; }
     const validation = validateBrief(brief);
     if (!validation.valid) { showErrors(validation.errors); return; }
     if (!config?.accepting || configFailed) { setState("error"); setFeedback("Online sending is unavailable. Your entries are still here; use the email option below."); return; }
@@ -92,11 +87,11 @@ export function ContactForm() {
   const error = (key: keyof Brief) => errors[key] ? <span className={styles.error} id={"error-" + key}>{errors[key]}</span> : null;
   return <form ref={formRef} className={"project-form " + styles.form} onSubmit={submit} noValidate aria-busy={locked} data-project-wizard>
     {state === "success" ? <div className={styles.success} role="status"><span className={styles.check} aria-hidden="true"><CheckIcon size={28}/></span><h2 ref={titleRef} tabIndex={-1}>Your brief is with us.</h2><p>We have saved your project details for review. Keep this reference if you contact us about your enquiry.</p><p className={styles.reference}>{reference}</p><button type="button" className="button button-ghost" onClick={() => { setBrief({ ...emptyBrief }); setErrors({}); setFeedback(""); setState("idle"); setStep(0); setFurthest(0); setCopied(false); analyticsStarted.current = false; lastRequest.current = { signature: "", id: "" }; }}>Start another brief</button></div> : <>
-      <div className={styles.progressTop}><span>Let’s plan your next step</span><span>Step {step + 1} of 3</span></div>
-      <div className={styles.progressTrack} role="progressbar" aria-label="Project brief" aria-valuemin={1} aria-valuemax={3} aria-valuenow={step + 1}><span style={{ width: ((step + 1) / 3 * 100) + "%" }}/></div>
+      <div className={styles.progressTop}><span>Let’s plan your next step</span><span>Step {step + 1} of 2</span></div>
+      <div className={styles.progressTrack} role="progressbar" aria-label="Project brief" aria-valuemin={1} aria-valuemax={2} aria-valuenow={step + 1}><span style={{ width: ((step + 1) / 2 * 100) + "%" }}/></div>
       <ol className={styles.steps}>{labels.map((label, index) => <li key={label}><button type="button" disabled={locked || index > furthest} onClick={() => goTo(index)} aria-current={index === step ? "step" : undefined}><span aria-hidden="true">{index < step ? <CheckIcon size={16}/> : index + 1}</span>{label}</button></li>)}</ol>
-      <h2 ref={titleRef} tabIndex={-1} className={styles.title}>{["What would you like to improve?", "How can we reach you?", "Does everything look right?"][step]}</h2>
-      <p className={styles.intro}>{["Choose a starting point. We’ll help with the details.", "Just your name and email are required here.", "You can edit any section before sending. There is no payment or commitment."][step]}</p>
+      <h2 ref={titleRef} tabIndex={-1} className={styles.title}>{["What would you like to improve?", "How can we reach you?"][step]}</h2>
+      <p className={styles.intro}>{["Choose a starting point. We’ll help with the details.", "Only your name and email are required. You can go back to change your project details before sending."][step]}</p>
       <div className={styles.srOnly} aria-hidden="true"><label>Leave this empty<input name="websiteCheck" tabIndex={-1} autoComplete="off"/></label></div>
       <fieldset className={styles.panel} hidden={step !== 0} disabled={locked}><legend className={styles.srOnly}>Your project</legend>
         <div className={styles.serviceGrid}>{contactServices.map((item, index) => <label key={item}><input type="radio" name="service" value={item} checked={brief.service === item} onChange={() => update("service", item)} required aria-invalid={!!errors.service} aria-describedby={errors.service ? "error-service" : undefined}/><span><strong>{serviceLabels[index][0]}</strong><small>{serviceLabels[index][1]}</small></span></label>)}</div>{error("service")}
@@ -104,23 +99,18 @@ export function ContactForm() {
         <div className={styles.field}><label htmlFor="project-message">What would success look like?</label><textarea id="project-message" name="message" value={brief.message} onChange={event => update("message", event.target.value)} required minLength={10} maxLength={5000} rows={4} placeholder="A little about your business, your goal and any timing…" aria-invalid={!!errors.message} aria-describedby={errors.message ? "error-message" : "message-hint"}/>{error("message")}<small id="message-hint">A few sentences are enough. Please leave out passwords and sensitive information.</small></div>
         {!brief.message && <div className={styles.starters} aria-label="Start your description">{["I’d like more local enquiries. ", "I need a new website for my business. ", "I want to improve our marketing results. "].map(text => <button type="button" key={text} onClick={() => { update("message", text); formRef.current?.querySelector<HTMLElement>("#project-message")?.focus(); }}>{text.trim()} +</button>)}</div>}
       </fieldset>
-      <fieldset className={styles.panel} hidden={step !== 1} disabled={locked}><legend className={styles.srOnly}>Contact and location</legend>
+      <fieldset className={styles.panel} hidden={step !== 1} disabled={locked}><legend className={styles.srOnly}>Contact details</legend>
         <div className={styles.fields}>{([{ key: "name", label: "Full name", type: "text", auto: "name", max: 150 }, { key: "email", label: "Email address", type: "email", auto: "email", max: 254 }, { key: "phone", label: "Phone number", type: "tel", auto: "tel", max: 40 }, { key: "company", label: "Business name", type: "text", auto: "organization", max: 200 }, { key: "website", label: "Current website", type: "text", auto: "url", max: 2000 }] as const).map(field => <div className={styles.field} key={field.key}><label htmlFor={"project-" + field.key}>{field.label} {!["name", "email"].includes(field.key) && <small>Optional</small>}</label><input id={"project-" + field.key} name={field.key} type={field.type} inputMode={field.key === "website" ? "url" : undefined} value={brief[field.key]} required={field.key === "name" || field.key === "email"} onChange={event => update(field.key, event.target.value)} onBlur={field.key === "website" ? () => update("website", normaliseWebsite(brief.website)) : undefined} autoComplete={field.auto} maxLength={field.max} placeholder={field.key === "website" ? "example.com" : undefined} aria-invalid={!!errors[field.key]} aria-describedby={errors[field.key] ? "error-" + field.key : undefined}/>{error(field.key)}</div>)}</div>
-        <BusinessAddress brief={brief} errors={errors} update={update} replaceAddress={replaceAddress} mode={config?.addressMode || "postcode"} disabled={locked}/>
+        <p className={styles.hint}>We use these details to respond to your enquiry. Read our <Link href="/privacy">privacy policy</Link>.</p>
+        {step === 1 && config?.turnstileSiteKey && <SecurityCheck onToken={setToken} revision={revision} siteKey={config.turnstileSiteKey}/>}
+        {step === 1 && (configFailed || config?.accepting === false) && <div className={styles.notice} role="status">Online sending is unavailable. You can email your brief below. <button type="button" onClick={() => setConfigRevision(value => value + 1)}>Try reconnecting</button></div>}
       </fieldset>
-      <fieldset className={styles.panel} hidden={step !== 2} disabled={locked}><legend className={styles.srOnly}>Review your brief</legend>
-        <section className={styles.reviewSection}><header><h3>Your project</h3><button type="button" onClick={() => goTo(0)}>Edit project</button></header><dl><div><dt>Service</dt><dd>{brief.service}</dd></div><div><dt>Budget</dt><dd>{brief.budget}</dd></div></dl><p className={styles.message}>{brief.message}</p></section>
-        <section className={styles.reviewSection}><header><h3>Contact & location</h3><button type="button" onClick={() => goTo(1)}>Edit details</button></header><dl>{[["Name", brief.name], ["Email", brief.email], ["Phone", brief.phone], ["Business", brief.company], ["Website", brief.website], ["Location", [brief.addressLine1, brief.addressLine2, brief.city, brief.region, brief.postcode, brief.country].filter(Boolean).join(", ")]].filter(([, value]) => value).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></section>
-        <p className={styles.hint}>We’ll use these details to respond to your enquiry. Read our <Link href="/privacy">privacy policy</Link>.</p>
-        {step === 2 && config?.turnstileSiteKey && <SecurityCheck onToken={setToken} revision={revision} siteKey={config.turnstileSiteKey}/>}
-        {step === 2 && (configFailed || config?.accepting === false) && <div className={styles.notice} role="status">Online sending is unavailable. You can email your completed brief below. <button type="button" onClick={() => setConfigRevision(value => value + 1)}>Try reconnecting</button></div>}
-      </fieldset>
-      {step === 2 && !config && !configFailed && <p className={styles.hint} role="status">Checking the connection before sending…</p>}
+      {step === 1 && !config && !configFailed && <p className={styles.hint} role="status">Checking the connection before sending…</p>}
       {feedback && <p className={styles.notice} role={state === "error" ? "alert" : "status"}>{feedback}</p>}
       <div className={styles.actions}>
         {step > 0 && <button type="button" className="button button-ghost" disabled={locked} onClick={() => goTo(step - 1)}><ArrowIcon direction="left"/> Back</button>}
-        <button type="submit" className={`button button-primary ${step === 2 ? styles.sendButton : styles.continueButton}${locked ? ` ${styles.sending}` : ""}`} disabled={locked || (step === 2 && (!config?.accepting || configFailed))} data-sending={locked ? "true" : undefined}>
-          {step < 2 ? <><span>Continue</span><ArrowIcon/></> : <><span className={styles.sendLabel}>{locked ? "Sending your brief" : "Send my project brief"}</span><span className={styles.rocketStage}><SendRocketIcon active={locked}/></span></>}
+        <button type="submit" className={`button button-primary ${step === 1 ? styles.sendButton : styles.continueButton}${locked ? ` ${styles.sending}` : ""}`} disabled={locked || (step === 1 && (!config?.accepting || configFailed))} data-sending={locked ? "true" : undefined}>
+          {step < 1 ? <><span>Continue</span><ArrowIcon/></> : <><span className={styles.sendLabel}>{locked ? "Sending your brief" : "Send my project brief"}</span><span className={styles.rocketStage}><SendRocketIcon active={locked}/></span></>}
         </button>
       </div>
       <div className={styles.alternative}><a href={mailto}>Prefer email? Send your brief <ArrowIcon/></a><button type="button" disabled={locked} onClick={async () => { try { await navigator.clipboard.writeText(plainBrief); setCopied(true); } catch { setFeedback("Copy is unavailable. You can use the email link or select your text manually."); } }}>{copied ? <>Brief copied <CheckIcon size={15}/></> : "Copy brief"}</button></div>

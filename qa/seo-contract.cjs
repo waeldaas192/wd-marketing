@@ -326,7 +326,7 @@ for (const href of ['/services/local-seo-london','/services/technical-seo-london
   assert.ok(footer.includes(href), `Footer services must expose ${href}`);
 }
 const webConversionPage = read('src/app/services/web-conversion/page.tsx');
-assert.ok(webConversionPage.includes('"Web Design Agency London | Enquiry-Focused"'), 'Web & Conversion title must stay concise');
+assert.ok(webConversionPage.includes('"Web Design & SEO Agency London | Responsive Websites"'), 'Web & Conversion title must be descriptive and concise');
 assert.ok(metaPage.includes('"Meta Ads Agency London | Facebook Ads"'), 'Meta Ads title must stay concise');
 assert.ok(technicalSeoPage.includes('"Technical SEO London | Audits & Fixes"'), 'Technical SEO title must stay concise');
 assert.ok(fs.existsSync('src/data/project-service-links.ts'), 'case-study service-link map must exist');
@@ -358,4 +358,18 @@ const servicesHub = read('src/components/sections/Services.tsx');
 for (const href of ['/services/conversion-rate-optimisation','/services/local-seo-london','/services/technical-seo-london','/services/meta-ads']) {
   assert.ok(servicesHub.includes(href), `Services hub must link directly to specialist service: ${href}`);
 }
+const sectorPath = 'src/app/industries/stone-worktops/page.tsx';
+assert.ok(fs.existsSync(sectorPath), 'Stone & Worktops industry page must exist');
+const sectorPage = read(sectorPath);
+assert.ok(sectorPage.includes('serviceSchema'), 'Sector page must include truthful Service schema');
+assert.ok(sectorPage.includes('featuredProjects'), 'Sector page must reuse project data');
+assert.ok(sectorPage.includes('asset.ready'), 'Sector page must not show missing project imagery as proof');
+assert.ok(sitemap.includes('"/industries/stone-worktops"'), 'Sector page missing from sitemap');
+assert.ok(redirects.includes('/industries/stone-worktops/ /industries/stone-worktops 301'), 'Sector page must resolve canonical trailing slash');
+assert.ok(llms.includes('/industries/stone-worktops'), 'Sector missing from llms discovery');
+assert.ok(read('src/lib/measurement.ts').includes('"/industries/stone-worktops"'), 'Measurement page path must be mapped');
+assert.ok(read('src/app/work/page.tsx').includes('/industries/stone-worktops'), 'Work page must link to sector page');
+assert.ok(read('src/app/work/[slug]/page.tsx').includes('/industries/stone-worktops'), 'Stone case studies must link to the sector hub');
+assert.ok(sitemap.includes('item.modified ?? item.date'), 'Insight sitemap lastmod must use real editorial dates only');
+assert.ok(sitemap.includes('...(lastModified ? { lastModified } : {})'), 'Undated pages must not receive synthetic lastmod timestamps');
 console.log('WD SEO contract passed');

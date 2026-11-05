@@ -15,6 +15,7 @@ export interface Env {
   IDEAL_POSTCODES_API_KEY?: string;
   TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
+  DEPLOYMENT_STAGE?: string;
   CONTACT_EMAIL_ENABLED?: string;
   RESEND_API_KEY?: string;
 }
@@ -25,8 +26,15 @@ class HttpError extends Error {
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
   status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", ...(status === 429 ? { "Retry-After": "600" } : {}) },
 });
+function turnstileReady(env: Env) {
+  // Production must fail closed even if both keys are absent. Tests and
+  // deliberate development previews may keep challenge-free local fixtures.
+  return env.DEPLOYMENT_STAGE === "production"
+    ? Boolean(env.TURNSTILE_SITE_KEY && env.TURNSTILE_SECRET_KEY)
+    : Boolean(env.TURNSTILE_SITE_KEY) === Boolean(env.TURNSTILE_SECRET_KEY);
+}
 function ready(env: Env) {
-  return Boolean(env.DB && env.CONTACT_FORM_SECRET && env.CONTACT_FORM_SECRET.length >= 32 && Boolean(env.TURNSTILE_SITE_KEY) === Boolean(env.TURNSTILE_SECRET_KEY));
+  return Boolean(env.DB && env.CONTACT_FORM_SECRET && env.CONTACT_FORM_SECRET.length >= 32 && turnstileReady(env));
 }
 async function boundedJSON(response: Request | Response, limit: number): Promise<Record<string, unknown>> {
   const length = response.headers.get("content-length");
@@ -63,7 +71,10 @@ async function guard(request: Request, env: Env, kind: "contact" | "address") {
   await quota(env, kind + ":ip:" + ip, kind === "contact" ? 10 : 20, 600);
 }
 async function verifyChallenge(input: Record<string, unknown>, request: Request, env: Env, transport: Transport) {
-  if (!env.TURNSTILE_SECRET_KEY) return;
+  if (!env.TURNSTILE_SECRET_KEY) {
+    if (env.DEPLOYMENT_STAGE === "production") throw new HttpError(503, "Online sending is unavailable. Please use email.");
+    return;
+  }
   if (typeof input.turnstileToken !== "string" || !input.turnstileToken || input.turnstileToken.length > 2048) throw new HttpError(400, "Complete the security check.");
   const body = new URLSearchParams({ secret: env.TURNSTILE_SECRET_KEY, response: input.turnstileToken });
   const response = await transport("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body, redirect: "manual", signal: AbortSignal.timeout(7000) });

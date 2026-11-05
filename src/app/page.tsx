@@ -8,5 +8,5 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { InsightsPreview } from "@/components/sections/InsightsPreview";
 import { FAQ } from "@/components/sections/FAQ";
 import { pageMetadata } from "@/lib/metadata";
-export const metadata=pageMetadata("Web Design, SEO & Google Ads London","Founder-led web design, SEO and paid advertising in London. Connect your website, acquisition and measurement with WD Marketing.","/");
-export default function Home(){return <div data-studio-page><Hero/><Proof/><SelectedWork limit={4}/><Services/><Process/><Founder/><InsightsPreview/><FAQ/><FinalCTA/></div>;}
+export const metadata=pageMetadata("Web Design & SEO London | Google Ads & Tracking","London web design, SEO and Google & Meta Ads connected to conversion tracking. Specialist experience with stone, worktop and home-service businesses.","/");
+export default function Home(){return <div data-studio-page><Hero/><SelectedWork limit={4}/><Proof/><Services/><Process/><Founder/><InsightsPreview/><FAQ/><FinalCTA/></div>;}

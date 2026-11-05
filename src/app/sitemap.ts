@@ -17,6 +17,7 @@ const coreRoutes = [
   "/services/conversion-rate-optimisation",
   "/services/growth-infrastructure",
   "/work",
+  "/industries/stone-worktops",
   "/about",
   "/insights",
   "/contact",
@@ -34,6 +35,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...legalRoutes,
   ];
 
-  // Do not fabricate lastModified timestamps every time the sitemap is generated.
-  return routes.map(route => ({ url: new URL(route, site.url).toString() }));
+  // Editorial lastmod uses genuine publication/update dates, never build timestamps.
+  const insightDates = new Map(insights.map(item => [`/insights/${item.slug}`, item.modified ?? item.date]));
+  return routes.map(route => {
+    const lastModified = insightDates.get(route);
+    return { url: new URL(route, site.url).toString(), ...(lastModified ? { lastModified } : {}) };
+  });
 }
