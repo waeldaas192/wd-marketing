@@ -1,0 +1,72 @@
+name: Read-only live smoke test after WD release
+on:
+  push:
+    branches: [ops/live-smoke-20261105]
+jobs:
+  live-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Test public live routes without sending enquiries
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from urllib.request import Request,urlopen
+          from urllib.error import HTTPError, URLError
+          import json, re, sys
+          base = "https://wdmarketing.co.uk"
+          paths = ["/", "/industries/stone-worktops", "/services/web-conversion", "/contact", "/api/health", "/api/contact/config", "/sitemap.xml"]
+          error = False
+          for path in paths:
+              url = base + path
+              try:
+                  req = Request(url, headers={"User-Agent":"Mozilla/5.0 (compatible; WDMarketingSiteCheck/1.0)"})
+                  with urlopen(req, timeout=22) as response:
+                      status = response.status
+                      body = response.read(1200000).decode('utf-8','replace')
+                      robots = response.headers.get('x-robots-tag','')
+                  print(f"GET {path}: HTTP {status}; robots: {robots or 'none'}")
+                  if status != 200:
+                      error = True
+                  if robots and "noindex" in robots:
+                      print(f"ERROR: live noindex detected on {path}")
+                      error=True
+                  if path == "/":
+                      if 'WEB DESIGN.' not in body or "Selected work" not in body:
+                          print("ERROR: homepage doesn't show expected V2 content")
+                          error = True
+                      else:
+                          print("PASS: homepage updated")
+                  if path == "/industries/stone-worktops":
+                      if 'Stone &amp; Worktop Companies' not in body and 'Stone & Worktop Companies' not in body:
+                          print("ERROR: industry landing page not found in HTML")
+                          error=True
+                      else:
+                          print("PASS: sector page")
+                  if path == "/contact" and 'Step 1 of 2' not in body:
+                      # Interactive React form has initial step server markup.
+                      print("WARN: two-stage contact label not visible in static markup")
+                  if path == "/api/health":
+                      data=json.loads(body)
+                      fields={k:data.get(k) for k in ['ok','database','form','mail']}
+                      print("Health:",fields)
+                      if not fields.get('ok') or not fields.get('form') or not fields.get('mail'):
+                          error=True
+                  if path == "/api/contact/config":
+                      data=json.loads(body)
+                      print("Contact:",{'accepting':data.get('accepting'),'site_key_present':bool(data.get('turnstileSiteKey'))})
+                      if not data.get('accepting') or not data.get('turnstileSiteKey'):
+                          error=True
+                  if path == "/sitemap.xml":
+                      if '/industries/stone-worktops' not in body:
+                          print("ERROR: industry missing from live sitemap")
+                          error=True
+                      else:
+                          print("PASS: live sitemap includes industry")
+              except (HTTPError, URLError, Exception) as exc:
+                  print(f"BLOCKED/ERROR GET {path}: {type(exc).__name__}: {str(exc)[:160]}")
+                  error=True
+          sys.exit(1 if error else 0)
+          PY
