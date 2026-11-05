@@ -27,6 +27,10 @@ for (const phrase of [
 assert.ok(yaml.indexOf('npm audit --omit=dev --audit-level=high') < yaml.indexOf('npm run build'), 'production security gate must run before build');
 assert.ok(yaml.indexOf('npm run test:seo') < yaml.indexOf('npm run build'), 'SEO contract must run before build');
 assert.ok(yaml.indexOf('npm run configure:cloudflare') < yaml.indexOf('npm run start -- --ip 127.0.0.1 --port 8787'), 'preview config must be generated before Wrangler starts');
+assert.ok(yaml.includes('node qa/retain-live-css.cjs'), 'retention must be unit tested in CI');
+assert.ok(yaml.includes('node scripts/retain-live-css.cjs'), 'verified production build must retain last live CSS');
+assert.ok(yaml.indexOf('node scripts/retain-live-css.cjs') < yaml.indexOf('npm run test:deployment'), 'retention must precede deployment artifact verification');
+assert.ok(yaml.includes("github.event_name == 'push' && github.ref == 'refs/heads/main'"), 'network retention must apply only to main release builds');
 assert.ok(yaml.includes('needs: verify'), 'deploy must remain gated by verify');
 assert.ok(yaml.includes("github.ref == 'refs/heads/main'"), 'production deploy must remain main-only');
 assert.ok(!yaml.includes("vars.CLOUDFLARE_DEPLOY_ENABLED == 'true'"), 'verified main should not be silently blocked by an optional deploy flag');
