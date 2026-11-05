@@ -1,0 +1,29 @@
+name: Read-only live production QA
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/live-production-audit.cjs'
+      - '.github/workflows/live-production-qa.yml'
+permissions:
+  contents: read
+jobs:
+  live-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read-only production response checks
+        continue-on-error: true
+        run: node qa/live-production-audit.cjs
+      - name: Upload dated evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-production-audit
+          path: qa-results/live-production-audit.json
+          retention-days: 30
+          if-no-files-found: warn
