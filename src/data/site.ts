@@ -4,7 +4,7 @@ export const site = {
   email: "hello@wdmarketing.co.uk",
   location: "London, United Kingdom",
   description:
-    "Founder-led digital growth studio combining high-performance websites, SEO, paid acquisition, analytics and automation.",
+    "Founder-led web design, SEO, Google and Meta Ads, and conversion tracking for London service businesses, with specialist stone and worktop experience.",
   socialProfiles: [
     {
       name: "LinkedIn",
