@@ -3,9 +3,10 @@
 The contact page keeps the existing Next.js static export. A small Cloudflare Worker handles the form and postcode APIs; D1 stores project enquiries. Build with `npm run build`. Sites receives `dist/server/index.js`, `dist/client` and the generated migrations. The static website, portfolio pages and `_redirects` remain in the asset bundle.
 
 ## Customer flow
-1. Choose a service, choose a budget (or keep “Not sure yet”) and describe the goal.
-2. Supply a name and email. Phone, business, website and business location are optional.
-3. Review/edit answers, submit and receive a storage-confirmed reference.
+1. Choose a service, optionally select a budget (default “Not sure yet”) and describe the goal.
+2. Supply a name and email, with optional phone, business and website, then complete Turnstile and send. A storage-confirmed reference appears after successful submission.
+
+The form has **two steps, with no separate review step or business address fields**. Back navigation allows correction before submitting. The server and D1 schema still accept optional legacy address fields for existing clients, but the frontend does not collect or look up them by default.
 
 The form keeps its current values after lookup or submission failures. Retrying an unchanged brief reuses the request ID and cannot create a duplicate. Refreshing the page starts a fresh form; personal information is not stored in browser localStorage.
 
@@ -21,7 +22,7 @@ Set these in the Site environment settings, never in client code or the hosting 
 | RESEND_API_KEY | Optional sending-only secret scoped to the verified WD Marketing domain in Resend. Never use a Namecheap mailbox password here. |
 | CONTACT_EMAIL_ENABLED | Set to `true` only when sender verification and the API key are ready. Otherwise the form continues to store requests without sending or queuing email. |
 
-Without an Ideal Postcodes key, the form checks UK postcodes and their administrative areas through Postcodes.io. This is **not** a property-address database: street, building and town remain manually editable. Postcode search is optional; international addresses are entered manually. No provider key is included in HTML, browser JavaScript or public configuration.
+The legacy `/api/address-lookup` endpoint remains available for backward compatibility; the simplified public project brief does **not** call it. Its historical postcode/address behaviour is unchanged. No provider key is included in HTML, browser JavaScript or public configuration.
 
 A saved version must be deployed for runtime setting changes to apply. The normal Next development server alone serves the frontend, not the Worker APIs; unavailable online sending is shown honestly with a prefilled email alternative.
 
