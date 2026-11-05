@@ -326,7 +326,7 @@ for (const href of ['/services/local-seo-london','/services/technical-seo-london
   assert.ok(footer.includes(href), `Footer services must expose ${href}`);
 }
 const webConversionPage = read('src/app/services/web-conversion/page.tsx');
-assert.ok(webConversionPage.includes('"Web Design Agency London | Enquiry-Focused"'), 'Web & Conversion title must stay concise');
+assert.ok(webConversionPage.includes('"Web Design & SEO Agency London | Responsive Websites"'), 'Web & Conversion title must stay descriptive and concise');
 assert.ok(metaPage.includes('"Meta Ads Agency London | Facebook Ads"'), 'Meta Ads title must stay concise');
 assert.ok(technicalSeoPage.includes('"Technical SEO London | Audits & Fixes"'), 'Technical SEO title must stay concise');
 assert.ok(fs.existsSync('src/data/project-service-links.ts'), 'case-study service-link map must exist');
