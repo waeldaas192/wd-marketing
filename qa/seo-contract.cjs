@@ -369,4 +369,5 @@ assert.ok(redirects.includes('/industries/stone-worktops/ /industries/stone-work
 assert.ok(llms.includes('/industries/stone-worktops'), 'Sector missing from llms discovery');
 assert.ok(read('src/lib/measurement.ts').includes('"/industries/stone-worktops"'), 'Measurement page path must be mapped');
 assert.ok(read('src/app/work/page.tsx').includes('/industries/stone-worktops'), 'Work page must link to sector page');
+assert.ok(read('src/app/work/[slug]/page.tsx').includes('/industries/stone-worktops'), 'Stone case studies must link to the sector hub');
 console.log('WD SEO contract passed');
