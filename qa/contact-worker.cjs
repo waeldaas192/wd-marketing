@@ -57,7 +57,9 @@ async function main() {
   });
   await test("address and telephone can be skipped", async () => {
     const data = valid(); for (const key of ["country", "postcode", "addressLine1", "city", "phone"]) delete data[key];
-    assert.equal((await send(data)).status, 200);
+    const env = environment();
+    assert.equal((await send(data, env)).status, 200);
+    assert.equal(env.DB.sql.prepare("SELECT country FROM contact_enquiries").get().country, "");
   });
   await test("invalid address, phone, URL and required fields do not write", async () => {
     const env = environment(), response = await send({ ...valid(), name: "", email: "bad", postcode: "xxx", phone: "abc", website: "javascript:alert(1)" }, env);
