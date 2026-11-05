@@ -1,0 +1,61 @@
+name: Read-only production stylesheet diagnostics
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths: ['.github/workflows/diagnose-public-site-assets.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    if: ${{ github.repository == 'waeldaas192/wd-marketing' && github.head_ref == 'hotfix/diagnose-production-assets-20261105' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect public HTML, CSS and JS responses without mutating production
+        run: |
+          node <<'NODE'
+          const urls=[
+           'https://wdmarketing.co.uk/',
+           'https://www.wdmarketing.co.uk/',
+           'https://wd-marketing.wdmarketing.workers.dev/',
+           'https://wdmarketing.co.uk/api/health',
+           'https://wdmarketing.co.uk/_next/static/css/ae42826c3204b68f.css',
+           'https://wdmarketing.co.uk/_next/static/css/2b526d6243b81f6b.css',
+           'https://wdmarketing.co.uk/_next/static/css/516b8c03cb8f3e95.css'
+          ];
+          const UA='Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1';
+          async function inspect(url,ua){
+            const response=await fetch(url,{headers:{'user-agent':ua,'cache-control':'no-cache'},redirect:'follow',signal:AbortSignal.timeout(12000)});
+            const bytes=await response.arrayBuffer(),body=Buffer.from(bytes).toString('utf8');
+            const links=[...body.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(x=>x[1]);
+            const rev=[...body.matchAll(/<link[^>]*href="([^"]+\.css[^"]*)"[^>]*>/g)].map(x=>x[1]);
+            console.log(JSON.stringify({url,response_url:response.url,status:response.status,content_type:response.headers.get('content-type'),length:bytes.byteLength,cache:response.headers.get('cf-cache-status'),cache_control:response.headers.get('cache-control'),robots:response.headers.get('x-robots-tag'),asset_links:[...new Set([...links,...rev])].slice(0,12),snippet:body.slice(0,80).replace(/\s/g,' ')}));
+            return {response,css:[...new Set([...links,...rev])]};
+          }
+          (async()=>{
+            for(const url of urls){try{const x=await inspect(url,UA);if(url==='https://wdmarketing.co.uk/'){for(const src of x.css.slice(0,8)){try{await inspect(new URL(src,x.response.url).href,UA)}catch(e){console.log('CSS REQUEST FAILURE '+src+' '+String(e))}}}}catch(e){console.log('REQUEST FAILURE '+url+' '+String(e))}}
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
+      - name: Verify old and current CSS after Cloudflare deploy
+        run: |
+          node <<'NODE'
+          (async()=>{
+            const urls=[
+              'https://wdmarketing.co.uk/_next/static/css/516b8c03cb8f3e95.css',
+              'https://wdmarketing.co.uk/_next/static/css/ae42826c3204b68f.css',
+              'https://wdmarketing.co.uk/_next/static/css/2b526d6243b81f6b.css',
+              'https://wdmarketing.co.uk/_next/static/css/518dd2ae1a262d6e.css'
+            ];
+            for(const url of urls){
+              const r=await fetch(url,{headers:{'cache-control':'no-cache'},signal:AbortSignal.timeout(15000)});
+              const body=await r.text();
+              const result={url,status:r.status,contentType:r.headers.get('content-type'),bytes:body.length,cache:r.headers.get('cf-cache-status')};
+              console.log(JSON.stringify(result));
+              if(r.status!==200||!r.headers.get('content-type')?.includes('text/css')||body.length<1000)throw Error('CSS asset unavailable: '+url);
+            }
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
