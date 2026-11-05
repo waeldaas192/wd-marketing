@@ -52,6 +52,11 @@ jobs:
       - run: npm run test:seo
       - run: npm run test:backend
       - run: npm run build
+      - name: Test last-release CSS retention
+        run: node qa/retain-live-css.cjs
+      - name: Preserve published styles for users with cached HTML
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: node scripts/retain-live-css.cjs
       - run: npm run test:mb-legacy
       - run: npm run typecheck
       - run: npm run test:measurement
