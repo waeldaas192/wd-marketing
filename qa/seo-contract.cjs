@@ -358,4 +358,6 @@ const servicesHub = read('src/components/sections/Services.tsx');
 for (const href of ['/services/conversion-rate-optimisation','/services/local-seo-london','/services/technical-seo-london','/services/meta-ads']) {
   assert.ok(servicesHub.includes(href), `Services hub must link directly to specialist service: ${href}`);
 }
+assert.ok(sitemap.includes('item.modified ?? item.date'), 'Insight sitemap lastmod must use real editorial dates only');
+assert.ok(sitemap.includes('...(lastModified ? { lastModified } : {})'), 'Undated pages must not receive synthetic lastmod timestamps');
 console.log('WD SEO contract passed');
