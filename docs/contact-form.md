@@ -1,5 +1,7 @@
 # Interactive project enquiry form
 
+The production contact endpoint now fails closed when either Turnstile key is missing, even if both keys are absent. Preview/test fixtures may run without keys by explicit non-production configuration. This is intentional: an accidentally missing CAPTCHA secret must not silently allow unverified production enquiries.
+
 The contact page keeps the existing Next.js static export. A small Cloudflare Worker handles the form and postcode APIs; D1 stores project enquiries. Build with `npm run build`. Sites receives `dist/server/index.js`, `dist/client` and the generated migrations. The static website, portfolio pages and `_redirects` remain in the asset bundle.
 
 ## Customer flow
@@ -16,8 +18,8 @@ Set these in the Site environment settings, never in client code or the hosting 
 | --- | --- |
 | CONTACT_FORM_SECRET | Required, at least 32 random characters; HMAC for abuse-control identifiers and payload matching. Configured as a secret. |
 | IDEAL_POSTCODES_API_KEY | Optional secret from Ideal Postcodes, with a valid address-lookup plan/balance. Enables a property-address selection list. |
-| TURNSTILE_SITE_KEY | Optional public key, paired with the secret below. Served at runtime through the config endpoint. |
-| TURNSTILE_SECRET_KEY | Optional secret. When configured, submissions require a valid project-brief challenge for the current hostname. Configure both Turnstile keys together. |
+| TURNSTILE_SITE_KEY | **Required in production**: public site key, paired with the secret below. Served at runtime through the config endpoint. |
+| TURNSTILE_SECRET_KEY | **Required in production**: secret key. Submissions require a valid project-brief challenge for the current hostname. Configure both Turnstile keys together. |
 | RESEND_API_KEY | Optional sending-only secret scoped to the verified WD Marketing domain in Resend. Never use a Namecheap mailbox password here. |
 | CONTACT_EMAIL_ENABLED | Set to `true` only when sender verification and the API key are ready. Otherwise the form continues to store requests without sending or queuing email. |
 
