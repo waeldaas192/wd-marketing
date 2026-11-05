@@ -1,0 +1,35 @@
+name: Temporary dependency lockfile repair (remove before merge)
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - '.github/workflows/temporary-lockfile-repair.yml'
+jobs:
+  repair-lockfile:
+    if: ${{ github.repository == 'waeldaas192/wd-marketing' && github.head_ref == 'security/next15-patch-20261105' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Patch Next.js within current major and regenerate npm lock
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund --save-exact next@15.5.29
+      - name: Apply npm's compatible dependency fixes
+        run: npm audit fix --package-lock-only --ignore-scripts --no-fund || true
+      - name: Report remaining runtime audit findings
+        run: npm audit --omit=dev --audit-level=high || true
+      - name: Commit regenerated manifest and lockfile only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'security: patch Next.js 15 and update npm lockfile'
+            git push origin HEAD:${{ github.head_ref }}
+          fi
