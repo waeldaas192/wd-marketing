@@ -2,19 +2,19 @@
 .challenge,.service,.project { border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); min-width:0; overflow:hidden; }
 .challenge,.service { padding:clamp(22px,2.6vw,34px); }
 .number { display:block; color:var(--accent); font-size:var(--type-label); letter-spacing:.1em; font-weight:600; }
-.challenge h3,.service h3 { margin:22px 0 10px; font-size:var(--type-card); font-weight:550; line-height:1.2; }
+.challenge h3,.service h3 { margin:22px 0 10px; font-size:var(--type-card); font-weight:var(--weight-heading); line-height:1.2; }
 .challenge p,.service p,.projectCopy p,.cta p { color:var(--muted); line-height:var(--body-leading); }
 .challenge p,.service p { margin:0; }
 .projectGrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
 .projectMedia { background:var(--surface-2); overflow:hidden; }
 .projectCopy { padding:clamp(24px,3vw,36px); }
-.projectCopy h3 { margin:0 0 12px; font-size:var(--type-card); font-weight:550; line-height:1.2; }
+.projectCopy h3 { margin:0 0 12px; font-size:var(--type-card); font-weight:var(--weight-heading); line-height:1.2; }
 .projectCopy p { margin:0 0 16px; }
 .projectCopy .eyebrow { margin-bottom:12px; font-size:var(--type-label); }
-.inlineLink { display:inline-flex; align-items:center; gap:8px; margin-top:14px; min-height:44px; color:var(--accent); font-weight:550; }
+.inlineLink { display:inline-flex; align-items:center; gap:8px; margin-top:14px; min-height:44px; color:var(--accent); font-weight:var(--weight-control); }
 .services { grid-template-columns:repeat(4,minmax(0,1fr)); }
 .cta { display:flex; justify-content:space-between; align-items:center; gap:28px; border-radius:var(--radius); background:var(--surface-2); padding:clamp(24px,4vw,56px); }
-.cta h2 { max-width:19ch; font-size:var(--type-section); font-weight:550; line-height:var(--heading-leading); margin:0 0 16px; }
+.cta h2 { max-width:19ch; font-size:var(--type-section); font-weight:var(--weight-heading); line-height:var(--heading-leading); margin:0 0 16px; }
 .cta p { max-width:64ch; margin:0; }
 .cta .eyebrow { margin-bottom:12px; }
 .cta > a { flex-shrink:0; }

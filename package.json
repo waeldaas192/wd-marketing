@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/prepare-satoshi.cjs",
     "dev": "node scripts/dev.cjs",
+    "predev:turbo": "node scripts/prepare-satoshi.cjs",
     "dev:turbo": "next dev --turbopack",
+    "prebuild": "node scripts/prepare-satoshi.cjs",
     "build": "next build && node scripts/build-worker.cjs",
     "start": "wrangler dev --config wrangler.generated.json",
     "build:mb-legacy-assets": "node scripts/build-mb-legacy-assets.cjs",

@@ -10,6 +10,9 @@
   --accent: #464bd1;
   --accent-2: #111318;
   --font-display: var(--font-body);
+  --weight-heading: 700;
+  --weight-body: 400;
+  --weight-control: 500;
   --max: 1280px;
   --gutter: clamp(20px, 4vw, 48px);
   --section-space: clamp(56px, 5.5vw, 88px);

@@ -5,7 +5,7 @@
 .banner a, .dialog a { color: #383cad; text-decoration: underline; text-underline-offset: 3px; font-size: .875rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
 .banner .actions { width: 350px; }
-.actions button { min-height: 44px; padding: 12px 16px; font: inherit; font-size: .875rem; font-weight: 600; line-height: 1.4; cursor: pointer; border-radius: 8px; flex: 1 1 auto; }
+.actions button { min-height: 44px; padding: 12px 16px; font: inherit; font-size: .875rem; font-weight: var(--weight-control); line-height: 1.4; cursor: pointer; border-radius: 8px; flex: 1 1 auto; }
 .choice { background: #fff; border: 1px solid #686a78; color: #111318; }
 .choice:hover { background: #f0f1fc; }
 .settings { border: 1px solid transparent; background: transparent; color: #383cad; text-decoration: underline; }
@@ -14,7 +14,7 @@
 .dialog { width: min(620px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); margin: auto; padding: 28px; border: 1px solid #dce0e6; border-radius: 16px; background: #fff; color: #111318; box-shadow: 0 24px 80px #0003; overflow-y: auto; }
 .dialog::backdrop { background: #11131880; }
 .dialog header { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
-.close { flex: none; width: 44px; height: 44px; border: 1px solid #dce0e6; border-radius: 8px; color: #111318; background: #fff; font: inherit; font-size: 1.75rem; cursor: pointer; }
+.close { flex: none; width: 44px; height: 44px; border: 1px solid #dce0e6; border-radius: 8px; color: #111318; background: #fff; font: inherit; font-size: 1.75rem; cursor: pointer; font-weight: var(--weight-control); }
 .category { display: flex; align-items: center; gap: 24px; padding: 20px 0; border-top: 1px solid #dce0e6; }
 .category > div { flex: 1; min-width: 0; }
 .category h3 { margin: 0 0 6px; font-size: 1rem; }

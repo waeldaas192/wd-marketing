@@ -15,7 +15,19 @@ async function ready(page, route='/') {
   await page.locator('main h1').waitFor({ state: 'visible' });
   await page.waitForFunction(() => document.documentElement.dataset.uiReady === 'true');
   await page.evaluate(() => Promise.race([document.fonts.ready, new Promise((_,reject)=>setTimeout(()=>reject(new Error('Font loading timed out')),15000))]));
+  const font = await page.evaluate(() => {
+    const family = getComputedStyle(document.body).fontFamily.split(',')[0].trim().replace(/["']/g, '');
+    const loaded = [...document.fonts].some(face => face.family.replace(/["']/g, '') === family && face.status === 'loaded');
+    const wrongHeadings = [...document.querySelectorAll('main h1,main h2,main h3,main h4,main h5,main h6')].filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden' && getComputedStyle(el).fontWeight !== '700').map(el => el.textContent);
+    return {family, loaded: loaded && [400,500,700].every(weight => document.fonts.check(`${weight} 16px "${family}"`)), wrongHeadings};
+  });
+  check(/satoshi/i.test(font.family) && font.loaded, `${route}: Satoshi webfont did not load; a fallback must not pass typography QA`);
+  check(font.wrongHeadings.length === 0, `${route}: headings must use weight 700: ${font.wrongHeadings.join(', ')}`);
   return response;
+}
+async function controlWeight(locator, label) {
+  const weights = await locator.evaluateAll(nodes => nodes.filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden').map(el => getComputedStyle(el).fontWeight));
+  check(weights.length > 0 && weights.every(weight => weight === '500'), `${label}: visible control text must use weight 500 (observed ${weights.join(', ')})`);
 }
 async function imagesReady(page, label) {
   // A rapid scroll need not trigger every native lazy image. Explicitly request each
@@ -36,15 +48,20 @@ async function layout(page, label, scale=1) {
     const visible = el => !!el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden';
     const width = document.documentElement.clientWidth;
     const overflow = [...document.querySelectorAll('body *')].filter(el => visible(el) && !el.closest('.site-squares') && !el.classList.contains('skip-link')).filter(el => { const r=el.getBoundingClientRect(); return r.width && (r.right > width + 2 || r.left < -2); }).slice(0,15).map(el => ({tag:el.tagName,cls:typeof el.className==='string'?el.className:el.className.baseVal,text:el.textContent.slice(0,80)}));
-    const headings = [...document.querySelectorAll('main h1,main h2,main h3')].filter(visible).map(el => { const s=getComputedStyle(el); return {level:el.tagName,text:el.textContent,fontSize:parseFloat(s.fontSize),lineHeight:parseFloat(s.lineHeight),width:el.clientWidth,scrollWidth:el.scrollWidth}; });
+    const headings = [...document.querySelectorAll('main h1,main h2,main h3')].filter(visible).map(el => { const s=getComputedStyle(el); return {level:el.tagName,text:el.textContent,fontSize:parseFloat(s.fontSize),fontWeight:s.fontWeight,lineHeight:parseFloat(s.lineHeight),width:el.clientWidth,scrollWidth:el.scrollWidth}; });
     const small = [...document.querySelectorAll('main p,main small,main strong,main li,header button,header a,footer a')].filter(visible).map(el => ({text:el.textContent.slice(0,70),size:parseFloat(getComputedStyle(el).fontSize)})).filter(item => item.size < 11.9);
-    return {width,scrollWidth:document.documentElement.scrollWidth,overflow,headings,small,bodyFont:getComputedStyle(document.body).fontFamily};
+    const bodyStyle = getComputedStyle(document.body);
+    const fontRequests = performance.getEntriesByType('resource').filter(entry => /\.woff2(?:\?|$)/.test(entry.name)).map(entry => entry.name);
+    return {width,scrollWidth:document.documentElement.scrollWidth,overflow,headings,small,bodyFont:bodyStyle.fontFamily,bodyWeight:bodyStyle.fontWeight,fontRequests};
   });
   check(data.scrollWidth <= data.width + 2, `${label}: horizontal page overflow`);
   check(data.overflow.length === 0, `${label}: element overflow ${JSON.stringify(data.overflow)}`);
   check(data.small.length === 0, `${label}: labels smaller than 12px`);
-  check(/Inter/i.test(data.bodyFont), `${label}: Inter not applied`);
+  check(/satoshi/i.test(data.bodyFont), `${label}: Satoshi not applied`);
+  check(data.bodyWeight === '400', `${label}: body text must use weight 400`);
+  check(data.fontRequests.every(url => new URL(url).origin === new URL(base).origin), `${label}: fonts must be served from the website's own origin`);
   for (const h of data.headings) {
+    check(h.fontWeight === '700', `${label}: heading must use weight 700: ${h.text}`);
     check(h.scrollWidth <= h.width + 2, `${label}: clipped heading: ${h.text}`);
     const max = h.level==='H1' ? 72 : h.level==='H2' ? 48 : 36;
     check(h.fontSize <= max*scale + 1, `${label}: oversized ${h.level}: ${h.text}`);
@@ -75,6 +92,8 @@ async function axe(page,label) {
       if (width===390 || width===1440) await axe(page,`home-${width}`);
     }
     await page.setViewportSize({width:1440,height:1000}); await ready(page); await imagesReady(page,'desktop-sections');
+    await controlWeight(page.locator('header nav[aria-label="Primary navigation"] > a[href="/work"]'), 'Desktop navigation');
+    await controlWeight(page.getByRole('banner').getByRole('link',{name:'Start a project',exact:true}), 'Desktop primary CTA');
     await page.screenshot({path:path.join(out,'hero-desktop.png')});
     for (const id of ['work','services','process','about']) {
       const el = page.locator(`#${id}`); await el.scrollIntoViewIfNeeded();
@@ -145,6 +164,7 @@ async function axe(page,label) {
     const dialog=page.locator('#mobile-navigation');
     await page.waitForFunction(()=>document.querySelector('#mobile-navigation')?.open === true);
     check(await dialog.evaluate(el=>el.open),'Mobile dialog did not open');
+    await controlWeight(page.locator('#mobile-navigation[open] nav[aria-label="Mobile navigation links"] > a[href="/work"]'), 'Mobile navigation');
     for (const key of ['Tab','Shift+Tab']) {
       for(let i=0;i<10;i++) {
         await page.keyboard.press(key);
@@ -155,6 +175,7 @@ async function axe(page,label) {
     }
     await axe(page,'mobile-menu-open'); await page.screenshot({path:path.join(out,'mobile-menu.png')});
     await dialog.locator('summary').click();
+    await controlWeight(page.locator('#mobile-navigation[open] details[open] a[href]'), 'Mobile service navigation');
     await dialog.getByRole('link',{name:'Start a project',exact:false}).focus(); await page.keyboard.press('Tab');
     check(await dialog.getByRole('button',{name:'Close menu',exact:true}).evaluate(el=>el===document.activeElement),'Expanded mobile menu did not wrap from last link to Close');
     await page.keyboard.press('Shift+Tab');
@@ -186,6 +207,7 @@ async function axe(page,label) {
     }
     for (const route of ['/services/web-conversion','/work','/about','/insights','/contact']) {
       await page.setViewportSize({width:390,height:844}); await ready(page,route);
+      if (route==='/contact') await controlWeight(page.locator('[data-project-wizard] button[type="submit"] > span:first-child'), 'Contact form action');
       await axe(page,`route-${route}`);
       check(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+2),`${route}: mobile overflow`);
     }

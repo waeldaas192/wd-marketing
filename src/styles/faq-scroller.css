@@ -12,7 +12,7 @@
 [data-faq-row][data-running="true"] > .faq-scroller-track { animation-play-state: running; }
 .faq-sequence { gap: var(--faq-gap, 24px); padding-inline-end: var(--faq-gap, 24px); }
 .faq-card { width: 24rem; min-width: 0; border: 0; box-shadow: inset 0 1px 0 #fff, 0 10px 26px -20px #39255d45; }
-.faq-card .faq-title { margin: 0; color: var(--text, #241b39); font-size: 1.25rem; line-height: 1.4; font-weight: 550; letter-spacing: -.02em; }
+.faq-card .faq-title { margin: 0; color: var(--text, #241b39); font-size: 1.25rem; line-height: 1.4; font-weight: var(--weight-heading); letter-spacing: -.02em; }
 .faq-card .faq-answer { margin: 0; color: var(--muted, #584e6c); font-size: 1rem; line-height: 1.7; overflow-wrap: anywhere; }
 /* No mask in the readable/manual layouts. Edge fades only apply to the decorative loop. */
 [data-faq-row][data-layout="marquee"] { overflow: clip; mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }

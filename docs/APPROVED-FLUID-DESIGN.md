@@ -1,6 +1,6 @@
 # Approved soft-grid and pulse direction
 
-Implements the owner-approved image direction in the actual Next.js code. This is not a generated mockup. Preserve existing routes, contact code, image filenames and the Inter type hierarchy.
+Implements the owner-approved image direction in the actual Next.js code. This is not a generated mockup. Preserve existing routes, contact code, image filenames and the shared type hierarchy. The owner-approved Satoshi family and weights are defined in `UI-SYSTEM.md`.
 
 - Header: correctly aligned SVG chevron, floating 24px mega panel, no boxed service-card borders. Shared vector arrows respond to hover and keyboard focus. Primary controls use 24px corners and restrained press/hover feedback.
 - Hero: masked slow-moving grid, rounded atmospheric tiles at mixed fixed blur levels. All atmospheric layers are decorative, never capture input, and stop offscreen, in a hidden tab, or when motion is paused/reduced. Static layers remain when motion is disabled.

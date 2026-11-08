@@ -16,7 +16,7 @@ The supplied FaqCard / HorizontalScroller / FaqSection composition is integrated
 - `src/components/ui/habit-faq-scroller.demo.tsx`: local DemoOne example using the actual business data; not exposed as a public route.
 - `src/data/faqs.ts`: editable heading, subtitle and three rows, with the same data/rows/faqItems shape as the supplied snippet. Rows move left/right/left at 60s, 45s and 70s per full loop.
 - `src/components/sections/FAQ.tsx`: homepage integration. Existing five questions are retained; the existing enquiry/payment explanation is split into a sixth card, not a new commercial promise. No fictional free trial, subscription plan or data-security guarantees have been imported from the habit demo.
-- `src/styles/faq-scroller.css`: scoped masks, card layout and responsive/readable modes. Existing Inter scale, 24px corners and the established background remain. `globals.css` defines both keyframes AND the Tailwind animation utilities missing from the original snippet. The snippet's fadeInUp keyframe is available, but headings are never hidden by an inline opacity:0 rule; the existing progressive reveal system handles their entry.
+- `src/styles/faq-scroller.css`: scoped masks, card layout and responsive/readable modes. The shared typography from `UI-SYSTEM.md`, 24px corners and the established background remain. `globals.css` defines both keyframes AND the Tailwind animation utilities missing from the original snippet. The snippet's fadeInUp keyframe is available, but headings are never hidden by an inline opacity:0 rule; the existing progressive reveal system handles their entry.
 
 ## Motion and reading
 
