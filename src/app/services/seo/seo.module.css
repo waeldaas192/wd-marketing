@@ -11,9 +11,9 @@
 .page :where(h1, h2, h3, p, ol, ul) { margin: 0; }
 .page :where(a, summary):focus-visible { outline: 3px solid var(--seo-blue); outline-offset: 6px; }
 .page section[id] { scroll-margin-top: 105px; }
-.page h2 { font-size: var(--type-section); font-weight: 550; line-height: var(--heading-leading); letter-spacing: var(--heading-tracking); text-wrap: balance; }
+.page h2 { font-size: var(--type-section); font-weight: var(--weight-heading); line-height: var(--heading-leading); letter-spacing: var(--heading-tracking); text-wrap: balance; }
 .page h2 span { color: var(--seo-muted); }
-.page h3 { font-weight: 600; line-height: 1.25; letter-spacing: -.025em; }
+.page h3 { font-weight: var(--weight-heading); line-height: 1.25; letter-spacing: -.025em; }
 .page p { text-wrap: pretty; }
 .hero { padding: 24px 0 0; }
 .heroTopline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-bottom: 20px; border-bottom: 1px solid var(--seo-line); font-size: .875rem; color: var(--seo-muted); }
@@ -21,15 +21,15 @@
 .heroTopline a:hover { color: var(--text); }
 .heroGrid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; padding: 64px 0 56px; }
 .heroGrid > *, .sectionHeading > *, .featuredProject > *, .founderGrid > *, .faqGrid > *, .scopeGrid > *, .enquiryGrid > *, .perspectiveGrid > * { min-width: 0; }
-.heroCopy h1 { font-size: var(--type-page); font-weight: 600; line-height: 1.08; letter-spacing: var(--heading-tracking); text-wrap: balance; }
+.heroCopy h1 { font-size: var(--type-page); font-weight: var(--weight-heading); line-height: 1.08; letter-spacing: var(--heading-tracking); text-wrap: balance; }
 .heroCopy h1 > span { display: block; margin-bottom: 24px; font-size: 1.125rem; color: var(--seo-blue); line-height: 1.5; letter-spacing: -.01em; }
 .intro { color: var(--seo-muted); font-size: 1.125rem; line-height: 1.7; margin-top: 28px !important; max-width: 570px; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px; margin-top: 32px; }
-.primaryButton { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 54px; padding: 15px 24px; border: 1px solid transparent; border-radius: var(--radius); background: linear-gradient(145deg,#232532,#10121b 70%); color: #fff; font-size: .9375rem; font-weight: 550; line-height: 1.5; transition: background .2s, transform .2s; }
+.primaryButton { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 54px; padding: 15px 24px; border: 1px solid transparent; border-radius: var(--radius); background: linear-gradient(145deg,#232532,#10121b 70%); color: #fff; font-size: .9375rem; font-weight: var(--weight-control); line-height: 1.5; transition: background .2s, transform .2s; }
 .primaryButton:hover { background: #302842; transform: translateY(-2px); }
 .arrow, .diagonalArrow { flex: 0 0 auto; display: inline-flex; line-height: 1; }
 .diagonalArrow { transform: rotate(-40deg); }
-.textLink { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: .9375rem; font-weight: 550; text-decoration: underline; text-decoration-color: #b9b1ce; text-underline-offset: 6px; }
+.textLink { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: .9375rem; font-weight: var(--weight-control); text-decoration: underline; text-decoration-color: #b9b1ce; text-underline-offset: 6px; }
 .textLink:hover { color: var(--seo-blue); text-decoration-color: currentColor; }
 .heroNote { margin-top: 25px !important; color: var(--seo-muted); font-size: .875rem; }
 .heroVisual { padding-top: 24px; }
@@ -106,7 +106,7 @@
 .faqGrid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; }
 .faqList { border-top: 1px solid var(--seo-line); }
 .faqList details { border-bottom: 1px solid var(--seo-line); }
-.faqList summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 23px 0; font-size: 1.0625rem; font-weight: 500; line-height: 1.5; cursor: pointer; list-style: none; }
+.faqList summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 23px 0; font-size: 1.0625rem; font-weight: var(--weight-control); line-height: 1.5; cursor: pointer; list-style: none; }
 .faqList summary::-webkit-details-marker { display: none; }
 .faqList summary:hover { color: var(--seo-blue); }
 .disclosureIcon { position: relative; flex: 0 0 16px; width: 16px; height: 16px; }

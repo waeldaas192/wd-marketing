@@ -2,7 +2,7 @@
 .inner { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.5fr); gap: var(--section-gap); align-items: start; }
 .sticky { position: sticky; top: calc(var(--header-height) + 24px); min-width: 0; }
 .kicker { margin: 0 0 16px; color: var(--accent); font-size: var(--type-label); line-height: 1.5; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-.title { margin: 0; max-width: 18ch; font-size: var(--type-aside); line-height: var(--heading-leading); letter-spacing: var(--heading-tracking); font-weight: 550; text-wrap: balance; }
+.title { margin: 0; max-width: 18ch; font-size: var(--type-aside); line-height: var(--heading-leading); letter-spacing: var(--heading-tracking); font-weight: var(--weight-heading); text-wrap: balance; }
 .title span { color: var(--muted); }
 .desc { margin: 24px 0 0; max-width: 44ch; color: var(--muted); font-size: var(--type-body); line-height: var(--body-leading); }
 .progress { height: 3px; margin-top: 32px; background: var(--line); overflow: hidden; }
@@ -14,7 +14,7 @@
 .active { background: #f5f5ff; }
 .active::before { transform: scaleY(1); }
 .number { padding-top: 6px; color: var(--subtle); font-size: var(--type-label); font-variant-numeric: tabular-nums; }
-.name { margin: 0; color: var(--text); font-size: 1.25rem; font-weight: 600; line-height: 1.4; letter-spacing: -.02em; }
+.name { margin: 0; color: var(--text); font-size: 1.25rem; font-weight: var(--weight-heading); line-height: 1.4; letter-spacing: -.02em; }
 .copy { margin: 0; color: var(--muted); font-size: var(--type-body); line-height: 1.65; }
 .badge { position: static; color: var(--accent); font-size: 18px; opacity: 0; }
 .active .badge { opacity: 1; }

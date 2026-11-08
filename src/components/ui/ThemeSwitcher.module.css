@@ -83,6 +83,7 @@
   font-size: .9375rem;
   line-height: 1.35;
   transition: background var(--motion-fast) ease, transform var(--motion-fast) ease;
+  font-weight: var(--weight-control);
 }
 
 .option:hover,

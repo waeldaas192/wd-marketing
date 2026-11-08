@@ -9,6 +9,7 @@ dist/
 .DS_Store
 *.log
 *.tsbuildinfo
+/src/app/fonts/
 qa-results/
 # Accidental nested repository created during initial desktop setup.
 /wd-marketing/

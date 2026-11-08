@@ -16,7 +16,7 @@
 .businessSection p { color: #c4c9d2; }
 .split, .splitReverse { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(36px, 6vw, 84px); align-items: center; }
 .splitReverse { grid-template-columns: .95fr 1.05fr; }
-.split h2, .splitReverse h2, .londonGrid h2, .differentGrid h2 { font-size: var(--type-section); font-weight: 550; line-height: var(--heading-leading); letter-spacing: var(--heading-tracking); }
+.split h2, .splitReverse h2, .londonGrid h2, .differentGrid h2 { font-size: var(--type-section); font-weight: var(--weight-heading); line-height: var(--heading-leading); letter-spacing: var(--heading-tracking); }
 .split h2 span, .splitReverse h2 span, .londonGrid h2 span, .differentGrid h2 span { color: var(--muted); }
 .split > div > p:not(:first-child), .splitReverse > div > p:not(:first-child) { margin-top: 22px; color: var(--muted); }
 .businessSection .splitReverse > div > p:not(:first-child) { color: #c4c9d2; }
@@ -53,7 +53,7 @@
 .principles { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; margin-top: 28px; border-top: 1px solid var(--line); }
 .principles span { padding: 15px 0; border-bottom: 1px solid var(--line); font-size: .9rem; font-weight: 600; }
 .connectedLinks { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 26px; }
-.connectedLinks a { display: inline-flex; gap: 10px; align-items: center; text-decoration: underline; text-underline-offset: 5px; font-size: .9rem; font-weight: 600; }
+.connectedLinks a { display: inline-flex; gap: 10px; align-items: center; text-decoration: underline; text-underline-offset: 5px; font-size: .9rem; font-weight: var(--weight-control); }
 .connectedLinks a:hover { color: #5543b5; }
 
 @media (max-width: 1024px) {
