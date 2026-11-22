@@ -19,7 +19,7 @@ function SocialIcon({ name }: { name: string }) {
 
 export function Footer() {
   return <footer className={styles.footer} data-studio-footer><div className="container">
-    <div className={styles.top}><h2 className={styles.title}>Make the next move.<span>Make it count.</span></h2><Link href="/contact" className={styles.arrow} aria-label="Start a project"><ArrowIcon/></Link></div>
+    <div className={styles.top} data-footer-prompt><h2 className={styles.title}>Make the next move.<span>Make it count.</span></h2><Link href="/contact" className={styles.arrow} aria-label="Start a project"><ArrowIcon/></Link></div>
     <div className={styles.grid}>
       <div className={styles.brand}><Link href="/" className={styles.identity} aria-label="WD Marketing home"><Image src={assets.brand.logo.src} alt="" width={assets.brand.logo.width} height={assets.brand.logo.height}/><span><strong>WD Marketing</strong><small>Digital Growth Systems</small></span></Link><p>{site.description}</p><a className={styles.email} href={`mailto:${site.email}`}>{site.email}</a></div>
       <nav className={styles.column} aria-label="Footer explore"><span className={styles.label}>Explore</span>{navigation.map(item => <Link key={item.href} href={item.href}>{item.label}</Link>)}</nav>

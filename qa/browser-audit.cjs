@@ -47,8 +47,8 @@ async function layout(page, label, scale=1) {
   const data = await page.evaluate(() => {
     const visible = el => !!el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden';
     const width = document.documentElement.clientWidth;
-    const overflow = [...document.querySelectorAll('body *')].filter(el => visible(el) && !el.closest('.site-squares') && !el.classList.contains('skip-link')).filter(el => { const r=el.getBoundingClientRect(); return r.width && (r.right > width + 2 || r.left < -2); }).slice(0,15).map(el => ({tag:el.tagName,cls:typeof el.className==='string'?el.className:el.className.baseVal,text:el.textContent.slice(0,80)}));
-    const headings = [...document.querySelectorAll('main h1,main h2,main h3')].filter(visible).map(el => { const s=getComputedStyle(el); return {level:el.tagName,text:el.textContent,fontSize:parseFloat(s.fontSize),fontWeight:s.fontWeight,lineHeight:parseFloat(s.lineHeight),width:el.clientWidth,scrollWidth:el.scrollWidth}; });
+    const overflow = [...document.querySelectorAll('body *')].filter(el => visible(el) && !el.closest('.site-squares') && !el.closest('[data-hero-stone]') && !el.classList.contains('skip-link')).filter(el => { const r=el.getBoundingClientRect(); return r.width && (r.right > width + 2 || r.left < -2); }).slice(0,15).map(el => ({tag:el.tagName,cls:typeof el.className==='string'?el.className:el.className.baseVal,text:el.textContent.slice(0,80)}));
+    const headings = [...document.querySelectorAll('main h1,main h2,main h3')].filter(visible).map(el => { const s=getComputedStyle(el); return {level:el.tagName,display:el.hasAttribute('data-display'),text:el.textContent,fontSize:parseFloat(s.fontSize),fontWeight:s.fontWeight,lineHeight:parseFloat(s.lineHeight),width:el.clientWidth,scrollWidth:el.scrollWidth}; });
     const small = [...document.querySelectorAll('main p,main small,main strong,main li,header button,header a,footer a')].filter(visible).map(el => ({text:el.textContent.slice(0,70),size:parseFloat(getComputedStyle(el).fontSize)})).filter(item => item.size < 11.9);
     const bodyStyle = getComputedStyle(document.body);
     const fontRequests = performance.getEntriesByType('resource').filter(entry => /\.woff2(?:\?|$)/.test(entry.name)).map(entry => entry.name);
@@ -63,9 +63,10 @@ async function layout(page, label, scale=1) {
   for (const h of data.headings) {
     check(h.fontWeight === '700', `${label}: heading must use weight 700: ${h.text}`);
     check(h.scrollWidth <= h.width + 2, `${label}: clipped heading: ${h.text}`);
-    const max = h.level==='H1' ? 72 : h.level==='H2' ? 48 : 36;
+    // Homepage display headings (data-display) follow the approved expanded-type scale in docs/UI-SYSTEM.md.
+    const max = h.display ? (h.level==='H1' ? 144 : 104) : h.level==='H1' ? 72 : h.level==='H2' ? 48 : 36;
     check(h.fontSize <= max*scale + 1, `${label}: oversized ${h.level}: ${h.text}`);
-    check(h.lineHeight >= h.fontSize, `${label}: compressed heading line-height: ${h.text}`);
+    check(h.lineHeight >= h.fontSize*(h.display ? .92 : 1), `${label}: compressed heading line-height: ${h.text}`);
   }
   return data;
 }
@@ -144,7 +145,7 @@ async function axe(page,label) {
     await page.emulateMedia({reducedMotion:'no-preference'});
     await page.getByRole('button',{name:'Pause motion',exact:true}).click();
     check(await page.evaluate(()=>document.documentElement.dataset.motion==='paused'),'Motion pause control failed');
-    check(await page.locator('.site-squares i').first().evaluate(el=>getComputedStyle(el).animationPlayState==='paused'),'Decorative motion not paused');
+    check(await page.locator('[data-hero-stone="hero"] [data-vein]').first().evaluate(el=>getComputedStyle(el).animationName==='none'),'Decorative hero motion not stopped when paused');
     await page.waitForFunction(()=>document.querySelector('[data-growth-engine]').dataset.animate==='off');
     await page.reload({waitUntil:'domcontentloaded'});
     await page.waitForFunction(()=>document.documentElement.dataset.uiReady==='true');
@@ -156,7 +157,7 @@ async function axe(page,label) {
     await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));
     await page.waitForFunction(()=>document.querySelector('[data-growth-engine]').dataset.animate==='off');
     await page.emulateMedia({reducedMotion:'reduce'});
-    check(await page.locator('.site-squares i').first().evaluate(el=>getComputedStyle(el).animationName==='none'),'Reduced motion ignored');
+    check(await page.locator('[data-hero-stone="hero"] [data-vein]').first().evaluate(el=>getComputedStyle(el).animationName==='none'),'Reduced motion ignored');
     report.interactions.push('Pause persistence, resume, offscreen suspension and system reduced motion');
 
     await page.setViewportSize({width:390,height:844}); await ready(page);

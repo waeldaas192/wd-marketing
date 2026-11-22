@@ -13,6 +13,7 @@
 ## Hierarchy
 
 - Homepage H1: 40–72 CSS px at default root size. Page H1: at most 64 px.
+- Homepage "polished stone" redesign (November 2026, approved by the owner): headings marked `data-display` on the homepage use Archivo's width axis (`--font-expanded`, self-hosted, SIL OFL 1.1 in `src/app/fonts-display/`). Display H1 up to 144 px, display H2 up to 104 px, weight 700, line-height at least 0.92. Body copy, navigation and every other page keep Satoshi and the scale below. The hero H1 opens once from 62% to 125% width; the stone veins draw once. Both are skipped under reduced motion or the pause control, and the final state is the default style, so no content depends on animation.
 - Section H2: 30–48 px. Narrow-column headings: 30–40 px.
 - Cards: 22–28 px, project names may reach 36 px. Body: 16 px. UI labels: at least 12 px.
 - Section heading line-height: 1.14. Body: 1.7. Never clip text to enforce equal height.
