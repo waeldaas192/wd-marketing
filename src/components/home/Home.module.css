@@ -34,16 +34,18 @@
 
 /* Hero */
 .hero { isolation: isolate; overflow: hidden; background: var(--stone); color: #fff; }
-.stone { position: absolute; inset: 0; z-index: -1; pointer-events: none; --light-x: 74%; --light-y: 34%; }
+.stone { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; background: #131016 url("/images/home/stone-texture.webp") center / cover no-repeat; }
+@media (max-width: 960px) { .stone { background-image: url("/images/home/stone-texture-960.webp"); } }
 .stone svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.reflection { position: absolute; inset: 0; background: radial-gradient(520px circle at var(--light-x) var(--light-y), #ffffff17, #ffffff00 70%); transition: background-position .2s; }
-.veins path { stroke-dasharray: 2600; animation: wd-vein-draw 2.8s cubic-bezier(.65,0,.35,1) .35s backwards; }
-.veins path:nth-child(2) { animation-delay: .75s; }
-.veins path:nth-child(3) { animation-delay: 1.05s; }
-.veins path:nth-child(n+4) { animation-delay: 1.3s; }
-.stone[data-animate="on"] .veins { animation: wd-vein-pulse 6s ease-in-out 3.4s infinite; }
+.halo { opacity: .22; }
+.reflection { position: absolute; left: 0; top: 0; width: 640px; height: 640px; margin: -320px 0 0 -320px; border-radius: 50%; background: radial-gradient(circle, #ffffff17, #ffffff00 66%); opacity: 0; transform: translate3d(70vw, 280px, 0); transition: opacity .5s ease; will-change: transform; }
+.reflection[data-on] { opacity: 1; }
+.veins path { stroke-dasharray: 2600; animation: wd-vein-draw 2.4s cubic-bezier(.65,0,.35,1) .3s backwards; }
+.veins path:nth-child(-n+2) { animation-delay: .25s; }
+.veins path:nth-child(3) { animation-delay: .7s; }
+.veins path:nth-child(4) { animation-delay: .95s; }
+.veins path:nth-child(n+5) { animation-delay: 1.15s; }
 @keyframes wd-vein-draw { from { stroke-dashoffset: 2600; } to { stroke-dashoffset: 0; } }
-@keyframes wd-vein-pulse { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
 
 .heroInner { display: flex; flex-direction: column; gap: 36px; padding-block: clamp(72px, 9vw, 132px) clamp(48px, 6vw, 72px); }
 .heroKicker { margin: 0; max-width: 42ch; color: #d6d0dd; font-size: 1.0625rem; line-height: 1.55; }
@@ -57,12 +59,16 @@
   letter-spacing: -.035em;
   text-transform: uppercase;
   color: #fff;
-  animation: wd-title-open 1.6s cubic-bezier(.16,1,.3,1) .15s backwards;
 }
-.heroTitle span { display: block; }
-@keyframes wd-title-open { from { font-stretch: 62%; opacity: 0; transform: translateY(24px); } 35% { opacity: 1; } }
-.heroFoot { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 40px; margin-top: 8px; animation: wd-rise .9s ease 1.2s backwards; }
-@keyframes wd-rise { from { opacity: 0; transform: translateY(12px); } }
+.heroTitle span { display: block; transform-origin: 0 100%; animation: wd-title-open 1.1s cubic-bezier(.16,1,.3,1) .1s backwards; }
+.heroTitle span + span { animation-delay: .22s; }
+@keyframes wd-title-open { from { opacity: 0; transform: translate3d(0, 40%, 0) scaleX(.82); } 40% { opacity: 1; } }
+.heroKicker, .heroFoot, .shipped { animation: wd-rise .8s cubic-bezier(.22,1,.36,1) backwards; }
+.heroKicker { animation-delay: .05s; }
+.heroFoot { animation-delay: .55s; }
+.shipped { animation-delay: .8s; }
+.heroFoot { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 40px; margin-top: 8px; }
+@keyframes wd-rise { from { opacity: 0; transform: translate3d(0, 16px, 0); } }
 .heroCopy { display: flex; flex-direction: column; gap: 32px; max-width: 560px; }
 .heroCopy > p { margin: 0; color: #e7e2ec; font-size: clamp(1.0625rem, 1rem + .3vw, 1.1875rem); line-height: 1.65; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
@@ -184,9 +190,11 @@
   .shippedInner { gap: 8px 24px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .veins path, .heroTitle, .heroFoot { animation: none; }
+  .veins path, .heroTitle span, .heroKicker, .heroFoot, .shipped { animation: none; }
+  .reflection { display: none; }
   .primary, .ghost, .featureMedia img, .cardMedia img, .accordion summary i::after { transition: none; }
 }
 /* Entrance animations are skipped (not frozen) when motion is paused, so nothing is left half-drawn. */
-:global(html[data-motion="paused"]) .veins, :global(html[data-motion="paused"]) .veins path,
-:global(html[data-motion="paused"]) .heroTitle, :global(html[data-motion="paused"]) .heroFoot { animation: none !important; }
+:global(html[data-motion="paused"]) .veins path, :global(html[data-motion="paused"]) .heroTitle span,
+:global(html[data-motion="paused"]) .heroKicker, :global(html[data-motion="paused"]) .heroFoot, :global(html[data-motion="paused"]) .shipped { animation: none !important; }
+:global(html[data-motion="paused"]) .reflection { display: none; }

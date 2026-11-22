@@ -118,7 +118,7 @@ export function Header() {
             }}>Services <Icon name="chevron" className={styles.chevron}/></button>
             <div ref={panelRef} id="services-menu" className={styles.mega} hidden={!megaOpen}>
               <div className={`container ${styles.megaInner}`}>
-                <div className={styles.megaIntro}><p className="eyebrow">Capabilities</p><p className={styles.megaTitle}>One connected growth system.</p><p>Explore the services behind a clearer customer journey, from discovery to enquiry.</p></div>
+                <div className={styles.megaIntro}><p className="eyebrow">Capabilities</p><p className={styles.megaTitle}>Where are you losing enquiries?</p><p>Start with the stage that is leaking most, or connect search, ads, website and tracking as one system.</p></div>
                 <div className={styles.serviceGrid}>{services.map((item,index) => <Link key={item.href} href={item.href} className={styles.serviceCard} onClick={closeForNavigation} aria-current={active(item.href) ? "page" : undefined}><span>0{index+1}</span><strong>{item.label} <ArrowIcon/></strong><p>{item.copy}</p></Link>)}</div>
                 <div className={styles.megaAside}><Link href="/work" onClick={closeForNavigation}>Selected work <ArrowIcon/></Link><Link href="/about" onClick={closeForNavigation}>About WD <ArrowIcon/></Link><Link href="/insights" onClick={closeForNavigation}>Insights <ArrowIcon/></Link><Link href="/contact" onClick={closeForNavigation}>Discuss your project <ArrowIcon/></Link></div>
               </div>
