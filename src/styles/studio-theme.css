@@ -288,3 +288,6 @@ html[data-color-scheme="dark"] [data-studio-page] [data-studio-cta-copy] a:last-
   [data-studio-page] [data-studio-card], [data-studio-page] details { border: 1px solid CanvasText; }
   .library-icon-frame { color: CanvasText; background: Canvas; }
 }
+
+/* Homepage: one closing call to action. The footer prompt repeats it on other pages only. */
+body:has([data-home-page]) [data-footer-prompt] { display: none; }

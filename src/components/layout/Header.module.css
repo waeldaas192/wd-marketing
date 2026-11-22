@@ -130,3 +130,16 @@
 }
 :global(html[data-color-scheme="dark"]) .mobileLinks details a { color: #b3bdcc; }
 :global(html[data-color-scheme="dark"]) .mobileLinks a[aria-current="page"] { color: #b6a9ff; }
+
+/* Homepage: the header sits on the polished-stone hero. */
+.header[data-tone="stone"] { background: #131016e8; color: #fff; box-shadow: 0 1px 0 #ffffff14; }
+.header[data-tone="stone"] .brand, .header[data-tone="stone"] .brandName { color: #fff; }
+.header[data-tone="stone"] .brandName strong { color: #ff8cc0; }
+.header[data-tone="stone"] .logo { filter: brightness(1.9) saturate(1.15); }
+.header[data-tone="stone"] .link { color: #e2dde8; }
+.header[data-tone="stone"] .link:hover, .header[data-tone="stone"] .active { color: #fff; }
+.header[data-tone="stone"] .link::after { background: #ff3d9a; }
+.header[data-tone="stone"] .actions { --muted: #e2dde8; --text: #fff; --surface-2: #ffffff1f; }
+.header[data-tone="stone"] .motion, .header[data-tone="stone"] .menu { color: #e2dde8; }
+.header[data-tone="stone"] .motion:hover, .header[data-tone="stone"] .menu:hover { background: #ffffff1f; }
+.header[data-tone="stone"] .cta { color: #131016; background: #fff; box-shadow: none; }

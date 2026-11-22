@@ -97,7 +97,7 @@ export function Header() {
   }, []);
 
   return <>
-    <header className={styles.header}>
+    <header className={styles.header} data-tone={pathname === "/" ? "stone" : undefined}>
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.brand} aria-label="WD Marketing home" onClick={closeForNavigation}>
           <Image src={assets.brand.logo.src} alt="" width={assets.brand.logo.width} height={assets.brand.logo.height} className={styles.logo} priority />
