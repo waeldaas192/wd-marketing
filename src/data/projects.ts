@@ -49,7 +49,7 @@ export const projects: Project[] = [
     name: "Bunyan London",
     type: "Construction Web Design · Local SEO · Conversion",
     headline: "A responsive, quote-first website experience for a London building and renovation company.",
-    image: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261122_054603_adeae171-fae1-4ed4-aebe-af75b6d2e002.png",
+    image: "/images/projects/bunyan-london/bunyan-london-construction-website-mockup.webp",
     imageAlt: "Bunyan London construction website design case study desktop and mobile mockup created in Higgsfield",
     sector: "Construction & home renovation",
     location: "London, United Kingdom",
@@ -71,8 +71,8 @@ export const projects: Project[] = [
     ],
     evidence: "The supplied desktop and mobile screenshots show a headline focused on London building services, an itemised-quote proposition, a prominent enquiry form, click-to-call actions and a mobile sticky contact bar. Visual presentation is documented; ranking, traffic and lead outcomes have not been independently verified.",
     gallery: [
-      { src: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261122_054603_adeae171-fae1-4ed4-aebe-af75b6d2e002.png", alt: "Bunyan London responsive construction web design desktop and mobile website mockup", width: 1536, height: 864 },
-      { src: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261122_054637_77887f00-8946-4fbd-a836-d86802dd57f4.png", alt: "Bunyan London London builder website mobile responsive quote journey mockup", width: 1024, height: 1280 }
+      { src: "/images/projects/bunyan-london/bunyan-london-construction-website-mockup.webp", alt: "Bunyan London responsive construction web design desktop and mobile website mockup", width: 1536, height: 864 },
+      { src: "/images/projects/bunyan-london/bunyan-london-responsive-mobile-website.webp", alt: "Bunyan London London builder website mobile responsive quote journey mockup", width: 1024, height: 1280 }
     ]
   },
   {
