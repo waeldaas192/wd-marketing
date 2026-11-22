@@ -11,6 +11,11 @@ export const workAuthorityPriority = [
 ] as const;
 
 const projectServiceLinks: Record<string, readonly ProjectServiceLink[]> = {
+  "bunyan-london": [
+    { label: "Web Design & Conversion", href: "/services/web-conversion" },
+    { label: "Local SEO London", href: "/services/local-seo-london" },
+    { label: "SEO & Organic Growth", href: "/services/seo" },
+  ],
   "floor-care-london": [
     { label: "Web Design & Conversion", href: "/services/web-conversion" },
     { label: "Local SEO London", href: "/services/local-seo-london" },
