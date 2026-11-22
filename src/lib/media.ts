@@ -8,6 +8,8 @@ import placeholders from "@/data/placeholder-hashes.json";
 export type MediaAsset = { src: string; alt: string; width: number; height: number; ready: boolean; originalSrc: string };
 const fingerprints: Record<string, string> = placeholders;
 const inspect = cache((src: string): { ready: boolean; version: string } => {
+  // Approved Higgsfield project visuals may be supplied as HTTPS CDN URLs.
+  if (/^https:\/\/d8j0ntlcm91z4\.cloudfront\.net\/user_[A-Za-z0-9]+\/hf_[A-Za-z0-9_-]+\.png$/.test(src)) return { ready: true, version: "" };
   // Only first-party asset paths from our data files may be inspected.
   if (!src.startsWith("/images/") || src.includes("..") || /[?#\\]/.test(src)) return { ready: false, version: "" };
   const file = path.join(process.cwd(), "public", src);
@@ -20,5 +22,5 @@ const inspect = cache((src: string): { ready: boolean; version: string } => {
 });
 export function resolveMedia(asset: { src: string; alt: string; width: number; height: number }): MediaAsset {
   const status = inspect(asset.src);
-  return { ...asset, ready: status.ready, originalSrc: asset.src, src: status.ready ? `${asset.src}?v=${status.version}` : asset.src };
+  return { ...asset, ready: status.ready, originalSrc: asset.src, src: status.ready && status.version ? `${asset.src}?v=${status.version}` : asset.src };
 }
