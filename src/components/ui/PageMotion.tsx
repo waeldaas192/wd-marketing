@@ -59,17 +59,22 @@ export function PageMotion() {
         element.dataset.revealState = "playing";
         const order = Math.max(0, Math.min(3, Number(element.dataset.revealOrder) || 0));
 
+        // Optional homepage variants: "lg" travels further; media (images, never text) may also fade in.
+        const large = element.dataset.revealTravel === "lg";
+        const media = element.dataset.revealMedia === "true";
+        const travel = coarse ? (large ? 18 : 8) : (large ? 40 : 16);
         const animation = element.animate([
           {
             transform: coarse
-              ? "translate3d(0,8px,0)"
-              : "translate3d(0,16px,0) scale(.994)",
+              ? `translate3d(0,${travel}px,0)`
+              : `translate3d(0,${travel}px,0) scale(${media ? .97 : .994})`,
+            ...(media ? { opacity: 0 } : {}),
           },
-          { transform: "translate3d(0,0,0) scale(1)" },
+          { transform: "translate3d(0,0,0) scale(1)", ...(media ? { opacity: 1 } : {}) },
         ], {
           id: "wd-section-reveal",
-          duration: coarse ? 340 : 560,
-          delay: coarse ? 0 : order * 55,
+          duration: coarse ? (large ? 520 : 340) : (large ? 820 : 560),
+          delay: (coarse ? 40 : 90) * order,
           easing: "cubic-bezier(.2,1.08,.32,1)",
           fill: "both",
         });
