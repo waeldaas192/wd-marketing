@@ -238,7 +238,7 @@ async function axe(page,label) {
         await layout(page,label);
         if (route==='/work') {
           const names=await page.locator('[data-studio-card] h3').allTextContents();
-          check(names.slice(0,4).join('|')==='Floor Care London|London Marble Stone|Stone Pro Worktops|EXP Auto Parts', `${label}: authority case-study order is incorrect: ${names.slice(0,4).join('|')}`);
+          check(names.slice(0,4).join('|')==='FloorCare London|London Marble Stone|Stone Pro Worktops|EXP Auto Parts', `${label}: authority case-study order is incorrect: ${names.slice(0,4).join('|')}`);
         } else {
           const links=page.locator('.case-service-links a');
           check(await links.count()===3, `${label}: Floor Care London should expose three connected service links`);
