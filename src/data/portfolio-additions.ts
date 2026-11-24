@@ -108,25 +108,48 @@ const capturedProjects: CapturedProject[] = [
   },
   {
     slug: "floor-care-london",
-    name: "Floor Care London",
-    type: "Web Design · Local Services",
-    headline: "Helping property owners find the right care for their floors.",
-    sector: "Floor cleaning & restoration", location: "London",
+    name: "FloorCare London",
+    type: "Bespoke Web Design · Development · Local SEO",
+    headline: "A bespoke, responsive floor restoration website designed around surface discovery and customer enquiries in London.",
+    sector: "Floor cleaning & restoration", location: "London, United Kingdom",
     website: "https://floorcarelondon.co.uk/",
-    challenge: "Explain different floor-care services clearly and guide visitors from their surface type towards a relevant enquiry.",
-    strategy: ["Group services by floor and surface type", "Use clear service imagery and plain-language explanations", "Keep quotation and contact routes close to service content"],
-    deliverables: ["Floor-care website", "Surface-specific service pages", "Quote and contact journey"],
-    evidence: "The public website gives visitors dedicated routes for marble, stone, terrazzo and concrete floor care.",
-    imageAlt: "Floor Care London homepage with floor restoration imagery and service links",
-    detailAlt: "Floor Care London website displaying surface-specific cleaning services",
+    challenge: "FloorCare London needed a premium digital experience that explains specialist restoration for marble, natural stone, terrazzo, concrete and tile, helps residential and commercial customers identify the right treatment, and makes requesting a free assessment straightforward.",
+    strategy: [
+      "Create a distinctive visual identity using deep navy, warm gold, immersive floor photography and bold editorial typography.",
+      "Design responsive desktop and mobile journeys with a floor-type and property selector, compact navigation and persistent mobile contact actions.",
+      "Structure specialist service and London location pages around customer search intent, with clear headings and descriptive content.",
+      "Bring assessment requests, telephone and WhatsApp contact options into the browsing journey to reduce enquiry friction.",
+      "Develop a custom static architecture without a WordPress runtime, using Node.js build tooling and Cloudflare Workers delivery."
+    ],
+    deliverables: [
+      "Bespoke responsive website and visual design",
+      "Custom HTML, CSS and JavaScript development",
+      "Surface and property discovery interface",
+      "Mobile-first enquiry navigation and free assessment journey",
+      "Service and London-area content architecture for local SEO",
+      "Static build pipeline and Cloudflare Workers deployment architecture",
+      "Higgsfield portfolio and social campaign artwork"
+    ],
+    technology: ["HTML5", "CSS3", "JavaScript (ES modules)", "Node.js", "Custom static site generation", "Cloudflare Workers"],
+    evidence: "The project screenshots document the desktop and mobile experience, surface selector, assessment actions and structured service navigation. Google Search Console is used to monitor organic visibility; ranking, traffic uplift and conversion outcomes are not attributed to the redesign without a comparable baseline and approved evidence.",
+    imageAlt: "FloorCare London bespoke website design showcased on desktop and mobile devices in a Higgsfield portfolio mockup",
+    detailAlt: "FloorCare London responsive website design campaign artwork by WD Marketing",
   },
 ];
 
 export const portfolioAdditions: Project[] = capturedProjects.map(({ detailAlt, ...project }) => ({
   ...project,
+  ...(project.slug === "floor-care-london" ? {
+    image: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261124_113203_ffae63a0-d6cb-4d0b-a41a-7e84d99551de.png",
+    gallery: [
+      { src: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261124_113203_ffae63a0-d6cb-4d0b-a41a-7e84d99551de.png", alt: project.imageAlt, width: 1600, height: 900 },
+      { src: "https://d8j0ntlcm91z4.cloudfront.net/user_3GEucVxZY0sRqYaixUorECNXN6a/hf_20261124_113201_035135ce-46ef-4cc0-b629-e23227762c6c.png", alt: detailAlt, width: 1024, height: 1280 },
+    ],
+  } : {
   image: `/images/projects/${project.slug}/homepage.webp`,
   gallery: [
     { src: `/images/projects/${project.slug}/homepage.webp`, alt: project.imageAlt, width: 1800, height: 1200 },
     { src: `/images/projects/${project.slug}/details.webp`, alt: detailAlt, width: 1800, height: 1200 },
   ],
+  }),
 }));
