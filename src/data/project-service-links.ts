@@ -11,6 +11,11 @@ export const workAuthorityPriority = [
 ] as const;
 
 const projectServiceLinks: Record<string, readonly ProjectServiceLink[]> = {
+  "classic-kitchens-bathrooms-crm": [
+    { label: "CRM & Automation", href: "/services/growth-infrastructure" },
+    { label: "Meta Ads", href: "/services/meta-ads" },
+    { label: "Web Design & Conversion", href: "/services/web-conversion" },
+  ],
   "bunyan-london": [
     { label: "Web Design & Conversion", href: "/services/web-conversion" },
     { label: "Local SEO London", href: "/services/local-seo-london" },

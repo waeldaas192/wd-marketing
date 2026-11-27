@@ -26,6 +26,7 @@ const primaryPaths = new Set(["/", "/about", "/contact", "/work", "/insights", "
   "/industries/stone-worktops",
   "/services/web-conversion", "/services/seo", "/services/local-seo-london", "/services/technical-seo-london", "/services/paid-acquisition", "/services/meta-ads", "/services/conversion-rate-optimisation", "/services/growth-infrastructure",
   "/work/bunyan-london",
+  "/work/classic-kitchens-bathrooms-crm",
   "/work/sma-marble",
   "/work/stone-pro-worktops",
   "/work/mb-legacy-roofing",
