@@ -50,7 +50,7 @@ export const projects: Project[] = [
     type: "Custom CRM · Meta Lead Ads · WhatsApp · Automation",
     headline: "A custom CRM that brings Meta lead ads, WhatsApp, calls, SMS, email and automation into one dashboard, with no CRM subscription.",
     image: "/images/projects/classic-kitchens-bathrooms/classic-crm-dashboard.webp",
-    imageAlt: "Custom CRM dashboard for Classic Kitchens and Bathrooms on a laptop with the WhatsApp inbox on a mobile phone",
+    imageAlt: "Custom CRM dashboard for Classic Kitchens and Bathrooms with the WhatsApp inbox shown on a mobile screen",
     sector: "Kitchens & bathrooms",
     location: "London, United Kingdom",
     website: "https://classickb.co.uk/",

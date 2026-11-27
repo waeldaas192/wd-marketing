@@ -46,8 +46,8 @@ export function HomeHero() {
   </section>;
 }
 
-const featuredSlug = "stone-pro-worktops";
-const gridSlugs = ["sma-marble", "bunyan-london", "mb-legacy-roofing"];
+const featuredSlug = "classic-kitchens-bathrooms-crm";
+const gridSlugs = ["stone-pro-worktops", "sma-marble", "bunyan-london"];
 const bySlug = (slug: string) => projects.find(project => project.slug === slug) as Project;
 
 export function HomeWork() {
@@ -57,7 +57,7 @@ export function HomeWork() {
     <div className="container">
       <div className={styles.head} {...reveal(0)}>
         <h2 id="work-heading" className={styles.display} data-display>Work that has to win quotes.</h2>
-        <p>Each of these sites is judged on one thing: whether the right customers ask for a price. Case studies show the build, the search set-up and what gets measured.</p>
+        <p>Each of these projects is judged on one thing: whether the right customers ask for a price and get followed up. Case studies show the build, the systems behind it and what gets measured.</p>
       </div>
       <Link href={`/work/${featured.slug}`} className={styles.feature} {...reveal(1)}>
         <div className={styles.featureMedia}><Image src={featured.image} alt={featured.imageAlt} width={1800} height={1125} sizes="(max-width: 900px) 100vw, 55vw"/></div>
