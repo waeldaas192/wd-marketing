@@ -45,6 +45,46 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "classic-kitchens-bathrooms-crm",
+    name: "Classic Kitchens & Bathrooms",
+    type: "Custom CRM · Meta Lead Ads · WhatsApp · Automation",
+    headline: "A custom CRM that brings Meta lead ads, WhatsApp, calls, SMS, email and automation into one dashboard, with no CRM subscription.",
+    image: "/images/projects/classic-kitchens-bathrooms/classic-crm-dashboard.webp",
+    imageAlt: "Custom CRM dashboard for Classic Kitchens and Bathrooms on a laptop with the WhatsApp inbox on a mobile phone",
+    sector: "Kitchens & bathrooms",
+    location: "London, United Kingdom",
+    website: "https://classickb.co.uk/",
+    challenge: "Leads arrived from the website and Meta lead ads, but follow-up was spread across a phone, WhatsApp, email and separate documents. The business needed one secure place to capture, contact and convert every lead, without paying for a generic CRM.",
+    strategy: [
+      "Capture website and Meta Lead Ads enquiries automatically, with campaign data and duplicate protection",
+      "Model the pipeline on the real sales journey: cold, warm, quotation, invoice, installation, closed",
+      "Put WhatsApp, phone calls, SMS and email on every customer profile, sent from the business",
+      "Automate first replies, owner alerts, missed-call text-backs and follow-ups, with quiet hours",
+      "Keep the system private, encrypted, backed up and fast, on the company's own website",
+    ],
+    deliverables: [
+      "Private CRM dashboard with staff roles",
+      "Meta Lead Ads integration and past-lead import",
+      "WhatsApp Business Cloud API inbox and templates",
+      "Browser calling, call routing and call log (Twilio)",
+      "SMS fallback, owner alerts and follow-up automations",
+      "Quotations, invoices and a branded email inbox",
+    ],
+    evidence: "Screenshots are taken from the live dashboard with customer names, phone numbers, emails and postcodes replaced by fictional examples. The WhatsApp, call log, automation and email views use fictional demonstration data. Features are documented as delivered; no sales, conversion or response-time results are claimed.",
+    metrics: [
+      { value: "4", label: "Contact channels on every profile" },
+      { value: "7", label: "Pipeline stages, cold to closed" },
+      { value: "5", label: "Automated follow-up rules" },
+      { value: "£0", label: "CRM licence or per-user fees" },
+    ],
+    technology: ["Next.js 15 + React 19", "Cloudflare Workers + D1", "WhatsApp Business Cloud API", "Meta Lead Ads webhooks", "Twilio Voice & SMS", "Clerk authentication"],
+    gallery: [
+      { src: "/images/projects/classic-kitchens-bathrooms/classic-crm-command.webp", alt: "Command menu in the custom CRM searching customers, enquiries and actions", width: 1800, height: 1200 },
+      { src: "/images/projects/classic-kitchens-bathrooms/classic-crm-meta-leads.webp", alt: "Meta Leads manager listing Facebook and Instagram lead ad enquiries with campaigns", width: 1800, height: 1200 },
+      { src: "/images/projects/classic-kitchens-bathrooms/classic-crm-pipeline-dark.webp", alt: "Sales pipeline in the CRM's dark mode", width: 1800, height: 1200 },
+    ],
+  },
+  {
     slug: "bunyan-london",
     name: "Bunyan London",
     type: "Construction Web Design · Local SEO · Conversion",

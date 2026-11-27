@@ -25,7 +25,7 @@ function loadData(name) {
 
 async function main() {
   const { projects } = loadData('projects');
-  assert.equal(projects.length, 12);
+  assert.equal(projects.length, 14);
   assert.equal(new Set(projects.map(p => p.slug)).size, projects.length);
   const exportIndex = new Map(manifest.records.flatMap(c => c.outputs.map(o => [o.path, o])));
   for (const record of manifest.records) {

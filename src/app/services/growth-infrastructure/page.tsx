@@ -14,6 +14,7 @@ const infrastructurePageData = {
     eyebrow: "Measurement connected to improvement",
     title: "Tracking becomes more valuable when it explains where the conversion journey can improve.",
     links: [
+      { label: "Case study: a custom CRM with Meta lead ads, WhatsApp and automation", href: "/work/classic-kitchens-bathrooms-crm" },
       { label: "Conversion Rate Optimisation Agency London", href: "/services/conversion-rate-optimisation" },
       { label: "The growth stack for a local service business", href: "/insights/growth-stack-for-local-services" },
     ],
