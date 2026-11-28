@@ -15,9 +15,14 @@
 .chevron { flex: none; width: 15px; height: 15px; transition: transform var(--motion-medium) var(--ease-spring); }
 .link[aria-expanded="true"] .chevron,details[open] > summary .chevron { transform: rotate(180deg); }
 .actions { justify-self: end; display: flex; align-items: center; gap: 12px; }
-.cta { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 52px; padding: 13px 24px; border: 0; border-radius: 24px; color: #fff; background: linear-gradient(145deg,#232632,#10121a 75%); box-shadow: inset 0 1px 0 #ffffff24,0 8px 20px -14px #12224f66; font-size: .9375rem; line-height: 1.5; font-weight: var(--weight-control); letter-spacing: -.016em; white-space: nowrap; transform-origin: center; transition: transform var(--motion-medium) var(--ease-spring),box-shadow var(--motion-medium) var(--ease-out); }
-.cta:hover { transform: translateY(-2px) scale(1.012); box-shadow: inset 0 1px 0 #ffffff24,0 14px 28px -14px #12224f66; }
-.cta:active { transform: translateY(0) scale(.965); transition-duration: 110ms; }
+.cta { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 52px; padding: 13px 24px; border: 0; border-radius: 999px; color: #fff; background: linear-gradient(120deg,#d9267f,#9a37d8 55%,#6a3fe8) 0 0 / 160% 100%; box-shadow: inset 0 1px 0 #ffffff40,0 10px 24px -14px #b5249a99; font-size: .9375rem; line-height: 1.5; font-weight: var(--weight-control); letter-spacing: -.016em; white-space: nowrap; transform-origin: center; transition: transform var(--motion-medium) var(--ease-spring),box-shadow var(--motion-medium) var(--ease-out),background-position .7s var(--ease); }
+.cta::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: linear-gradient(110deg,transparent 30%,#ffffff4d 50%,transparent 70%); transform: translateX(-120%); transition: transform .9s var(--ease); pointer-events: none; }
+.cta svg { transition: transform var(--motion-medium) var(--ease-spring); }
+.cta:hover { transform: translateY(-2px); background-position: 100% 0; box-shadow: inset 0 1px 0 #ffffff40,0 16px 30px -14px #9a37d8a6; }
+.cta:hover::after { transform: translateX(120%); }
+.cta:hover svg { transform: translateX(4px); }
+.cta:active { transform: translateY(0) scale(.97); transition-duration: 110ms; }
+.cta:focus-visible { outline: 2px solid #9a37d8; outline-offset: 3px; }
 .motion,.menu { flex: none; width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 20px; color: #5a657b; background: transparent; transition: background var(--motion-fast) ease,transform var(--motion-medium) var(--ease-spring); }
 .motion:hover,.menu:hover { background: #f0f2fa; transform: scale(1.055); }
 .motion:active,.menu:active { transform: scale(.9); transition-duration: 100ms; }
@@ -129,18 +134,24 @@
 :global(html[data-color-scheme="dark"]) .mobileLinks details a { color: #b3bdcc; }
 :global(html[data-color-scheme="dark"]) .mobileLinks a[aria-current="page"] { color: #b6a9ff; }
 
-/* Homepage: the header sits on the polished-stone hero. */
-.header[data-tone="stone"] { --accent: #ff3d9a; background: #131016f7; backdrop-filter: none; color: #fff; box-shadow: 0 1px 0 #ffffff14; }
-.header[data-tone="stone"] .brand, .header[data-tone="stone"] .brandName { color: #fff; }
-.header[data-tone="stone"] .brandName strong { color: #ff8cc0; }
-.header[data-tone="stone"] .logo { filter: brightness(1.9) saturate(1.15); }
-.header[data-tone="stone"] .link { color: #e2dde8; }
-.header[data-tone="stone"] .link:hover, .header[data-tone="stone"] .active { color: #fff; }
-.header[data-tone="stone"] .link::after { background: #ff3d9a; }
-.header[data-tone="stone"] .actions { --muted: #e2dde8; --text: #fff; --surface-2: #ffffff1f; }
-.header[data-tone="stone"] .motion, .header[data-tone="stone"] .menu { color: #e2dde8; }
-.header[data-tone="stone"] .motion:hover, .header[data-tone="stone"] .menu:hover { background: #ffffff1f; }
-.header[data-tone="stone"] .cta { color: #131016; background: #fff; box-shadow: none; }
+/* Homepage: light glass header over the daylight hero (fixed light, matching the homepage palette). */
+:global(html) .header[data-tone="daylight"] { --accent: #c0186f; background: #fdfcffeb; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%); color: #181c2b; box-shadow: 0 1px 0 #e8e1f3; }
+:global(html) .header[data-tone="daylight"] .brand { color: #171928; }
+:global(html) .header[data-tone="daylight"] .brandName strong { color: #a3165f; }
+:global(html) .header[data-tone="daylight"] .link { color: #4f4860; }
+:global(html) .header[data-tone="daylight"] .link:hover, :global(html) .header[data-tone="daylight"] .active { color: #16111f; }
+:global(html) .header[data-tone="daylight"] .link::after { background: linear-gradient(90deg,#d9267f,#6a3fe8); }
+:global(html) .header[data-tone="daylight"] .actions { --muted: #5a5268; --text: #16111f; --surface-2: #f1ecfa; }
+:global(html) .header[data-tone="daylight"] .motion, :global(html) .header[data-tone="daylight"] .menu { color: #4f4860; }
+:global(html) .header[data-tone="daylight"] .cta { color: #fff; background: linear-gradient(120deg,#d9267f,#9a37d8 55%,#6a3fe8) 0 0 / 160% 100%; box-shadow: inset 0 1px 0 #ffffff40,0 10px 24px -14px #b5249a99; }
+:global(html) .header[data-tone="daylight"] .cta:hover { background-position: 100% 0; }
+:global(html) .header[data-tone="daylight"] .motion:hover, :global(html) .header[data-tone="daylight"] .menu:hover { background: #f1ecfa; }
 
 .megaIntro .megaTitle { font-family: var(--font-expanded), var(--font-body), Arial, sans-serif; font-stretch: 110%; }
 .serviceCard > span { color: #a3165f; font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) { .cta, .cta svg { transition: none; } .cta:hover svg { transform: none; } .cta::after { display: none; } }
+:global(html[data-motion="paused"]) .cta svg { transition: none; }
+:global(html[data-motion="paused"]) .cta::after { display: none; }
+/* The homepage stays light in both schemes, so the daylight header must not let the dark page colour through. */
+:global(html[data-color-scheme="dark"]) .header[data-tone="daylight"] { background: #fbfaff; }
